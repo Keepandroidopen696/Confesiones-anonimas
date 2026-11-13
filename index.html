@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,9 +6,7 @@
 <title>Confesiones Anónimas | LYNX</title>
 
 <style>
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
@@ -89,6 +86,11 @@ button:hover {
     background: #2699f5;
 }
 
+button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
 .notice {
     background: #19263a;
     border-left: 3px solid #36a5ff;
@@ -102,7 +104,6 @@ button:hover {
 #status {
     margin-top: 15px;
     font-size: 13px;
-    color: #ffc66d;
     line-height: 1.5;
 }
 
@@ -124,73 +125,166 @@ footer {
 
 <main>
 
-    <section class="panel">
-        <h2>Publicar una confesión</h2>
+<section class="panel">
 
-        <p style="color:#aebdd0;font-size:14px">
-            Comparte tus pensamientos sin mostrar tu identidad públicamente.
-        </p>
+<h2>Publicar una confesión</h2>
 
-        <textarea
-            id="message"
-            maxlength="500"
-            placeholder="Escribe tu confesión aquí..."
-        ></textarea>
+<p style="color:#aebdd0;font-size:14px">
+Comparte tus pensamientos sin mostrar tu identidad públicamente.
+</p>
 
-        <p style="color:#71849b;font-size:12px">
-            Máximo 500 caracteres.
-            <span id="count">0/500</span>
-        </p>
+<form id="confessionForm">
 
-        <div class="notice">
-            Las publicaciones deberán ser revisadas antes de aparecer
-            en la página. No publiques direcciones, teléfonos,
-            nombres completos, amenazas ni acusaciones contra personas.
-        </div>
+<input type="hidden"
+       name="accessKey"
+       value="PEGA_AQUI_TU_ACCESS_KEY">
 
-        <button onclick="submitPost()">
-            ENVIAR PUBLICACIÓN
-        </button>
+<input type="hidden"
+       name="subject"
+       value="Nueva confesión - LYNX">
 
-        <div id="status" role="status" aria-live="polite"></div>
-    </section>
+<textarea
+    id="message"
+    name="message"
+    maxlength="500"
+    minlength="5"
+    required
+    placeholder="Escribe tu confesión aquí..."></textarea>
 
-    <section class="panel">
-        <h2>Publicaciones recientes</h2>
-        <p style="color:#71849b;font-size:14px">
-            Todavía no hay publicaciones aprobadas.
-        </p>
-    </section>
+<p style="color:#71849b;font-size:12px">
+Máximo 500 caracteres.
+<span id="count">0/500</span>
+</p>
+
+<!-- Protección honeypot -->
+<div style="position:absolute;left:-9999px"
+     aria-hidden="true">
+    <input type="text"
+           name="sf_extra"
+           tabindex="-1"
+           autocomplete="off">
+</div>
+
+<div class="notice">
+Las publicaciones serán revisadas antes de aparecer
+en la página.
+
+No publiques nombres completos, teléfonos,
+direcciones, amenazas ni acusaciones identificables.
+No incluyas información privada de otras personas.
+</div>
+
+<button type="submit" id="sendButton">
+ENVIAR PUBLICACIÓN
+</button>
+
+<div id="status" role="status" aria-live="polite"></div>
+
+</form>
+
+</section>
+
+<section class="panel">
+
+<h2>Publicaciones recientes</h2>
+
+<p style="color:#71849b;font-size:14px">
+Todavía no hay publicaciones aprobadas.
+</p>
+
+</section>
 
 </main>
 
 <footer>
-    <p>PROYECTO LYNX</p>
-    <p>© 2026 LYNX | Todos los derechos reservados.</p>
-    <p>Plataforma independiente de publicaciones.</p>
+<p>PROYECTO LYNX</p>
+<p>© 2026 LYNX | Todos los derechos reservados.</p>
+<p>Plataforma independiente de publicaciones.</p>
 </footer>
 
 <script>
+
+const form = document.getElementById("confessionForm");
 const message = document.getElementById("message");
 const count = document.getElementById("count");
+const status = document.getElementById("status");
+const button = document.getElementById("sendButton");
 
 message.addEventListener("input", () => {
     count.textContent = message.value.length + "/500";
 });
 
-function submitPost() {
-    const text = message.value.trim();
-    const status = document.getElementById("status");
+form.addEventListener("submit", async (event) => {
 
-    if (text.length < 5) {
-        status.textContent = "Escribe una publicación más larga.";
+    event.preventDefault();
+
+    const text = message.value.trim();
+
+    if (text.length < 5 || text.length > 500) {
+        status.textContent = "Revisa el límite de caracteres.";
+        status.style.color = "#ffc66d";
         return;
     }
 
-    status.textContent =
-        "Esta es una versión de prueba. El sistema de recepción todavía no está conectado. Tu mensaje NO ha sido enviado.";
+    if (text.length !== message.value.length) {
+        message.value = text;
+        count.textContent = text.length + "/500";
+    }
 
-}
+    button.disabled = true;
+    button.textContent = "ENVIANDO...";
+
+    status.textContent = "Conectando con el sistema de recepción...";
+    status.style.color = "#ffc66d";
+
+    try {
+
+        const data = Object.fromEntries(new FormData(form));
+
+        const response = await fetch(
+            "https://silentforms.com/api/submit",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(data)
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || result.status !== "success") {
+            throw new Error(
+                result.message || "No se pudo enviar la publicación."
+            );
+        }
+
+        form.reset();
+        count.textContent = "0/500";
+
+        status.textContent =
+            "Publicación recibida. Queda pendiente de revisión.";
+
+        status.style.color = "#65d99b";
+
+    } catch (error) {
+
+        status.textContent =
+            "No se pudo enviar. Inténtalo nuevamente más tarde.";
+
+        status.style.color = "#ff7777";
+
+    } finally {
+
+        button.disabled = false;
+        button.textContent = "ENVIAR PUBLICACIÓN";
+
+    }
+
+});
+
 </script>
 
 </body>
