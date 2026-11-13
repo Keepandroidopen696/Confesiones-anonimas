@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b12">
+<title>LYNX ADMIN | Moderación</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    background: #080b12;
+    color: #e8edf5;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 700px;
+    margin: 35px auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+h1 {
+    color: #36a5ff;
+    letter-spacing: 3px;
+}
+
+.subtitle {
+    color: #8999ad;
+    font-size: 13px;
+}
+
+.panel {
+    background: #111a29;
+    border: 1px solid #26364c;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #36a5ff;
+    font-size: 19px;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    margin: 12px 0;
+    background: #080f1b;
+    border: 1px solid #30435c;
+    border-radius: 8px;
+    color: white;
+    font-size: 15px;
+}
+
+button {
+    padding: 12px;
+    border: none;
+    border-radius: 7px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: .5;
+    cursor: wait;
+}
+
+.login {
+    width: 100%;
+    background: #167bd1;
+    color: white;
+}
+
+.approve {
+    background: #147d4b;
+    color: white;
+    flex: 1;
+}
+
+.reject {
+    background: #a83242;
+    color: white;
+    flex: 1;
+}
+
+.refresh {
+    width: 100%;
+    background: #1769aa;
+    color: white;
+    margin-bottom: 12px;
+}
+
+.logout {
+    width: 100%;
+    background: #34445d;
+    color: white;
+    margin-top: 12px;
+}
+
+#dashboard {
+    display: none;
+}
+
+#status {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 12px;
+    line-height: 1.5;
+}
+
+.confession {
+    background: #080f1b;
+    border: 1px solid #30435c;
+    border-radius: 9px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.confession p {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    line-height: 1.6;
+}
+
+.confession small {
+    color: #8999ad;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.empty {
+    text-align: center;
+    color: #8999ad;
+    padding: 20px 0;
+}
+
+footer {
+    text-align: center;
+    color: #62748b;
+    font-size: 12px;
+    padding: 25px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <h1>LYNX ADMIN</h1>
+    <p class="subtitle">SISTEMA DE MODERACIÓN</p>
+</header>
+
+<section class="panel" id="login">
+
+    <h2>Acceso administrativo</h2>
+
+    <input
+        type="password"
+        id="password"
+        placeholder="Contraseña de administrador"
+        autocomplete="current-password"
+    >
+
+    <button class="login" id="loginButton"
+            onclick="loginAdmin()">
+        INICIAR SESIÓN
+    </button>
+
+    <div id="status" role="status" aria-live="polite"></div>
+
+</section>
+
+<section id="dashboard">
+
+    <div class="panel">
+
+        <h2>Confesiones pendientes</h2>
+
+        <button class="refresh" onclick="loadConfessions()">
+            ACTUALIZAR LISTA
+        </button>
+
+        <div id="confessions">
+            <p class="empty">Cargando...</p>
+        </div>
+
+        <button class="logout" onclick="logoutAdmin()">
+            CERRAR SESIÓN
+        </button>
+
+    </div>
+
+</section>
+
+<footer>
+    PROYECTO LYNX NETWORK
+    <br><br>
+    © 2026 LYNX
+</footer>
+
+</div>
+
+<script>
+
+// ==================================
+// CONFIGURACIÓN DE LYNX NETWORK
+// ==================================
+
+const API =
+"https://lynx-confesione-api.lynxnetwork.workers.dev";
+
+let adminPassword = "";
+
+// ==================================
+// INICIAR SESIÓN
+// ==================================
+
+async function loginAdmin() {
+
+    const input = document.getElementById("password");
+    const status = document.getElementById("status");
+    const button = document.getElementById("loginButton");
+
+    const password = input.value;
+
+    if (!password) {
+        status.textContent = "Escribe tu contraseña.";
+        status.style.color = "#ffc66d";
+        return;
+    }
+
+    adminPassword = password;
+    button.disabled = true;
+    status.textContent = "Verificando acceso...";
+
+    try {
+
+        const response = await fetch(
+            API + "/api/admin/confessions",
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + adminPassword
+                },
+                cache: "no-store"
+            }
+        );
+
+        if (response.status === 401) {
+            adminPassword = "";
+            status.textContent = "Contraseña incorrecta.";
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error("Error del servidor.");
+        }
+
+        const data = await response.json();
+
+        document.getElementById("login").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+
+        showConfessions(data);
+
+    } catch (error) {
+
+        adminPassword = "";
+        status.textContent =
+            "No se pudo conectar con LYNX NETWORK.";
+
+        status.style.color = "#ff7777";
+
+    } finally {
+
+        button.disabled = false;
+
+    }
+}
+
+// ==================================
+// CARGAR CONFESIONES
+// ==================================
+
+async function loadConfessions() {
+
+    const container = document.getElementById("confessions");
+
+    container.textContent = "Cargando confesiones...";
+
+    try {
+
+        const response = await fetch(
+            API + "/api/admin/confessions",
+            {
+                headers: {
+                    "Authorization": "Bearer " + adminPassword
+                },
+                cache: "no-store"
+            }
+        );
+
+        if (response.status === 401) {
+            logoutAdmin();
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error("Error al cargar.");
+        }
+
+        const data = await response.json();
+
+        showConfessions(data);
+
+    } catch (error) {
+
+        container.textContent =
+            "Error al cargar las confesiones.";
+
+    }
+}
+
+// ==================================
+// MOSTRAR CONFESIONES
+// ==================================
+
+function showConfessions(data) {
+
+    const container = document.getElementById("confessions");
+
+    container.replaceChildren();
+
+    if (!Array.isArray(data) || data.length === 0) {
+
+        const empty = document.createElement("p");
+
+        empty.className = "empty";
+        empty.textContent =
+            "No hay confesiones pendientes.";
+
+        container.appendChild(empty);
+
+        return;
+    }
+
+    data.forEach(item => {
+
+        const card = document.createElement("article");
+        card.className = "confession";
+
+        const message = document.createElement("p");
+        message.textContent = item.message;
+
+        const date = document.createElement("small");
+        date.textContent = "Fecha: " + item.created_at;
+
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        const approve = document.createElement("button");
+        approve.className = "approve";
+        approve.textContent = "APROBAR";
+
+        approve.onclick = () => {
+            moderate(item.id, "aprobada", approve, reject);
+        };
+
+        const reject = document.createElement("button");
+        reject.className = "reject";
+        reject.textContent = "RECHAZAR";
+
+        reject.onclick = () => {
+            moderate(item.id, "rechazada", approve, reject);
+        };
+
+        actions.append(approve, reject);
+
+        card.append(message, date, actions);
+
+        container.appendChild(card);
+
+    });
+}
+
+// ==================================
+// APROBAR O RECHAZAR
+// ==================================
+
+async function moderate(id, status, approve, reject) {
+
+    const action = status === "aprobada"
+        ? "aprobar"
+        : "rechazar";
+
+    if (!confirm("¿Seguro que quieres " + action +
+                 " esta confesión?")) {
+        return;
+    }
+
+    approve.disabled = true;
+    reject.disabled = true;
+
+    try {
+
+        const response = await fetch(
+            API + "/api/admin/confessions/" + id,
+            {
+                method: "PATCH",
+
+                headers: {
+                    "Authorization": "Bearer " + adminPassword,
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    status: status
+                })
+            }
+        );
+
+        if (response.status === 401) {
+            logoutAdmin();
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error("No se pudo actualizar.");
+        }
+
+        await loadConfessions();
+
+    } catch (error) {
+
+        alert("Error al actualizar la confesión.");
+
+        approve.disabled = false;
+        reject.disabled = false;
+
+    }
+}
+
+// ==================================
+// CERRAR SESIÓN
+// ==================================
+
+function logoutAdmin() {
+
+    adminPassword = "";
+
+    document.getElementById("password").value = "";
+
+    document.getElementById("dashboard").style.display = "none";
+    document.getElementById("login").style.display = "block";
+
+    document.getElementById("status").textContent = "";
+
+    document.getElementById("confessions").replaceChildren();
+
+}
+
+</script>
+
+</body>
+</html>
