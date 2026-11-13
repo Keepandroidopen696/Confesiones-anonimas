@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confesiones Anónimas | LYNX</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #080b12;
+    color: #e8edf5;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background: #101827;
+    padding: 25px 15px;
+    text-align: center;
+    border-bottom: 1px solid #26364c;
+}
+
+header h1 {
+    color: #36a5ff;
+    letter-spacing: 2px;
+    margin: 5px;
+}
+
+header p {
+    color: #8999ad;
+    font-size: 13px;
+}
+
+main {
+    max-width: 650px;
+    margin: 35px auto;
+    padding: 15px;
+}
+
+.panel {
+    background: #111a29;
+    border: 1px solid #26364c;
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #36a5ff;
+    font-size: 19px;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    resize: vertical;
+    background: #080f1b;
+    border: 1px solid #30435c;
+    border-radius: 8px;
+    padding: 13px;
+    color: white;
+    font-size: 15px;
+    outline: none;
+}
+
+textarea:focus {
+    border-color: #36a5ff;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 15px;
+    background: #167bd1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #2699f5;
+}
+
+.notice {
+    background: #19263a;
+    border-left: 3px solid #36a5ff;
+    padding: 12px;
+    color: #aebdd0;
+    font-size: 13px;
+    line-height: 1.6;
+    border-radius: 5px;
+}
+
+#status {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #ffc66d;
+    line-height: 1.5;
+}
+
+footer {
+    text-align: center;
+    color: #62748b;
+    padding: 25px;
+    font-size: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>CONFESIONES</h1>
+    <p>UN ESPACIO PARA EXPRESARTE ANÓNIMAMENTE</p>
+</header>
+
+<main>
+
+    <section class="panel">
+        <h2>Publicar una confesión</h2>
+
+        <p style="color:#aebdd0;font-size:14px">
+            Comparte tus pensamientos sin mostrar tu identidad públicamente.
+        </p>
+
+        <textarea
+            id="message"
+            maxlength="500"
+            placeholder="Escribe tu confesión aquí..."
+        ></textarea>
+
+        <p style="color:#71849b;font-size:12px">
+            Máximo 500 caracteres.
+            <span id="count">0/500</span>
+        </p>
+
+        <div class="notice">
+            Las publicaciones deberán ser revisadas antes de aparecer
+            en la página. No publiques direcciones, teléfonos,
+            nombres completos, amenazas ni acusaciones contra personas.
+        </div>
+
+        <button onclick="submitPost()">
+            ENVIAR PUBLICACIÓN
+        </button>
+
+        <div id="status" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="panel">
+        <h2>Publicaciones recientes</h2>
+        <p style="color:#71849b;font-size:14px">
+            Todavía no hay publicaciones aprobadas.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    <p>PROYECTO LYNX</p>
+    <p>© 2026 LYNX | Todos los derechos reservados.</p>
+    <p>Plataforma independiente de publicaciones.</p>
+</footer>
+
+<script>
+const message = document.getElementById("message");
+const count = document.getElementById("count");
+
+message.addEventListener("input", () => {
+    count.textContent = message.value.length + "/500";
+});
+
+function submitPost() {
+    const text = message.value.trim();
+    const status = document.getElementById("status");
+
+    if (text.length < 5) {
+        status.textContent = "Escribe una publicación más larga.";
+        return;
+    }
+
+    status.textContent =
+        "Esta es una versión de prueba. El sistema de recepción todavía no está conectado. Tu mensaje NO ha sido enviado.";
+
+}
+</script>
+
+</body>
+</html>
