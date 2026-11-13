@@ -4,8 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080b12">
-<title>LYNX ADMIN | Moderación</title>
+<title>LYNX ADMIN | Confesiones</title>
 
 <style>
 * {
@@ -14,469 +13,315 @@
 
 body {
     margin: 0;
-    padding: 20px;
+    padding: 25px 15px;
     background: #080b12;
     color: #e8edf5;
     font-family: Arial, sans-serif;
 }
 
 .container {
-    max-width: 700px;
-    margin: 35px auto;
-}
-
-header {
-    text-align: center;
-    margin-bottom: 25px;
+    max-width: 750px;
+    margin: auto;
 }
 
 h1 {
+    text-align: center;
     color: #36a5ff;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
 }
 
 .subtitle {
-    color: #8999ad;
-    font-size: 13px;
+    text-align: center;
+    color: #8291a8;
+    margin-bottom: 30px;
 }
 
 .panel {
-    background: #111a29;
-    border: 1px solid #26364c;
+    background: #101827;
+    border: 1px solid #24344a;
     border-radius: 12px;
     padding: 20px;
-    margin-bottom: 20px;
-}
-
-h2 {
-    color: #36a5ff;
-    font-size: 19px;
+    margin-bottom: 18px;
 }
 
 input {
     width: 100%;
     padding: 13px;
-    margin: 12px 0;
-    background: #080f1b;
-    border: 1px solid #30435c;
     border-radius: 8px;
+    border: 1px solid #31445d;
+    background: #080b12;
     color: white;
-    font-size: 15px;
+    margin: 10px 0;
+    outline: none;
 }
 
 button {
-    padding: 12px;
+    padding: 11px 16px;
     border: none;
     border-radius: 7px;
-    font-weight: bold;
     cursor: pointer;
+    font-weight: bold;
+    margin: 5px 4px 5px 0;
 }
 
-button:disabled {
-    opacity: .5;
-    cursor: wait;
-}
-
-.login {
+.login-btn {
     width: 100%;
-    background: #167bd1;
+    background: #1689e8;
     color: white;
 }
 
 .approve {
-    background: #147d4b;
+    background: #147d50;
     color: white;
-    flex: 1;
 }
 
 .reject {
     background: #a83242;
     color: white;
-    flex: 1;
 }
 
 .refresh {
-    width: 100%;
-    background: #1769aa;
+    background: #243b55;
     color: white;
-    margin-bottom: 12px;
 }
 
 .logout {
-    width: 100%;
-    background: #34445d;
+    background: #39465a;
     color: white;
-    margin-top: 12px;
-}
-
-#dashboard {
-    display: none;
-}
-
-#status {
-    text-align: center;
-    font-size: 13px;
-    margin-top: 12px;
-    line-height: 1.5;
 }
 
 .confession {
-    background: #080f1b;
-    border: 1px solid #30435c;
-    border-radius: 9px;
-    padding: 15px;
-    margin-top: 15px;
-}
-
-.confession p {
-    white-space: pre-wrap;
+    background: #111a29;
+    border: 1px solid #26384f;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 14px 0;
     overflow-wrap: anywhere;
-    line-height: 1.6;
 }
 
-.confession small {
-    color: #8999ad;
-}
-
-.actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.empty {
-    text-align: center;
-    color: #8999ad;
-    padding: 20px 0;
-}
-
-footer {
-    text-align: center;
-    color: #62748b;
+.date {
+    color: #8493a8;
     font-size: 12px;
-    padding: 25px;
+    margin-top: 12px;
+}
+
+#message {
+    text-align: center;
+    color: #36a5ff;
+    margin: 15px 0;
+}
+
+.hidden {
+    display: none;
 }
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
-<header>
-    <h1>LYNX ADMIN</h1>
-    <p class="subtitle">SISTEMA DE MODERACIÓN</p>
-</header>
+<h1>LYNX ADMIN</h1>
+<p class="subtitle">Sistema de moderación | Confesiones anónimas</p>
 
-<section class="panel" id="login">
-
+<div id="loginPanel" class="panel">
     <h2>Acceso administrativo</h2>
-
     <input
         type="password"
         id="password"
         placeholder="Contraseña de administrador"
         autocomplete="current-password"
     >
-
-    <button class="login" id="loginButton"
-            onclick="loginAdmin()">
+    <button class="login-btn" onclick="login()">
         INICIAR SESIÓN
     </button>
+</div>
 
-    <div id="status" role="status" aria-live="polite"></div>
-
-</section>
-
-<section id="dashboard">
-
+<div id="adminPanel" class="hidden">
     <div class="panel">
-
-        <h2>Confesiones pendientes</h2>
-
+        <h2>Panel de control</h2>
         <button class="refresh" onclick="loadConfessions()">
-            ACTUALIZAR LISTA
+            ACTUALIZAR
         </button>
-
-        <div id="confessions">
-            <p class="empty">Cargando...</p>
-        </div>
-
-        <button class="logout" onclick="logoutAdmin()">
+        <button class="logout" onclick="logout()">
             CERRAR SESIÓN
         </button>
-
     </div>
 
-</section>
+    <div id="confessions"></div>
+</div>
 
-<footer>
-    PROYECTO LYNX NETWORK
-    <br><br>
-    © 2026 LYNX
-</footer>
+<div id="message"></div>
 
 </div>
 
 <script>
-
-// ==================================
-// CONFIGURACIÓN DE LYNX NETWORK
-// ==================================
-
-const API =
-"https://lynx-confesione-api.lynxnetwork.workers.dev";
+const API = "https://lynx-confesione-api.lynxnetwork.workers.dev";
 
 let adminPassword = "";
 
-// ==================================
-// INICIAR SESIÓN
-// ==================================
+function showMessage(text) {
+    document.getElementById("message").textContent = text;
+}
 
-async function loginAdmin() {
-
-    const input = document.getElementById("password");
-    const status = document.getElementById("status");
-    const button = document.getElementById("loginButton");
-
-    const password = input.value;
+async function login() {
+    const password = document.getElementById("password").value;
 
     if (!password) {
-        status.textContent = "Escribe tu contraseña.";
-        status.style.color = "#ffc66d";
+        showMessage("Introduce tu contraseña.");
         return;
     }
 
     adminPassword = password;
-    button.disabled = true;
-    status.textContent = "Verificando acceso...";
+    showMessage("Verificando acceso...");
 
     try {
-
-        const response = await fetch(
-            API + "/api/admin/confessions",
-            {
-                method: "GET",
-                headers: {
-                    "Authorization": "Bearer " + adminPassword
-                },
-                cache: "no-store"
+        const response = await fetch(API + "/api/admin/confessions", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${adminPassword}`
             }
-        );
+        });
 
         if (response.status === 401) {
             adminPassword = "";
-            status.textContent = "Contraseña incorrecta.";
+            showMessage("Contraseña incorrecta.");
             return;
         }
 
         if (!response.ok) {
-            throw new Error("Error del servidor.");
+            adminPassword = "";
+            showMessage("Error del servidor: " + response.status);
+            return;
         }
 
-        const data = await response.json();
+        document.getElementById("loginPanel").classList.add("hidden");
+        document.getElementById("adminPanel").classList.remove("hidden");
 
-        document.getElementById("login").style.display = "none";
-        document.getElementById("dashboard").style.display = "block";
-
-        showConfessions(data);
+        showMessage("Acceso autorizado.");
+        displayConfessions(await response.json());
 
     } catch (error) {
-
         adminPassword = "";
-        status.textContent =
-            "No se pudo conectar con LYNX NETWORK.";
-
-        status.style.color = "#ff7777";
-
-    } finally {
-
-        button.disabled = false;
-
+        showMessage("No se pudo conectar con el servidor.");
     }
 }
-
-// ==================================
-// CARGAR CONFESIONES
-// ==================================
 
 async function loadConfessions() {
-
-    const container = document.getElementById("confessions");
-
-    container.textContent = "Cargando confesiones...";
+    showMessage("Cargando confesiones...");
 
     try {
-
-        const response = await fetch(
-            API + "/api/admin/confessions",
-            {
-                headers: {
-                    "Authorization": "Bearer " + adminPassword
-                },
-                cache: "no-store"
+        const response = await fetch(API + "/api/admin/confessions", {
+            headers: {
+                "Authorization": `Bearer ${adminPassword}`
             }
-        );
+        });
 
         if (response.status === 401) {
-            logoutAdmin();
+            logout();
+            showMessage("Sesión no autorizada. Inicia sesión nuevamente.");
             return;
         }
 
         if (!response.ok) {
-            throw new Error("Error al cargar.");
+            showMessage("Error al cargar confesiones.");
+            return;
         }
 
-        const data = await response.json();
-
-        showConfessions(data);
+        displayConfessions(await response.json());
+        showMessage("Lista actualizada.");
 
     } catch (error) {
-
-        container.textContent =
-            "Error al cargar las confesiones.";
-
+        showMessage("Error de conexión.");
     }
 }
 
-// ==================================
-// MOSTRAR CONFESIONES
-// ==================================
-
-function showConfessions(data) {
-
+function displayConfessions(data) {
     const container = document.getElementById("confessions");
-
     container.replaceChildren();
 
-    if (!Array.isArray(data) || data.length === 0) {
-
-        const empty = document.createElement("p");
-
-        empty.className = "empty";
-        empty.textContent =
-            "No hay confesiones pendientes.";
-
-        container.appendChild(empty);
-
+    if (!data.length) {
+        container.textContent = "No hay confesiones pendientes.";
         return;
     }
 
-    data.forEach(item => {
-
-        const card = document.createElement("article");
+    data.forEach(confession => {
+        const card = document.createElement("div");
         card.className = "confession";
 
-        const message = document.createElement("p");
-        message.textContent = item.message;
+        const title = document.createElement("h3");
+        title.textContent = "Confesión #" + confession.id;
 
-        const date = document.createElement("small");
-        date.textContent = "Fecha: " + item.created_at;
+        const content = document.createElement("p");
+        content.textContent = confession.message;
 
-        const actions = document.createElement("div");
-        actions.className = "actions";
+        const date = document.createElement("div");
+        date.className = "date";
+        date.textContent = confession.created_at || "";
 
         const approve = document.createElement("button");
         approve.className = "approve";
         approve.textContent = "APROBAR";
-
-        approve.onclick = () => {
-            moderate(item.id, "aprobada", approve, reject);
-        };
+        approve.onclick = () => moderate(confession.id, "aprobada");
 
         const reject = document.createElement("button");
         reject.className = "reject";
         reject.textContent = "RECHAZAR";
+        reject.onclick = () => moderate(confession.id, "rechazada");
 
-        reject.onclick = () => {
-            moderate(item.id, "rechazada", approve, reject);
-        };
-
-        actions.append(approve, reject);
-
-        card.append(message, date, actions);
-
+        card.append(title, content, date, approve, reject);
         container.appendChild(card);
-
     });
 }
 
-// ==================================
-// APROBAR O RECHAZAR
-// ==================================
+async function moderate(id, status) {
+    const action = status === "aprobada" ? "aprobar" : "rechazar";
 
-async function moderate(id, status, approve, reject) {
-
-    const action = status === "aprobada"
-        ? "aprobar"
-        : "rechazar";
-
-    if (!confirm("¿Seguro que quieres " + action +
-                 " esta confesión?")) {
+    if (!confirm("¿Seguro que quieres " + action + " esta confesión?")) {
         return;
     }
 
-    approve.disabled = true;
-    reject.disabled = true;
-
     try {
-
         const response = await fetch(
             API + "/api/admin/confessions/" + id,
             {
                 method: "PATCH",
-
                 headers: {
-                    "Authorization": "Bearer " + adminPassword,
+                    "Authorization": `Bearer ${adminPassword}`,
                     "Content-Type": "application/json"
                 },
-
-                body: JSON.stringify({
-                    status: status
-                })
+                body: JSON.stringify({ status })
             }
         );
 
         if (response.status === 401) {
-            logoutAdmin();
+            logout();
+            showMessage("Sesión no autorizada.");
             return;
         }
 
         if (!response.ok) {
-            throw new Error("No se pudo actualizar.");
+            showMessage("No se pudo actualizar la confesión.");
+            return;
         }
 
-        await loadConfessions();
+        showMessage("Confesión " + status + ".");
+        loadConfessions();
 
     } catch (error) {
-
-        alert("Error al actualizar la confesión.");
-
-        approve.disabled = false;
-        reject.disabled = false;
-
+        showMessage("Error de conexión.");
     }
 }
 
-// ==================================
-// CERRAR SESIÓN
-// ==================================
-
-function logoutAdmin() {
-
+function logout() {
     adminPassword = "";
 
     document.getElementById("password").value = "";
-
-    document.getElementById("dashboard").style.display = "none";
-    document.getElementById("login").style.display = "block";
-
-    document.getElementById("status").textContent = "";
+    document.getElementById("loginPanel").classList.remove("hidden");
+    document.getElementById("adminPanel").classList.add("hidden");
 
     document.getElementById("confessions").replaceChildren();
-
+    showMessage("Sesión cerrada.");
 }
-
 </script>
 
 </body>
