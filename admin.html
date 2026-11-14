@@ -39,7 +39,7 @@ header h1 { color: #55aaff; }
 
 h2 { color: #65b5ff; }
 
-input {
+input, textarea {
     width: 100%;
     padding: 13px;
     border-radius: 8px;
@@ -47,6 +47,12 @@ input {
     background: #080d17;
     color: white;
     margin: 10px 0;
+    font-family: Arial, sans-serif;
+}
+
+textarea {
+    min-height: 110px;
+    resize: vertical;
 }
 
 button {
@@ -66,6 +72,11 @@ button:disabled {
 .primary {
     width: 100%;
     background: #1685e8;
+}
+
+.publish {
+    width: 100%;
+    background: #168b58;
 }
 
 .approve { background: #168b58; }
@@ -95,7 +106,7 @@ button:disabled {
 
 .actions button { flex: 1; }
 
-#status, #loginStatus {
+#status, #loginStatus, #announcementStatus {
     margin-top: 12px;
     font-size: 14px;
 }
@@ -136,21 +147,46 @@ footer {
     <div id="loginStatus" role="status"></div>
 </section>
 
-<section class="panel hidden" id="dashboard">
-    <h2>Confesiones pendientes</h2>
+<div id="dashboard" class="hidden">
 
-    <button class="primary" id="refreshButton">
-        Actualizar lista
-    </button>
+    <section class="panel">
+        <h2>📢 Publicar aviso</h2>
 
-    <button id="logoutButton"
-        style="width:100%; margin-top:10px; background:#34445e;">
-        Cerrar sesión
-    </button>
+        <textarea
+            id="announcementMessage"
+            maxlength="500"
+            placeholder="Escribe el comunicado de LYNX..."
+        ></textarea>
 
-    <div id="status" role="status"></div>
-    <div id="pending"></div>
-</section>
+        <p style="color:#8995a8;font-size:12px;">
+            El aviso aparecerá en la página principal
+            y se mostrará durante 6 segundos.
+        </p>
+
+        <button class="publish" id="publishButton">
+            PUBLICAR AVISO
+        </button>
+
+        <div id="announcementStatus" role="status"></div>
+    </section>
+
+    <section class="panel">
+        <h2>Confesiones pendientes</h2>
+
+        <button class="primary" id="refreshButton">
+            Actualizar lista
+        </button>
+
+        <button id="logoutButton"
+            style="width:100%;margin-top:10px;background:#34445e;">
+            Cerrar sesión
+        </button>
+
+        <div id="status" role="status"></div>
+        <div id="pending"></div>
+    </section>
+
+</div>
 
 <footer>
     LYNX NETWORK © 2026<br>
@@ -169,22 +205,23 @@ const $ = id => document.getElementById(id);
 $("loginButton").addEventListener("click", login);
 $("refreshButton").addEventListener("click", loadPending);
 $("logoutButton").addEventListener("click", logout);
+$("publishButton").addEventListener("click", publishAnnouncement);
 
 $("adminKey").addEventListener("keydown", event => {
     if (event.key === "Enter") login();
 });
 
+// ACCESO ADMINISTRATIVO
 async function login() {
     const key = $("adminKey").value;
-    const status = $("loginStatus");
 
     if (!key) {
-        status.textContent = "Introduce tu Admin Key.";
+        $("loginStatus").textContent = "Introduce tu Admin Key.";
         return;
     }
 
     $("loginButton").disabled = true;
-    status.textContent = "Verificando acceso...";
+    $("loginStatus").textContent = "Verificando acceso...";
 
     try {
         const response = await fetch(API + "/api/admin/confessions", {
@@ -194,7 +231,7 @@ async function login() {
         });
 
         if (response.status === 401) {
-            status.textContent = "Admin Key incorrecta.";
+            $("loginStatus").textContent = "Admin Key incorrecta.";
             return;
         }
 
@@ -209,25 +246,79 @@ async function login() {
         await renderPending(await response.json());
 
     } catch {
-        status.textContent = "Error de conexión con el servidor.";
+        $("loginStatus").textContent =
+            "Error de conexión con el servidor.";
     } finally {
         $("loginButton").disabled = false;
     }
 }
 
+// PUBLICAR AVISOS
+async function publishAnnouncement() {
+    const message = $("announcementMessage").value.trim();
+    const button = $("publishButton");
+    const status = $("announcementStatus");
+
+    if (!message || message.length > 500) {
+        status.textContent = "Escribe un aviso de hasta 500 caracteres.";
+        return;
+    }
+
+    if (!confirm("¿Publicar este aviso en LYNX Confesiones?")) {
+        return;
+    }
+
+    button.disabled = true;
+    status.textContent = "Publicando aviso...";
+
+    try {
+        const response = await fetch(
+            API + "/api/admin/announcements",
+            {
+                method: "POST",
+                headers: {
+                    "Authorization": "Bearer " + adminKey,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message })
+            }
+        );
+
+        if (response.status === 401) {
+            logout();
+            return;
+        }
+
+        if (!response.ok) throw new Error();
+
+        $("announcementMessage").value = "";
+        status.textContent =
+            "¡Aviso publicado correctamente!";
+
+    } catch {
+        status.textContent =
+            "No se pudo publicar el aviso. Intenta nuevamente.";
+    } finally {
+        button.disabled = false;
+    }
+}
+
+// CARGAR CONFESIONES
 async function loadPending() {
     $("status").textContent = "Cargando confesiones...";
 
     try {
-        const response = await fetch(API + "/api/admin/confessions", {
-            headers: {
-                "Authorization": "Bearer " + adminKey
+        const response = await fetch(
+            API + "/api/admin/confessions",
+            {
+                headers: {
+                    "Authorization": "Bearer " + adminKey
+                }
             }
-        });
+        );
 
         if (response.status === 401) {
             logout();
-            $("loginStatus").textContent = "Sesión no autorizada.";
             return;
         }
 
@@ -237,10 +328,12 @@ async function loadPending() {
         $("status").textContent = "";
 
     } catch {
-        $("status").textContent = "No se pudo cargar la lista.";
+        $("status").textContent =
+            "No se pudo cargar la lista.";
     }
 }
 
+// MOSTRAR CONFESIONES
 async function renderPending(data) {
     const container = $("pending");
     container.replaceChildren();
@@ -267,16 +360,14 @@ async function renderPending(data) {
         const approve = document.createElement("button");
         approve.className = "approve";
         approve.textContent = "Aprobar";
-        approve.addEventListener("click", () =>
-            moderate(item.id, "aprobada", card)
-        );
+        approve.onclick = () =>
+            moderate(item.id, "aprobada", card);
 
         const reject = document.createElement("button");
         reject.className = "reject";
         reject.textContent = "Rechazar";
-        reject.addEventListener("click", () =>
-            moderate(item.id, "rechazada", card)
-        );
+        reject.onclick = () =>
+            moderate(item.id, "rechazada", card);
 
         actions.append(approve, reject);
         card.append(message, date, actions);
@@ -284,6 +375,7 @@ async function renderPending(data) {
     });
 }
 
+// MODERAR CONFESIONES
 async function moderate(id, decision, card) {
     if (decision === "rechazada" &&
         !confirm("¿Seguro que quieres rechazar esta confesión?")) {
@@ -319,21 +411,27 @@ async function moderate(id, decision, card) {
         await loadPending();
 
     } catch {
-        $("status").textContent = "Error al guardar. Intenta nuevamente.";
+        $("status").textContent =
+            "Error al guardar. Intenta nuevamente.";
         buttons.forEach(button => button.disabled = false);
     }
 }
 
+// CERRAR SESIÓN
 function logout() {
     adminKey = "";
 
     $("dashboard").classList.add("hidden");
     $("loginPanel").classList.remove("hidden");
+
     $("adminKey").value = "";
     $("loginStatus").textContent = "";
+    $("announcementMessage").value = "";
+    $("announcementStatus").textContent = "";
     $("pending").replaceChildren();
     $("status").textContent = "";
 }
 </script>
+
 </body>
 </html>
