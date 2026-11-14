@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LYNX ADMIN | Confesiones</title>
+<title>Panel Administrativo | LYNX</title>
 
 <style>
 * {
@@ -13,106 +13,117 @@
 
 body {
     margin: 0;
-    padding: 25px 15px;
+    padding: 20px;
     background: #080b12;
     color: #e8edf5;
     font-family: Arial, sans-serif;
 }
 
 .container {
-    max-width: 750px;
+    max-width: 800px;
     margin: auto;
 }
 
-h1 {
+header {
     text-align: center;
-    color: #36a5ff;
-    letter-spacing: 2px;
+    padding: 25px 10px;
 }
 
-.subtitle {
-    text-align: center;
-    color: #8291a8;
-    margin-bottom: 30px;
+header h1 {
+    color: #55aaff;
 }
 
 .panel {
-    background: #101827;
-    border: 1px solid #24344a;
-    border-radius: 12px;
+    background: #111827;
+    border: 1px solid #263449;
+    border-radius: 14px;
     padding: 20px;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #65b5ff;
 }
 
 input {
     width: 100%;
     padding: 13px;
     border-radius: 8px;
-    border: 1px solid #31445d;
-    background: #080b12;
+    border: 1px solid #34445e;
+    background: #080d17;
     color: white;
     margin: 10px 0;
-    outline: none;
 }
 
 button {
-    padding: 11px 16px;
+    padding: 12px;
     border: none;
-    border-radius: 7px;
-    cursor: pointer;
+    border-radius: 8px;
+    color: white;
     font-weight: bold;
-    margin: 5px 4px 5px 0;
+    cursor: pointer;
 }
 
-.login-btn {
+.primary {
     width: 100%;
-    background: #1689e8;
-    color: white;
+    background: #1685e8;
 }
 
 .approve {
-    background: #147d50;
-    color: white;
+    background: #168b58;
+    margin-right: 8px;
 }
 
 .reject {
-    background: #a83242;
-    color: white;
+    background: #bd3545;
 }
 
-.refresh {
-    background: #243b55;
-    color: white;
-}
-
-.logout {
-    background: #39465a;
-    color: white;
+button:disabled {
+    opacity: .5;
+    cursor: wait;
 }
 
 .confession {
-    background: #111a29;
-    border: 1px solid #26384f;
+    background: #0b1220;
+    border: 1px solid #263449;
     border-radius: 10px;
     padding: 16px;
-    margin: 14px 0;
+    margin-top: 12px;
     overflow-wrap: anywhere;
+    white-space: pre-wrap;
 }
 
 .date {
-    color: #8493a8;
+    color: #71829a;
     font-size: 12px;
-    margin-top: 12px;
+    margin-top: 10px;
 }
 
-#message {
-    text-align: center;
-    color: #36a5ff;
-    margin: 15px 0;
+.actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.actions button {
+    flex: 1;
+}
+
+#status {
+    margin-top: 12px;
+    font-size: 14px;
+    overflow-wrap: anywhere;
 }
 
 .hidden {
     display: none;
+}
+
+footer {
+    text-align: center;
+    color: #637086;
+    font-size: 12px;
+    padding: 25px 0;
 }
 </style>
 </head>
@@ -120,165 +131,179 @@ button {
 <body>
 <div class="container">
 
-<h1>LYNX ADMIN</h1>
-<p class="subtitle">Sistema de moderación | Confesiones anónimas</p>
+<header>
+    <h1>LYNX NETWORK</h1>
+    <p>Panel de administración de confesiones</p>
+</header>
 
-<div id="loginPanel" class="panel">
+<section class="panel" id="loginPanel">
     <h2>Acceso administrativo</h2>
+
     <input
         type="password"
-        id="password"
-        placeholder="Contraseña de administrador"
+        id="adminKey"
+        placeholder="Introduce tu Admin Key"
         autocomplete="current-password"
     >
-    <button class="login-btn" onclick="login()">
-        INICIAR SESIÓN
+
+    <button class="primary" onclick="login()">
+        Iniciar sesión
     </button>
-</div>
 
-<div id="adminPanel" class="hidden">
-    <div class="panel">
-        <h2>Panel de control</h2>
-        <button class="refresh" onclick="loadConfessions()">
-            ACTUALIZAR
-        </button>
-        <button class="logout" onclick="logout()">
-            CERRAR SESIÓN
-        </button>
-    </div>
+    <div id="loginStatus" role="status"></div>
+</section>
 
-    <div id="confessions"></div>
-</div>
+<section class="panel hidden" id="dashboard">
+    <h2>Confesiones pendientes</h2>
 
-<div id="message"></div>
+    <button class="primary" onclick="loadPending()">
+        Actualizar lista
+    </button>
+
+    <button
+        onclick="logout()"
+        style="width:100%; margin-top:10px; background:#34445e;"
+    >
+        Cerrar sesión
+    </button>
+
+    <div id="status" role="status"></div>
+    <div id="pending"></div>
+</section>
+
+<footer>
+    LYNX NETWORK © 2026<br>
+    Sistema de moderación
+</footer>
 
 </div>
 
 <script>
-const API = "https://lynx-confesione-api.lynxnetwork.workers.dev";
+const API = "https://confesiones.lynxnetwork.workers.dev";
 
-let adminPassword = "";
-
-function showMessage(text) {
-    document.getElementById("message").textContent = text;
-}
+let adminKey = "";
 
 async function login() {
-    const password = document.getElementById("password").value;
+    const input = document.getElementById("adminKey");
+    const status = document.getElementById("loginStatus");
 
-    if (!password) {
-        showMessage("Introduce tu contraseña.");
+    const key = input.value;
+
+    if (!key) {
+        status.textContent = "Introduce tu Admin Key.";
         return;
     }
 
-    adminPassword = password;
-    showMessage("Verificando acceso...");
+    status.textContent = "Verificando acceso...";
 
     try {
         const response = await fetch(API + "/api/admin/confessions", {
-            method: "GET",
             headers: {
-                "Authorization": `Bearer ${adminPassword}`
+                "Authorization": "Bearer " + key
             }
         });
 
         if (response.status === 401) {
-            adminPassword = "";
-            showMessage("Contraseña incorrecta.");
+            status.textContent = "Admin Key incorrecta.";
             return;
         }
 
         if (!response.ok) {
-            adminPassword = "";
-            showMessage("Error del servidor: " + response.status);
-            return;
+            throw new Error("Error de conexión");
         }
 
-        document.getElementById("loginPanel").classList.add("hidden");
-        document.getElementById("adminPanel").classList.remove("hidden");
+        adminKey = key;
 
-        showMessage("Acceso autorizado.");
-        displayConfessions(await response.json());
+        document.getElementById("loginPanel").classList.add("hidden");
+        document.getElementById("dashboard").classList.remove("hidden");
+
+        input.value = "";
+        await renderPending(await response.json());
 
     } catch (error) {
-        adminPassword = "";
-        showMessage("No se pudo conectar con el servidor.");
+        status.textContent = "No se pudo conectar con el servidor.";
     }
 }
 
-async function loadConfessions() {
-    showMessage("Cargando confesiones...");
+async function loadPending() {
+    const status = document.getElementById("status");
 
+    status.textContent = "Cargando...";
+    
     try {
         const response = await fetch(API + "/api/admin/confessions", {
             headers: {
-                "Authorization": `Bearer ${adminPassword}`
+                "Authorization": "Bearer " + adminKey
             }
         });
 
         if (response.status === 401) {
             logout();
-            showMessage("Sesión no autorizada. Inicia sesión nuevamente.");
             return;
         }
 
         if (!response.ok) {
-            showMessage("Error al cargar confesiones.");
-            return;
+            throw new Error("Error de servidor");
         }
 
-        displayConfessions(await response.json());
-        showMessage("Lista actualizada.");
+        await renderPending(await response.json());
+        status.textContent = "";
 
     } catch (error) {
-        showMessage("Error de conexión.");
+        status.textContent = "No se pudo cargar la lista.";
     }
 }
 
-function displayConfessions(data) {
-    const container = document.getElementById("confessions");
+async function renderPending(data) {
+    const container = document.getElementById("pending");
     container.replaceChildren();
 
-    if (!data.length) {
+    if (!Array.isArray(data) || data.length === 0) {
         container.textContent = "No hay confesiones pendientes.";
         return;
     }
 
-    data.forEach(confession => {
+    data.forEach(item => {
         const card = document.createElement("div");
         card.className = "confession";
 
-        const title = document.createElement("h3");
-        title.textContent = "Confesión #" + confession.id;
-
-        const content = document.createElement("p");
-        content.textContent = confession.message;
+        const message = document.createElement("div");
+        message.textContent = item.message;
 
         const date = document.createElement("div");
         date.className = "date";
-        date.textContent = confession.created_at || "";
+        date.textContent = item.created_at || "";
+
+        const actions = document.createElement("div");
+        actions.className = "actions";
 
         const approve = document.createElement("button");
         approve.className = "approve";
-        approve.textContent = "APROBAR";
-        approve.onclick = () => moderate(confession.id, "aprobada");
+        approve.textContent = "Aprobar";
+        approve.onclick = () => moderate(item.id, "aprobada", card);
 
         const reject = document.createElement("button");
         reject.className = "reject";
-        reject.textContent = "RECHAZAR";
-        reject.onclick = () => moderate(confession.id, "rechazada");
+        reject.textContent = "Rechazar";
+        reject.onclick = () => moderate(item.id, "rechazada", card);
 
-        card.append(title, content, date, approve, reject);
+        actions.append(approve, reject);
+        card.append(message, date, actions);
         container.appendChild(card);
     });
 }
 
-async function moderate(id, status) {
-    const action = status === "aprobada" ? "aprobar" : "rechazar";
+async function moderate(id, decision, card) {
+    const status = document.getElementById("status");
+    const buttons = card.querySelectorAll("button");
 
-    if (!confirm("¿Seguro que quieres " + action + " esta confesión?")) {
+    if (decision === "rechazada" &&
+        !confirm("¿Seguro que quieres rechazar esta confesión?")) {
         return;
     }
+
+    buttons.forEach(button => button.disabled = true);
+    status.textContent = "Guardando decisión...";
 
     try {
         const response = await fetch(
@@ -286,43 +311,41 @@ async function moderate(id, status) {
             {
                 method: "PATCH",
                 headers: {
-                    "Authorization": `Bearer ${adminPassword}`,
+                    "Authorization": "Bearer " + adminKey,
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ status })
+                body: JSON.stringify({ status: decision })
             }
         );
 
         if (response.status === 401) {
             logout();
-            showMessage("Sesión no autorizada.");
             return;
         }
 
         if (!response.ok) {
-            showMessage("No se pudo actualizar la confesión.");
-            return;
+            throw new Error("No se pudo guardar");
         }
 
-        showMessage("Confesión " + status + ".");
-        loadConfessions();
+        status.textContent = "Decisión guardada correctamente.";
+        await loadPending();
 
     } catch (error) {
-        showMessage("Error de conexión.");
+        status.textContent = "Error al guardar. Intenta de nuevo.";
+        buttons.forEach(button => button.disabled = false);
     }
 }
 
 function logout() {
-    adminPassword = "";
+    adminKey = "";
 
-    document.getElementById("password").value = "";
+    document.getElementById("dashboard").classList.add("hidden");
     document.getElementById("loginPanel").classList.remove("hidden");
-    document.getElementById("adminPanel").classList.add("hidden");
-
-    document.getElementById("confessions").replaceChildren();
-    showMessage("Sesión cerrada.");
+    document.getElementById("adminKey").value = "";
+    document.getElementById("loginStatus").textContent = "";
+    document.getElementById("pending").replaceChildren();
+    document.getElementById("status").textContent = "";
 }
 </script>
-
 </body>
 </html>
