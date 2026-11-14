@@ -4,12 +4,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel Administrativo | LYNX</title>
+<title>LYNX | Panel Administrativo</title>
 
 <style>
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
@@ -29,9 +27,7 @@ header {
     padding: 25px 10px;
 }
 
-header h1 {
-    color: #55aaff;
-}
+header h1 { color: #55aaff; }
 
 .panel {
     background: #111827;
@@ -41,9 +37,7 @@ header h1 {
     margin-bottom: 20px;
 }
 
-h2 {
-    color: #65b5ff;
-}
+h2 { color: #65b5ff; }
 
 input {
     width: 100%;
@@ -64,24 +58,18 @@ button {
     cursor: pointer;
 }
 
+button:disabled {
+    opacity: .5;
+    cursor: wait;
+}
+
 .primary {
     width: 100%;
     background: #1685e8;
 }
 
-.approve {
-    background: #168b58;
-    margin-right: 8px;
-}
-
-.reject {
-    background: #bd3545;
-}
-
-button:disabled {
-    opacity: .5;
-    cursor: wait;
-}
+.approve { background: #168b58; }
+.reject { background: #bd3545; }
 
 .confession {
     background: #0b1220;
@@ -105,19 +93,14 @@ button:disabled {
     margin-top: 14px;
 }
 
-.actions button {
-    flex: 1;
-}
+.actions button { flex: 1; }
 
-#status {
+#status, #loginStatus {
     margin-top: 12px;
     font-size: 14px;
-    overflow-wrap: anywhere;
 }
 
-.hidden {
-    display: none;
-}
+.hidden { display: none; }
 
 footer {
     text-align: center;
@@ -133,7 +116,7 @@ footer {
 
 <header>
     <h1>LYNX NETWORK</h1>
-    <p>Panel de administración de confesiones</p>
+    <p>Panel administrativo de confesiones</p>
 </header>
 
 <section class="panel" id="loginPanel">
@@ -146,7 +129,7 @@ footer {
         autocomplete="current-password"
     >
 
-    <button class="primary" onclick="login()">
+    <button class="primary" id="loginButton">
         Iniciar sesión
     </button>
 
@@ -156,14 +139,12 @@ footer {
 <section class="panel hidden" id="dashboard">
     <h2>Confesiones pendientes</h2>
 
-    <button class="primary" onclick="loadPending()">
+    <button class="primary" id="refreshButton">
         Actualizar lista
     </button>
 
-    <button
-        onclick="logout()"
-        style="width:100%; margin-top:10px; background:#34445e;"
-    >
+    <button id="logoutButton"
+        style="width:100%; margin-top:10px; background:#34445e;">
         Cerrar sesión
     </button>
 
@@ -183,17 +164,26 @@ const API = "https://confesiones.lynxnetwork.workers.dev";
 
 let adminKey = "";
 
-async function login() {
-    const input = document.getElementById("adminKey");
-    const status = document.getElementById("loginStatus");
+const $ = id => document.getElementById(id);
 
-    const key = input.value;
+$("loginButton").addEventListener("click", login);
+$("refreshButton").addEventListener("click", loadPending);
+$("logoutButton").addEventListener("click", logout);
+
+$("adminKey").addEventListener("keydown", event => {
+    if (event.key === "Enter") login();
+});
+
+async function login() {
+    const key = $("adminKey").value;
+    const status = $("loginStatus");
 
     if (!key) {
         status.textContent = "Introduce tu Admin Key.";
         return;
     }
 
+    $("loginButton").disabled = true;
     status.textContent = "Verificando acceso...";
 
     try {
@@ -208,28 +198,26 @@ async function login() {
             return;
         }
 
-        if (!response.ok) {
-            throw new Error("Error de conexión");
-        }
+        if (!response.ok) throw new Error();
 
         adminKey = key;
+        $("adminKey").value = "";
 
-        document.getElementById("loginPanel").classList.add("hidden");
-        document.getElementById("dashboard").classList.remove("hidden");
+        $("loginPanel").classList.add("hidden");
+        $("dashboard").classList.remove("hidden");
 
-        input.value = "";
         await renderPending(await response.json());
 
-    } catch (error) {
-        status.textContent = "No se pudo conectar con el servidor.";
+    } catch {
+        status.textContent = "Error de conexión con el servidor.";
+    } finally {
+        $("loginButton").disabled = false;
     }
 }
 
 async function loadPending() {
-    const status = document.getElementById("status");
+    $("status").textContent = "Cargando confesiones...";
 
-    status.textContent = "Cargando...";
-    
     try {
         const response = await fetch(API + "/api/admin/confessions", {
             headers: {
@@ -239,23 +227,22 @@ async function loadPending() {
 
         if (response.status === 401) {
             logout();
+            $("loginStatus").textContent = "Sesión no autorizada.";
             return;
         }
 
-        if (!response.ok) {
-            throw new Error("Error de servidor");
-        }
+        if (!response.ok) throw new Error();
 
         await renderPending(await response.json());
-        status.textContent = "";
+        $("status").textContent = "";
 
-    } catch (error) {
-        status.textContent = "No se pudo cargar la lista.";
+    } catch {
+        $("status").textContent = "No se pudo cargar la lista.";
     }
 }
 
 async function renderPending(data) {
-    const container = document.getElementById("pending");
+    const container = $("pending");
     container.replaceChildren();
 
     if (!Array.isArray(data) || data.length === 0) {
@@ -280,12 +267,16 @@ async function renderPending(data) {
         const approve = document.createElement("button");
         approve.className = "approve";
         approve.textContent = "Aprobar";
-        approve.onclick = () => moderate(item.id, "aprobada", card);
+        approve.addEventListener("click", () =>
+            moderate(item.id, "aprobada", card)
+        );
 
         const reject = document.createElement("button");
         reject.className = "reject";
         reject.textContent = "Rechazar";
-        reject.onclick = () => moderate(item.id, "rechazada", card);
+        reject.addEventListener("click", () =>
+            moderate(item.id, "rechazada", card)
+        );
 
         actions.append(approve, reject);
         card.append(message, date, actions);
@@ -294,16 +285,15 @@ async function renderPending(data) {
 }
 
 async function moderate(id, decision, card) {
-    const status = document.getElementById("status");
-    const buttons = card.querySelectorAll("button");
-
     if (decision === "rechazada" &&
         !confirm("¿Seguro que quieres rechazar esta confesión?")) {
         return;
     }
 
+    const buttons = card.querySelectorAll("button");
     buttons.forEach(button => button.disabled = true);
-    status.textContent = "Guardando decisión...";
+
+    $("status").textContent = "Guardando decisión...";
 
     try {
         const response = await fetch(
@@ -323,15 +313,13 @@ async function moderate(id, decision, card) {
             return;
         }
 
-        if (!response.ok) {
-            throw new Error("No se pudo guardar");
-        }
+        if (!response.ok) throw new Error();
 
-        status.textContent = "Decisión guardada correctamente.";
+        $("status").textContent = "Decisión guardada.";
         await loadPending();
 
-    } catch (error) {
-        status.textContent = "Error al guardar. Intenta de nuevo.";
+    } catch {
+        $("status").textContent = "Error al guardar. Intenta nuevamente.";
         buttons.forEach(button => button.disabled = false);
     }
 }
@@ -339,12 +327,12 @@ async function moderate(id, decision, card) {
 function logout() {
     adminKey = "";
 
-    document.getElementById("dashboard").classList.add("hidden");
-    document.getElementById("loginPanel").classList.remove("hidden");
-    document.getElementById("adminKey").value = "";
-    document.getElementById("loginStatus").textContent = "";
-    document.getElementById("pending").replaceChildren();
-    document.getElementById("status").textContent = "";
+    $("dashboard").classList.add("hidden");
+    $("loginPanel").classList.remove("hidden");
+    $("adminKey").value = "";
+    $("loginStatus").textContent = "";
+    $("pending").replaceChildren();
+    $("status").textContent = "";
 }
 </script>
 </body>
