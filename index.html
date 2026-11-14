@@ -120,10 +120,90 @@ footer {
     font-size: 12px;
     padding: 25px 0;
 }
+
+/* SISTEMA DE AVISOS LYNX */
+
+#announcement {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 18px 20px;
+    background: #102b49;
+    border-bottom: 2px solid #399bff;
+    color: #ffffff;
+    text-align: center;
+    z-index: 9999;
+    box-shadow: 0 5px 25px rgba(0,0,0,.5);
+
+    transform: translateY(-120%);
+    opacity: 0;
+    visibility: hidden;
+}
+
+#announcement.show {
+    visibility: visible;
+    animation: slideDown .5s ease forwards;
+}
+
+#announcement.hide {
+    animation: slideUp .5s ease forwards;
+}
+
+#announcement strong {
+    display: block;
+    color: #65b5ff;
+    margin-bottom: 7px;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+#announcementMessage {
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-120%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-120%);
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #announcement.show,
+    #announcement.hide {
+        animation-duration: .01ms;
+    }
+}
 </style>
 </head>
 
 <body>
+
+<!-- AVISO ADMINISTRATIVO -->
+<div id="announcement" role="status" aria-live="polite">
+    <strong>AVISO DE LYNX NETWORK</strong>
+    <div id="announcementMessage"></div>
+</div>
+
 <div class="container">
 
 <header>
@@ -254,7 +334,69 @@ async function sendConfession() {
     }
 }
 
+/* SISTEMA DE ANUNCIOS */
+
+let lastAnnouncementId = null;
+let announcementTimer = null;
+
+function showAnnouncement(message) {
+    const box = document.getElementById("announcement");
+    const text = document.getElementById("announcementMessage");
+
+    clearTimeout(announcementTimer);
+
+    box.classList.remove("show", "hide");
+
+    // Reinicia la animación
+    void box.offsetWidth;
+
+    text.textContent = message;
+    box.classList.add("show");
+
+    announcementTimer = setTimeout(() => {
+        box.classList.remove("show");
+        box.classList.add("hide");
+
+        setTimeout(() => {
+            box.classList.remove("hide");
+        }, 500);
+
+    }, 6000);
+}
+
+async function checkAnnouncements() {
+    try {
+        const response = await fetch(API + "/api/announcements", {
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error("No se pudieron consultar los avisos");
+        }
+
+        const announcement = await response.json();
+
+        if (!announcement || !announcement.id || !announcement.message) {
+            return;
+        }
+
+        if (announcement.id === lastAnnouncementId) {
+            return;
+        }
+
+        lastAnnouncementId = announcement.id;
+        showAnnouncement(announcement.message);
+
+    } catch (error) {
+        console.log("Sistema de avisos: sin conexión temporal.");
+    }
+}
+
 loadConfessions();
+
+checkAnnouncements();
+setInterval(checkAnnouncements, 10000);
 </script>
+
 </body>
 </html>
