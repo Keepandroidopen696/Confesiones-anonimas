@@ -147,6 +147,7 @@ footer {
 }
 
 #announcement.hide {
+    visibility: visible;
     animation: slideUp .5s ease forwards;
 }
 
@@ -253,6 +254,8 @@ footer {
 <script>
 const API = "https://confesiones.lynxnetwork.workers.dev";
 
+/* CARGAR CONFESIONES */
+
 async function loadConfessions() {
     const container = document.getElementById("confessions");
 
@@ -291,6 +294,8 @@ async function loadConfessions() {
             "No se pudieron cargar las confesiones. Intenta más tarde.";
     }
 }
+
+/* ENVIAR CONFESIÓN */
 
 async function sendConfession() {
     const input = document.getElementById("message");
@@ -334,9 +339,13 @@ async function sendConfession() {
     }
 }
 
-/* SISTEMA DE ANUNCIOS */
+/* SISTEMA DE AVISOS */
 
-let lastAnnouncementId = null;
+const ANNOUNCEMENT_STORAGE = "lynx_last_announcement";
+
+let lastAnnouncementId =
+    localStorage.getItem(ANNOUNCEMENT_STORAGE);
+
 let announcementTimer = null;
 
 function showAnnouncement(message) {
@@ -346,8 +355,6 @@ function showAnnouncement(message) {
     clearTimeout(announcementTimer);
 
     box.classList.remove("show", "hide");
-
-    // Reinicia la animación
     void box.offsetWidth;
 
     text.textContent = message;
@@ -366,12 +373,13 @@ function showAnnouncement(message) {
 
 async function checkAnnouncements() {
     try {
-        const response = await fetch(API + "/api/announcements", {
-            cache: "no-store"
-        });
+        const response = await fetch(
+            API + "/api/announcements",
+            { cache: "no-store" }
+        );
 
         if (!response.ok) {
-            throw new Error("No se pudieron consultar los avisos");
+            throw new Error("Error al consultar avisos");
         }
 
         const announcement = await response.json();
@@ -380,17 +388,29 @@ async function checkAnnouncements() {
             return;
         }
 
-        if (announcement.id === lastAnnouncementId) {
+        const currentId = String(announcement.id);
+
+        if (currentId === lastAnnouncementId) {
             return;
         }
 
-        lastAnnouncementId = announcement.id;
+        lastAnnouncementId = currentId;
+
+        localStorage.setItem(
+            ANNOUNCEMENT_STORAGE,
+            currentId
+        );
+
         showAnnouncement(announcement.message);
 
     } catch (error) {
-        console.log("Sistema de avisos: sin conexión temporal.");
+        console.log(
+            "Sistema de avisos: conexión temporalmente no disponible."
+        );
     }
 }
+
+/* INICIAR SISTEMAS */
 
 loadConfessions();
 
