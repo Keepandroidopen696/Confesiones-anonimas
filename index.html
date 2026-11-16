@@ -1,819 +1,471 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080609">
-<title>LYNX LX | Confesiones</title>
+<meta name="theme-color" content="#09090e">
+<title>LYNX CONFESIONES | LYNX LX</title>
 
 <style>
 :root {
-    --bg: #080609;
-    --panel: #110d12;
-    --panel2: #171018;
-    --red: #ff174f;
-    --red2: #b90035;
-    --text: #f5edf1;
-    --muted: #9a8b95;
-    --border: rgba(255, 23, 79, .22);
-    --glow: 0 0 22px rgba(255, 23, 79, .18);
+  --bg: #09090e;
+  --panel: #11111a;
+  --panel2: #171722;
+  --red: #ff244c;
+  --purple: #9b5cff;
+  --text: #f3f3fa;
+  --muted: #9999aa;
+  --border: rgba(255,255,255,.09);
 }
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
+* { box-sizing: border-box; }
 body {
-    margin: 0;
-    padding: 20px;
-    background:
-        radial-gradient(ellipse at top, rgba(255, 23, 79, .10), transparent 45%),
-        var(--bg);
-    color: var(--text);
-    font-family: Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 10% 0%,rgba(255,36,76,.13),transparent 35%),
+    radial-gradient(ellipse at 90% 20%,rgba(155,92,255,.12),transparent 35%),
+    var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
 }
-
-.container {
-    max-width: 850px;
-    margin: auto;
-}
-
-/* ENCABEZADO */
-
 header {
-    text-align: center;
-    padding: 45px 10px 35px;
+  padding: 25px 18px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  background: rgba(9,9,14,.85);
 }
-
-.logo {
-    display: inline-block;
-    color: var(--red);
-    font-size: 13px;
-    font-weight: bold;
-    letter-spacing: 5px;
-    margin-bottom: 12px;
-    text-shadow: 0 0 15px var(--red);
+.brand {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-shadow: 0 0 18px rgba(255,36,76,.45);
 }
-
-header h1 {
-    color: white;
-    font-size: clamp(34px, 8vw, 52px);
-    letter-spacing: 3px;
-    margin: 0;
-    text-shadow: 0 0 25px rgba(255, 23, 79, .35);
+.brand span { color: var(--red); }
+.subtitle {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 3px;
+  margin-top: 7px;
 }
-
-header h1 span {
-    color: var(--red);
+main {
+  width: min(900px, 92%);
+  margin: 28px auto 60px;
 }
-
-header p {
-    color: var(--muted);
-    font-size: 14px;
-    margin-top: 12px;
+.hero {
+  text-align: center;
+  padding: 28px 12px;
 }
-
-/* NAVEGACIÓN */
-
-.nav {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 0 auto 28px;
-}
-
-.nav a {
-    color: #d7cbd2;
-    text-decoration: none;
-    border: 1px solid var(--border);
-    background: rgba(20, 13, 19, .85);
-    padding: 10px 16px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: bold;
-    transition: .2s;
-}
-
-.nav a:hover {
-    color: white;
-    border-color: var(--red);
-    box-shadow: var(--glow);
-}
-
-/* PANELES */
-
+.hero h1 { font-size: clamp(25px,5vw,38px); margin: 0 0 12px; }
+.hero h1 span { color: var(--red); }
+.hero p { color: var(--muted); line-height: 1.6; }
 .panel {
-    background: linear-gradient(145deg, var(--panel2), var(--panel));
-    border: 1px solid var(--border);
-    border-radius: 15px;
-    padding: 23px;
-    margin-bottom: 22px;
-    box-shadow: 0 10px 35px rgba(0,0,0,.28);
-    position: relative;
-    overflow: hidden;
+  background: linear-gradient(145deg,rgba(25,25,38,.96),rgba(13,13,21,.96));
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 22px;
+  margin: 18px 0;
+  box-shadow: 0 12px 35px rgba(0,0,0,.2);
 }
-
-.panel::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 65px;
-    height: 2px;
-    background: var(--red);
-    box-shadow: 0 0 12px var(--red);
-}
-
 h2 {
-    color: var(--red);
-    font-size: 19px;
-    letter-spacing: 1px;
-    margin-top: 0;
-    text-transform: uppercase;
+  font-size: 19px;
+  margin: 0 0 17px;
 }
-
-.description {
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.6;
+h2::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 18px;
+  background: var(--red);
+  margin-right: 10px;
+  vertical-align: -3px;
+  border-radius: 5px;
 }
-
-/* CAMPOS */
-
-input,
-textarea {
-    width: 100%;
-    background: #09070b;
-    border: 1px solid #38202c;
-    border-radius: 9px;
-    padding: 14px;
-    color: white;
-    font-size: 14px;
-    outline: none;
-    transition: .2s;
-    font-family: Arial, sans-serif;
+textarea, input {
+  width: 100%;
+  background: #090910;
+  border: 1px solid #303040;
+  border-radius: 9px;
+  padding: 14px;
+  color: white;
+  outline: none;
+  font: inherit;
+  margin-bottom: 12px;
 }
-
-input:focus,
-textarea:focus {
-    border-color: var(--red);
-    box-shadow: 0 0 13px rgba(255, 23, 79, .15);
-}
-
-textarea {
-    min-height: 130px;
-    resize: vertical;
-    line-height: 1.5;
-}
-
-input::placeholder,
-textarea::placeholder {
-    color: #75636d;
-}
-
-/* BOTONES */
-
+textarea { min-height: 125px; resize: vertical; }
+textarea:focus, input:focus { border-color: var(--purple); }
 button {
-    width: 100%;
-    margin-top: 13px;
-    padding: 14px;
-    border: 1px solid var(--red);
-    border-radius: 9px;
-    background: linear-gradient(100deg, #c9003c, #ff174f);
-    color: white;
-    font-size: 13px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: .2s;
-    box-shadow: 0 0 15px rgba(255, 23, 79, .12);
+  border: 0;
+  border-radius: 9px;
+  padding: 12px 18px;
+  background: linear-gradient(100deg,var(--red),#b51d76);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: .2s;
 }
-
-button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 0 22px rgba(255, 23, 79, .35);
+button:hover { filter: brightness(1.15); transform: translateY(-1px); }
+button:disabled { opacity: .55; cursor: wait; transform: none; }
+.secondary {
+  background: linear-gradient(100deg,#7439c7,#4930a0);
 }
-
-button:disabled {
-    opacity: .45;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* AVISOS */
-
 .notice {
-    color: var(--muted);
-    font-size: 12px;
-    line-height: 1.6;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 12px;
 }
-
 .status {
-    margin-top: 12px;
-    font-size: 13px;
-    line-height: 1.5;
-    color: #ff9bb5;
-    overflow-wrap: anywhere;
+  font-size: 13px;
+  margin-top: 12px;
+  min-height: 18px;
+  color: #c8c8d5;
 }
-
-/* CONFESIONES */
-
+.status.error { color: #ff7188; }
+.status.success { color: #70e6a1; }
 .confession {
-    background: #0b080d;
-    border: 1px solid #34202a;
-    border-radius: 10px;
-    padding: 16px;
-    margin-top: 13px;
-    overflow-wrap: anywhere;
-    white-space: pre-wrap;
-    transition: .2s;
+  background: #0b0b13;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--purple);
+  padding: 15px;
+  border-radius: 9px;
+  margin: 12px 0;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
 }
-
-.confession:hover {
-    border-color: rgba(255, 23, 79, .55);
+.confession small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 10px;
 }
-
-.date {
-    color: #786874;
-    font-size: 11px;
-    margin-top: 12px;
+.empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 22px 8px;
 }
-
-/* MODERADORES */
-
-.moderator-counter {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    background: #09070b;
-    border: 1px solid var(--border);
-    padding: 14px;
-    border-radius: 9px;
-    margin-top: 15px;
+.announcement {
+  border: 1px solid rgba(255,36,76,.3);
+  background: rgba(255,36,76,.06);
+  padding: 14px;
+  border-radius: 9px;
+  margin: 10px 0;
+  line-height: 1.5;
 }
-
-.moderator-counter span:first-child {
-    color: var(--muted);
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 1px;
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 12px;
 }
-
-#moderatorCount {
-    color: var(--red);
-    font-weight: bold;
-    font-size: 18px;
-    text-shadow: 0 0 12px rgba(255, 23, 79, .4);
+.stat {
+  background: #0b0b13;
+  border: 1px solid var(--border);
+  padding: 17px;
+  border-radius: 10px;
+  text-align: center;
 }
-
-.limit-message {
-    color: #ff9bb5;
-    font-size: 12px;
-    margin-top: 10px;
+.stat strong {
+  display: block;
+  color: var(--red);
+  font-size: 25px;
+  margin-bottom: 5px;
 }
-
-/* PIE DE PÁGINA */
-
+.stat span { color: var(--muted); font-size: 12px; }
 footer {
-    text-align: center;
-    color: #75636d;
-    font-size: 11px;
-    line-height: 1.8;
-    padding: 28px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 25px 12px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.8;
 }
-
-footer strong {
-    color: var(--red);
-    letter-spacing: 2px;
-}
-
-/* AVISOS ADMINISTRATIVOS */
-
-#announcement {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 18px 20px;
-    background: #170911;
-    border-bottom: 2px solid var(--red);
-    color: white;
-    text-align: center;
-    z-index: 9999;
-    box-shadow: 0 5px 30px rgba(0,0,0,.7);
-    transform: translateY(-120%);
-    opacity: 0;
-    visibility: hidden;
-}
-
-#announcement.show {
-    visibility: visible;
-    animation: slideDown .5s ease forwards;
-}
-
-#announcement.hide {
-    visibility: visible;
-    animation: slideUp .5s ease forwards;
-}
-
-#announcement strong {
-    display: block;
-    color: var(--red);
-    margin-bottom: 7px;
-    font-size: 12px;
-    letter-spacing: 2px;
-}
-
-#announcementMessage {
-    overflow-wrap: anywhere;
-    white-space: pre-wrap;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-@keyframes slideDown {
-    from {
-        transform: translateY(-120%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateY(-120%);
-        opacity: 0;
-    }
-}
-
-@media (max-width: 600px) {
-    body {
-        padding: 12px;
-    }
-
-    header {
-        padding: 35px 5px 28px;
-    }
-
-    .panel {
-        padding: 18px;
-    }
-
-    .nav a {
-        padding: 10px 12px;
-        font-size: 11px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-    }
+@media(min-width:650px) {
+  .stats { grid-template-columns: repeat(2,1fr); }
+  .panel { padding: 26px; }
 }
 </style>
 </head>
 
 <body>
-
-<!-- AVISO ADMINISTRATIVO -->
-<div id="announcement" role="status" aria-live="polite">
-    <strong>AVISO DE LYNX NETWORK</strong>
-    <div id="announcementMessage"></div>
-</div>
-
-<div class="container">
-
 <header>
-    <div class="logo">LYNX NETWORK PRESENTA</div>
-    <h1>LYNX <span>LX</span></h1>
-    <p>Tu voz. Tu espacio. Tu comunidad.</p>
+  <div class="brand">LYNX <span>LX</span></div>
+  <div class="subtitle">CONFESIONES ANÓNIMAS</div>
 </header>
 
-<nav class="nav">
-    <a href="#enviar">CONFESIONES</a>
-    <a href="#publicadas">PUBLICACIONES</a>
-    <a href="#moderadores">¿MODERADOR?</a>
-</nav>
+<main>
+  <section class="hero">
+    <h1>Tu voz, <span>sin revelar tu identidad.</span></h1>
+    <p>Un espacio para compartir pensamientos, experiencias y mensajes de forma anónima.</p>
+  </section>
 
-<!-- ENVIAR CONFESIÓN -->
-<section class="panel" id="enviar">
+  <section class="panel">
     <h2>Enviar confesión</h2>
-
-    <p class="description">
-        Comparte lo que quieras expresar de forma anónima.
-        Tu mensaje será revisado antes de publicarse.
-    </p>
-
-    <textarea
-        id="message"
-        maxlength="500"
-        minlength="5"
-        placeholder="Escribe tu confesión..."
-    ></textarea>
-
-    <p class="notice">
-        No incluyas nombres, teléfonos, direcciones,
-        contraseñas ni datos personales.
-        No se permiten amenazas, acoso ni acusaciones
-        contra personas identificables.
-    </p>
-
-    <button id="sendButton" onclick="sendConfession()">
-        ENVIAR CONFESIÓN
-    </button>
-
-    <div class="status" id="status" role="status"></div>
-</section>
-
-<!-- CONFESIONES APROBADAS -->
-<section class="panel" id="publicadas">
-    <h2>Confesiones aprobadas</h2>
-
-    <p class="description">
-        Publicaciones revisadas y aprobadas por el equipo LYNX.
-    </p>
-
-    <div id="confessions">
-        Cargando confesiones...
+    <form id="confessionForm">
+      <textarea id="confessionMessage" maxlength="1000"
+        placeholder="Escribe tu confesión..." required></textarea>
+      <button id="confessionButton" type="submit">Enviar confesión</button>
+    </form>
+    <div class="notice">
+      Las confesiones se revisan antes de publicarse. No incluyas nombres,
+      teléfonos, direcciones ni información privada de otras personas.
     </div>
-</section>
+    <div id="confessionStatus" class="status" role="status"></div>
+  </section>
 
-<!-- SOLICITUD DE MODERADOR -->
-<section class="panel" id="moderadores">
-    <h2>¿Quieres ser moderador?</h2>
+  <section class="panel">
+    <h2>Confesiones publicadas</h2>
+    <div id="confessionsList" class="empty">Cargando confesiones...</div>
+    <button class="secondary" id="reloadConfessions" type="button">Actualizar</button>
+  </section>
 
-    <p class="description">
-        Envía una solicitud para formar parte del equipo
-        de moderación de LYNX NETWORK.
-        Explica por qué te interesa colaborar y cómo
-        ayudarías a mantener una comunidad respetuosa.
-    </p>
+  <section class="panel">
+    <h2>Anuncios</h2>
+    <div id="announcementsList" class="empty">Cargando anuncios...</div>
+  </section>
 
-    <input
-        type="text"
-        id="moderatorAlias"
-        maxlength="24"
-        minlength="2"
-        placeholder="Tu alias (no uses tu nombre real)"
-        autocomplete="off"
-    >
-
-    <textarea
-        id="moderatorMessage"
-        maxlength="500"
-        minlength="10"
-        placeholder="Escribe tu solicitud de moderador..."
-        style="margin-top:12px;"
-    ></textarea>
-
-    <p class="notice">
-        Usa únicamente un alias. No compartas tu nombre real,
-        edad exacta, escuela, teléfono, dirección ni redes
-        sociales privadas.
-        Las solicitudes serán revisadas por administración.
-    </p>
-
-    <button
-        id="moderatorButton"
-        onclick="sendModeratorRequest()"
-    >
-        ENVIAR SOLICITUD DE MODERADOR
-    </button>
-
-    <div class="status" id="moderatorStatus" role="status"></div>
-
-    <div class="moderator-counter">
-        <span>MODERADORES ACTIVOS</span>
-        <span id="moderatorCount">Cargando...</span>
+  <section class="panel">
+    <h2>Comunidad de moderación</h2>
+    <div class="stats">
+      <div class="stat">
+        <strong id="moderatorCount">—</strong>
+        <span>Moderadores aprobados</span>
+      </div>
+      <div class="stat">
+        <strong id="communityStatus">—</strong>
+        <span>Estado del servicio</span>
+      </div>
     </div>
+  </section>
 
-    <div class="limit-message" id="moderatorLimit"></div>
-</section>
+  <section class="panel">
+    <h2>Solicitar ser moderador</h2>
+    <form id="moderatorForm">
+      <input id="moderatorAlias" maxlength="30"
+        placeholder="Alias o apodo" required>
+      <textarea id="moderatorMessage" maxlength="500"
+        placeholder="¿Por qué te gustaría ayudar a moderar?" required></textarea>
+      <button id="moderatorButton" class="secondary" type="submit">
+        Enviar solicitud
+      </button>
+    </form>
+    <div class="notice">
+      Las solicitudes serán revisadas por la administración.
+      No escribas datos personales.
+    </div>
+    <div id="moderatorStatus" class="status" role="status"></div>
+  </section>
+</main>
 
 <footer>
-    <strong>LYNX NETWORK</strong><br>
-    LYNX LX © 2026<br>
-    Las publicaciones están sujetas a moderación.
+  <strong>LYNX LX</strong><br>
+  Proyecto independiente de confesiones anónimas.<br>
+  Mantén el respeto. No se permiten amenazas, acoso ni publicación de datos privados.<br>
+  © 2026 LYNX LX. Todos los derechos reservados.
 </footer>
 
-</div>
-
 <script>
-const API = "https://confesiones.lynxnetwork.workers.dev";
+const API = "https://confessions-by.lynxnetwork.workers.dev";
 
-/* =================================
-   CARGAR CONFESIONES
-================================= */
+async function request(path, options = {}) {
+  const response = await fetch(API + path, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {})
+    }
+  });
+
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(data.error || data.message || `Error HTTP ${response.status}`);
+  }
+  return data;
+}
+
+function safeText(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[char]);
+}
+
+function showStatus(id, message, type = "") {
+  const element = document.getElementById(id);
+  element.textContent = message;
+  element.className = "status " + type;
+}
+
+function getArray(data, keys) {
+  if (Array.isArray(data)) return data;
+  for (const key of keys) {
+    if (Array.isArray(data?.[key])) return data[key];
+  }
+  return [];
+}
 
 async function loadConfessions() {
-    const container = document.getElementById("confessions");
+  const container = document.getElementById("confessionsList");
+  container.textContent = "Cargando confesiones...";
 
-    try {
-        const response = await fetch(API + "/api/confessions");
+  try {
+    const data = await request("/api/confessions");
+    const items = getArray(data, ["confessions", "data", "results"]);
 
-        if (!response.ok) {
-            throw new Error("Error al consultar");
-        }
-
-        const data = await response.json();
-        container.replaceChildren();
-
-        if (!Array.isArray(data) || data.length === 0) {
-            container.textContent =
-                "Todavía no hay confesiones aprobadas.";
-            return;
-        }
-
-        data.forEach(item => {
-            const card = document.createElement("div");
-            card.className = "confession";
-
-            const message = document.createElement("div");
-            message.textContent = item.message;
-
-            const date = document.createElement("div");
-            date.className = "date";
-            date.textContent = item.created_at || "";
-
-            card.append(message, date);
-            container.appendChild(card);
-        });
-
-    } catch (error) {
-        container.textContent =
-            "No se pudieron cargar las confesiones. Intenta más tarde.";
+    if (!items.length) {
+      container.textContent = "Todavía no hay confesiones publicadas.";
+      container.className = "empty";
+      return;
     }
+
+    container.className = "";
+    container.replaceChildren();
+
+    items.forEach(item => {
+      const card = document.createElement("article");
+      card.className = "confession";
+
+      const message = document.createElement("div");
+      message.textContent = item.message || item.text || "Confesión sin contenido.";
+
+      const date = document.createElement("small");
+      date.textContent = item.created_at
+        ? "Publicado: " + new Date(item.created_at.replace(" ", "T") + (item.created_at.includes("Z") ? "" : "Z")).toLocaleString("es-MX")
+        : "LYNX LX";
+
+      card.append(message, date);
+      container.appendChild(card);
+    });
+  } catch (error) {
+    container.className = "empty";
+    container.textContent = "No se pudieron cargar las confesiones. Intenta actualizar.";
+    console.error("Confesiones:", error);
+  }
 }
 
-/* =================================
-   ENVIAR CONFESIÓN
-================================= */
+async function loadAnnouncements() {
+  const container = document.getElementById("announcementsList");
+  container.textContent = "Cargando anuncios...";
 
-async function sendConfession() {
-    const input = document.getElementById("message");
-    const button = document.getElementById("sendButton");
-    const status = document.getElementById("status");
+  try {
+    const data = await request("/api/announcements");
+    const items = getArray(data, ["announcements", "data", "results"]);
 
-    const message = input.value.trim();
-
-    if (message.length < 5 || message.length > 500) {
-        status.textContent =
-            "El mensaje debe tener entre 5 y 500 caracteres.";
-        return;
+    if (!items.length) {
+      container.textContent = "No hay anuncios por el momento.";
+      container.className = "empty";
+      return;
     }
 
-    button.disabled = true;
-    status.textContent = "Enviando confesión...";
+    container.className = "";
+    container.replaceChildren();
 
-    try {
-        const response = await fetch(API + "/api/confessions", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ message })
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-            throw new Error(result.error || "No se pudo enviar.");
-        }
-
-        input.value = "";
-        status.textContent =
-            "¡Confesión recibida! Espera a que sea revisada.";
-
-    } catch (error) {
-        status.textContent =
-            "No se pudo enviar. Intenta nuevamente más tarde.";
-    } finally {
-        button.disabled = false;
-    }
+    items.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "announcement";
+      card.textContent = item.message || item.text || "";
+      container.appendChild(card);
+    });
+  } catch (error) {
+    container.className = "empty";
+    container.textContent = "No se pudieron cargar los anuncios.";
+    console.error("Anuncios:", error);
+  }
 }
-
-/* =================================
-   CONTADOR DE MODERADORES
-================================= */
 
 async function loadModeratorCount() {
-    const countElement = document.getElementById("moderatorCount");
-    const button = document.getElementById("moderatorButton");
-    const limit = document.getElementById("moderatorLimit");
-
-    try {
-        const response = await fetch(
-            API + "/api/moderators/count",
-            { cache: "no-store" }
-        );
-
-        if (!response.ok) {
-            throw new Error("No se pudo consultar el contador.");
-        }
-
-        const data = await response.json();
-
-        const count = Number(data.count);
-        const max = Number(data.max);
-
-        if (
-            !Number.isFinite(count) ||
-            !Number.isFinite(max) ||
-            max < 1
-        ) {
-            throw new Error("Respuesta inválida.");
-        }
-
-        countElement.textContent = count + "/" + max;
-
-        if (count >= max) {
-            button.disabled = true;
-            button.textContent = "CUPO DE MODERADORES COMPLETO";
-            limit.textContent =
-                "El equipo de moderación ha alcanzado su límite.";
-        } else {
-            button.disabled = false;
-            button.textContent = "ENVIAR SOLICITUD DE MODERADOR";
-            limit.textContent =
-                "Hay " + (max - count) + " espacio(s) disponible(s).";
-        }
-
-    } catch (error) {
-        countElement.textContent = "No disponible";
-        limit.textContent =
-            "No se pudo consultar el contador. Intenta más tarde.";
-    }
+  try {
+    const data = await request("/api/moderators/count");
+    const count = data.count ?? data.total ?? data.moderators ?? 0;
+    document.getElementById("moderatorCount").textContent = count;
+  } catch (error) {
+    document.getElementById("moderatorCount").textContent = "—";
+    console.error("Moderadores:", error);
+  }
 }
 
-/* =================================
-   ENVIAR SOLICITUD DE MODERADOR
-================================= */
-
-async function sendModeratorRequest() {
-    const aliasInput = document.getElementById("moderatorAlias");
-    const messageInput = document.getElementById("moderatorMessage");
-    const button = document.getElementById("moderatorButton");
-    const status = document.getElementById("moderatorStatus");
-
-    const alias = aliasInput.value.trim();
-    const message = messageInput.value.trim();
-
-    if (alias.length < 2 || alias.length > 24) {
-        status.textContent =
-            "Tu alias debe tener entre 2 y 24 caracteres.";
-        return;
-    }
-
-    if (message.length < 10 || message.length > 500) {
-        status.textContent =
-            "Tu solicitud debe tener entre 10 y 500 caracteres.";
-        return;
-    }
-
-    button.disabled = true;
-    status.textContent = "Enviando solicitud...";
-
-    try {
-        const response = await fetch(API + "/api/moderator-requests", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                alias: alias,
-                message: message
-            })
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-            throw new Error(
-                result.error || "No se pudo enviar la solicitud."
-            );
-        }
-
-        aliasInput.value = "";
-        messageInput.value = "";
-
-        status.textContent =
-            "¡Solicitud recibida! Administración la revisará.";
-
-        await loadModeratorCount();
-
-    } catch (error) {
-        status.textContent =
-            error.message || "No se pudo enviar la solicitud.";
-
-        await loadModeratorCount();
-    } finally {
-        if (!button.textContent.includes("CUPO COMPLETO")) {
-            button.disabled = false;
-        }
-    }
+async function checkService() {
+  try {
+    const data = await request("/api/health");
+    document.getElementById("communityStatus").textContent =
+      data.online ? "En línea" : "No disponible";
+  } catch {
+    document.getElementById("communityStatus").textContent = "Sin conexión";
+  }
 }
 
-/* =================================
-   SISTEMA DE AVISOS
-================================= */
+document.getElementById("confessionForm").addEventListener("submit", async event => {
+  event.preventDefault();
 
-const ANNOUNCEMENT_STORAGE = "lynx_last_announcement";
+  const message = document.getElementById("confessionMessage").value.trim();
+  const button = document.getElementById("confessionButton");
 
-let lastAnnouncementId =
-    localStorage.getItem(ANNOUNCEMENT_STORAGE);
+  if (message.length < 3) {
+    showStatus("confessionStatus", "Escribe una confesión un poco más larga.", "error");
+    return;
+  }
 
-let announcementTimer = null;
+  button.disabled = true;
+  showStatus("confessionStatus", "Enviando...");
 
-function showAnnouncement(message) {
-    const box = document.getElementById("announcement");
-    const text = document.getElementById("announcementMessage");
+  try {
+    await request("/api/confessions", {
+      method: "POST",
+      body: JSON.stringify({ message })
+    });
 
-    clearTimeout(announcementTimer);
+    document.getElementById("confessionMessage").value = "";
+    showStatus("confessionStatus",
+      "¡Enviada! Tu confesión quedará pendiente de revisión.", "success");
+  } catch (error) {
+    showStatus("confessionStatus", "No se pudo enviar: " + error.message, "error");
+  } finally {
+    button.disabled = false;
+  }
+});
 
-    box.classList.remove("show", "hide");
-    void box.offsetWidth;
+document.getElementById("moderatorForm").addEventListener("submit", async event => {
+  event.preventDefault();
 
-    text.textContent = message;
-    box.classList.add("show");
+  const alias = document.getElementById("moderatorAlias").value.trim();
+  const message = document.getElementById("moderatorMessage").value.trim();
+  const button = document.getElementById("moderatorButton");
 
-    announcementTimer = setTimeout(() => {
-        box.classList.remove("show");
-        box.classList.add("hide");
+  if (!alias || message.length < 5) {
+    showStatus("moderatorStatus", "Completa los campos correctamente.", "error");
+    return;
+  }
 
-        setTimeout(() => {
-            box.classList.remove("hide");
-        }, 500);
+  button.disabled = true;
+  showStatus("moderatorStatus", "Enviando solicitud...");
 
-    }, 6000);
-}
+  try {
+    await request("/api/moderator-requests", {
+      method: "POST",
+      body: JSON.stringify({ alias, message })
+    });
 
-async function checkAnnouncements() {
-    try {
-        const response = await fetch(
-            API + "/api/announcements",
-            { cache: "no-store" }
-        );
+    document.getElementById("moderatorAlias").value = "";
+    document.getElementById("moderatorMessage").value = "";
+    showStatus("moderatorStatus",
+      "Solicitud enviada. La administración la revisará.", "success");
+  } catch (error) {
+    showStatus("moderatorStatus", "No se pudo enviar: " + error.message, "error");
+  } finally {
+    button.disabled = false;
+  }
+});
 
-        if (!response.ok) {
-            throw new Error("Error al consultar avisos");
-        }
-
-        const announcement = await response.json();
-
-        if (!announcement || !announcement.id || !announcement.message) {
-            return;
-        }
-
-        const currentId = String(announcement.id);
-
-        if (currentId === lastAnnouncementId) {
-            return;
-        }
-
-        lastAnnouncementId = currentId;
-
-        localStorage.setItem(
-            ANNOUNCEMENT_STORAGE,
-            currentId
-        );
-
-        showAnnouncement(announcement.message);
-
-    } catch (error) {
-        console.log(
-            "Sistema de avisos: conexión temporalmente no disponible."
-        );
-    }
-}
-
-/* =================================
-   INICIAR SISTEMAS
-================================= */
+document.getElementById("reloadConfessions")
+  .addEventListener("click", loadConfessions);
 
 loadConfessions();
+loadAnnouncements();
 loadModeratorCount();
-checkAnnouncements();
-
-setInterval(checkAnnouncements, 10000);
-setInterval(loadModeratorCount, 30000);
+checkService();
 </script>
-
 </body>
 </html>
