@@ -189,15 +189,6 @@ button:disabled {
   padding: 22px 8px;
 }
 
-.announcement {
-  border: 1px solid rgba(255,36,76,.3);
-  background: rgba(255,36,76,.06);
-  padding: 14px;
-  border-radius: 9px;
-  margin: 10px 0;
-  line-height: 1.5;
-}
-
 .stats {
   display: grid;
   grid-template-columns: repeat(2,1fr);
@@ -393,14 +384,6 @@ footer {
   </section>
 
   <section class="panel">
-    <h2>Anuncios</h2>
-
-    <div id="announcementsList" class="empty">
-      Cargando anuncios...
-    </div>
-  </section>
-
-  <section class="panel">
     <h2>Comunidad de moderación</h2>
 
     <div class="stats">
@@ -556,46 +539,6 @@ async function loadConfessions() {
       "No se pudieron cargar las confesiones. Intenta actualizar.";
 
     console.error("Confesiones:", error);
-  }
-}
-
-/* ANUNCIOS */
-
-async function loadAnnouncements() {
-  const container = document.getElementById("announcementsList");
-  container.textContent = "Cargando anuncios...";
-
-  try {
-    const data = await request("/api/announcements");
-
-    const items = getArray(data, [
-      "announcements",
-      "data",
-      "results"
-    ]);
-
-    if (!items.length) {
-      container.textContent = "No hay anuncios por el momento.";
-      container.className = "empty";
-      return;
-    }
-
-    container.className = "";
-    container.replaceChildren();
-
-    items.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "announcement";
-      card.textContent = item.message || item.text || "";
-
-      container.appendChild(card);
-    });
-
-  } catch (error) {
-    container.className = "empty";
-    container.textContent = "No se pudieron cargar los anuncios.";
-
-    console.error("Anuncios:", error);
   }
 }
 
@@ -764,7 +707,6 @@ function announcementKey(item) {
 
 function showLynxAnnouncement(item) {
   const toast = document.getElementById("lynxToast");
-
   const message = document.getElementById("lynxToastMessage");
 
   message.textContent =
@@ -793,8 +735,6 @@ async function checkNewAnnouncements() {
       "results"
     ]);
 
-    /* La primera consulta solo registra anuncios existentes. */
-
     if (!lynxAnnouncementsInitialized) {
       items.forEach(item => {
         lynxKnownAnnouncements.add(announcementKey(item));
@@ -803,8 +743,6 @@ async function checkNewAnnouncements() {
       lynxAnnouncementsInitialized = true;
       return;
     }
-
-    /* Buscar anuncios que todavía no conocemos. */
 
     const newest = items.find(item =>
       !lynxKnownAnnouncements.has(announcementKey(item))
@@ -816,7 +754,6 @@ async function checkNewAnnouncements() {
 
     if (newest) {
       showLynxAnnouncement(newest);
-      loadAnnouncements();
     }
 
   } catch (error) {
@@ -827,11 +764,10 @@ async function checkNewAnnouncements() {
 /* INICIO */
 
 loadConfessions();
-loadAnnouncements();
 loadModeratorCount();
 checkService();
 
-/* Comprobar nuevos anuncios cada 15 segundos. */
+/* Comprobar anuncios nuevos cada 15 segundos. */
 
 checkNewAnnouncements();
 setInterval(checkNewAnnouncements, 15000);
