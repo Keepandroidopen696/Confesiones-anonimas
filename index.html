@@ -320,12 +320,15 @@ footer {
 <body>
 
 <!-- NOTIFICACIÓN DESPLEGABLE -->
+
 <div id="lynxToast" class="lynx-toast" aria-live="polite">
   <div class="lynx-toast-top">
     <strong>LYNX <span>LX</span></strong>
     <small>ANUNCIO OFICIAL</small>
   </div>
+
   <div id="lynxToastMessage" class="lynx-toast-message"></div>
+
   <div class="lynx-toast-origin">
     Procedencia: Administración LYNX LX
   </div>
@@ -735,19 +738,37 @@ async function checkNewAnnouncements() {
       "results"
     ]);
 
+    // Ordenar por ID para localizar el anuncio más reciente.
+    items.sort((a, b) => {
+      if (a.id != null && b.id != null) {
+        return Number(b.id) - Number(a.id);
+      }
+
+      return new Date(b.created_at || 0) -
+             new Date(a.created_at || 0);
+    });
+
+    // Primera consulta: registrar anuncios y mostrar el último.
     if (!lynxAnnouncementsInitialized) {
       items.forEach(item => {
         lynxKnownAnnouncements.add(announcementKey(item));
       });
 
       lynxAnnouncementsInitialized = true;
+
+      if (items.length > 0) {
+        showLynxAnnouncement(items[0]);
+      }
+
       return;
     }
 
+    // Detectar anuncios que todavía no conocemos.
     const newest = items.find(item =>
       !lynxKnownAnnouncements.has(announcementKey(item))
     );
 
+    // Registrar los anuncios recibidos.
     items.forEach(item => {
       lynxKnownAnnouncements.add(announcementKey(item));
     });
@@ -767,13 +788,13 @@ loadConfessions();
 loadModeratorCount();
 checkService();
 
-/* Comprobar anuncios nuevos cada 15 segundos. */
-
+// Primera consulta de anuncios.
 checkNewAnnouncements();
+
+// Consultar anuncios nuevos cada 15 segundos.
 setInterval(checkNewAnnouncements, 15000);
 
-/* Actualizar el estado y los datos periódicamente. */
-
+// Actualizar información periódicamente.
 setInterval(checkService, 30000);
 setInterval(loadModeratorCount, 60000);
 </script>
