@@ -1,127 +1,299 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Confesiones Anónimas | LYNX</title>
+<meta name="theme-color" content="#080609">
+<title>LYNX LX | Confesiones</title>
 
 <style>
+:root {
+    --bg: #080609;
+    --panel: #110d12;
+    --panel2: #171018;
+    --red: #ff174f;
+    --red2: #b90035;
+    --text: #f5edf1;
+    --muted: #9a8b95;
+    --border: rgba(255, 23, 79, .22);
+    --glow: 0 0 22px rgba(255, 23, 79, .18);
+}
+
 * {
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
     margin: 0;
     padding: 20px;
-    background: #080b12;
-    color: #e8edf5;
+    background:
+        radial-gradient(ellipse at top, rgba(255, 23, 79, .10), transparent 45%),
+        var(--bg);
+    color: var(--text);
     font-family: Arial, sans-serif;
 }
 
 .container {
-    max-width: 750px;
+    max-width: 850px;
     margin: auto;
 }
 
+/* ENCABEZADO */
+
 header {
     text-align: center;
-    padding: 35px 10px;
+    padding: 45px 10px 35px;
+}
+
+.logo {
+    display: inline-block;
+    color: var(--red);
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    margin-bottom: 12px;
+    text-shadow: 0 0 15px var(--red);
 }
 
 header h1 {
-    color: #55aaff;
-    font-size: 32px;
-    margin-bottom: 10px;
+    color: white;
+    font-size: clamp(34px, 8vw, 52px);
+    letter-spacing: 3px;
+    margin: 0;
+    text-shadow: 0 0 25px rgba(255, 23, 79, .35);
+}
+
+header h1 span {
+    color: var(--red);
 }
 
 header p {
-    color: #8995a8;
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 12px;
 }
 
+/* NAVEGACIÓN */
+
+.nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 auto 28px;
+}
+
+.nav a {
+    color: #d7cbd2;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    background: rgba(20, 13, 19, .85);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    transition: .2s;
+}
+
+.nav a:hover {
+    color: white;
+    border-color: var(--red);
+    box-shadow: var(--glow);
+}
+
+/* PANELES */
+
 .panel {
-    background: #111827;
-    border: 1px solid #263449;
-    border-radius: 14px;
-    padding: 20px;
+    background: linear-gradient(145deg, var(--panel2), var(--panel));
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 23px;
     margin-bottom: 22px;
+    box-shadow: 0 10px 35px rgba(0,0,0,.28);
+    position: relative;
+    overflow: hidden;
+}
+
+.panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 65px;
+    height: 2px;
+    background: var(--red);
+    box-shadow: 0 0 12px var(--red);
 }
 
 h2 {
-    color: #65b5ff;
+    color: var(--red);
+    font-size: 19px;
+    letter-spacing: 1px;
     margin-top: 0;
+    text-transform: uppercase;
 }
 
+.description {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* CAMPOS */
+
+input,
 textarea {
     width: 100%;
-    min-height: 130px;
-    resize: vertical;
-    background: #080d17;
-    border: 1px solid #34445e;
+    background: #09070b;
+    border: 1px solid #38202c;
     border-radius: 9px;
     padding: 14px;
     color: white;
-    font-size: 15px;
+    font-size: 14px;
     outline: none;
+    transition: .2s;
+    font-family: Arial, sans-serif;
 }
 
+input:focus,
 textarea:focus {
-    border-color: #399bff;
+    border-color: var(--red);
+    box-shadow: 0 0 13px rgba(255, 23, 79, .15);
 }
 
-button {
-    width: 100%;
-    margin-top: 12px;
-    padding: 13px;
-    border: none;
-    border-radius: 9px;
-    background: #1685e8;
-    color: white;
-    font-weight: bold;
-    font-size: 15px;
-    cursor: pointer;
-}
-
-button:disabled {
-    opacity: .5;
-    cursor: wait;
-}
-
-.notice {
-    color: #aab7ca;
-    font-size: 13px;
+textarea {
+    min-height: 130px;
+    resize: vertical;
     line-height: 1.5;
 }
 
-#status {
-    margin-top: 12px;
-    font-size: 14px;
+input::placeholder,
+textarea::placeholder {
+    color: #75636d;
 }
 
+/* BOTONES */
+
+button {
+    width: 100%;
+    margin-top: 13px;
+    padding: 14px;
+    border: 1px solid var(--red);
+    border-radius: 9px;
+    background: linear-gradient(100deg, #c9003c, #ff174f);
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: .2s;
+    box-shadow: 0 0 15px rgba(255, 23, 79, .12);
+}
+
+button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 0 22px rgba(255, 23, 79, .35);
+}
+
+button:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* AVISOS */
+
+.notice {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.status {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #ff9bb5;
+    overflow-wrap: anywhere;
+}
+
+/* CONFESIONES */
+
 .confession {
-    background: #0b1220;
-    border: 1px solid #263449;
+    background: #0b080d;
+    border: 1px solid #34202a;
     border-radius: 10px;
     padding: 16px;
-    margin-top: 12px;
+    margin-top: 13px;
     overflow-wrap: anywhere;
     white-space: pre-wrap;
+    transition: .2s;
+}
+
+.confession:hover {
+    border-color: rgba(255, 23, 79, .55);
 }
 
 .date {
-    color: #71829a;
-    font-size: 12px;
+    color: #786874;
+    font-size: 11px;
     margin-top: 12px;
 }
 
-footer {
-    text-align: center;
-    color: #637086;
-    font-size: 12px;
-    padding: 25px 0;
+/* MODERADORES */
+
+.moderator-counter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: #09070b;
+    border: 1px solid var(--border);
+    padding: 14px;
+    border-radius: 9px;
+    margin-top: 15px;
 }
 
-/* SISTEMA DE AVISOS LYNX */
+.moderator-counter span:first-child {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+#moderatorCount {
+    color: var(--red);
+    font-weight: bold;
+    font-size: 18px;
+    text-shadow: 0 0 12px rgba(255, 23, 79, .4);
+}
+
+.limit-message {
+    color: #ff9bb5;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+/* PIE DE PÁGINA */
+
+footer {
+    text-align: center;
+    color: #75636d;
+    font-size: 11px;
+    line-height: 1.8;
+    padding: 28px 0;
+}
+
+footer strong {
+    color: var(--red);
+    letter-spacing: 2px;
+}
+
+/* AVISOS ADMINISTRATIVOS */
 
 #announcement {
     position: fixed;
@@ -129,13 +301,12 @@ footer {
     left: 0;
     width: 100%;
     padding: 18px 20px;
-    background: #102b49;
-    border-bottom: 2px solid #399bff;
-    color: #ffffff;
+    background: #170911;
+    border-bottom: 2px solid var(--red);
+    color: white;
     text-align: center;
     z-index: 9999;
-    box-shadow: 0 5px 25px rgba(0,0,0,.5);
-
+    box-shadow: 0 5px 30px rgba(0,0,0,.7);
     transform: translateY(-120%);
     opacity: 0;
     visibility: hidden;
@@ -153,16 +324,16 @@ footer {
 
 #announcement strong {
     display: block;
-    color: #65b5ff;
+    color: var(--red);
     margin-bottom: 7px;
-    font-size: 13px;
+    font-size: 12px;
     letter-spacing: 2px;
 }
 
 #announcementMessage {
     overflow-wrap: anywhere;
     white-space: pre-wrap;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.5;
 }
 
@@ -188,10 +359,32 @@ footer {
     }
 }
 
+@media (max-width: 600px) {
+    body {
+        padding: 12px;
+    }
+
+    header {
+        padding: 35px 5px 28px;
+    }
+
+    .panel {
+        padding: 18px;
+    }
+
+    .nav a {
+        padding: 10px 12px;
+        font-size: 11px;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
-    #announcement.show,
-    #announcement.hide {
-        animation-duration: .01ms;
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
     }
 }
 </style>
@@ -208,12 +401,25 @@ footer {
 <div class="container">
 
 <header>
-    <h1>LYNX CONFESIONES</h1>
-    <p>Un espacio para expresarte.</p>
+    <div class="logo">LYNX NETWORK PRESENTA</div>
+    <h1>LYNX <span>LX</span></h1>
+    <p>Tu voz. Tu espacio. Tu comunidad.</p>
 </header>
 
-<section class="panel">
+<nav class="nav">
+    <a href="#enviar">CONFESIONES</a>
+    <a href="#publicadas">PUBLICACIONES</a>
+    <a href="#moderadores">¿MODERADOR?</a>
+</nav>
+
+<!-- ENVIAR CONFESIÓN -->
+<section class="panel" id="enviar">
     <h2>Enviar confesión</h2>
+
+    <p class="description">
+        Comparte lo que quieras expresar de forma anónima.
+        Tu mensaje será revisado antes de publicarse.
+    </p>
 
     <textarea
         id="message"
@@ -223,7 +429,6 @@ footer {
     ></textarea>
 
     <p class="notice">
-        Tu mensaje será revisado antes de publicarse.
         No incluyas nombres, teléfonos, direcciones,
         contraseñas ni datos personales.
         No se permiten amenazas, acoso ni acusaciones
@@ -231,21 +436,80 @@ footer {
     </p>
 
     <button id="sendButton" onclick="sendConfession()">
-        Enviar confesión
+        ENVIAR CONFESIÓN
     </button>
 
-    <div id="status" role="status"></div>
+    <div class="status" id="status" role="status"></div>
 </section>
 
-<section class="panel">
+<!-- CONFESIONES APROBADAS -->
+<section class="panel" id="publicadas">
     <h2>Confesiones aprobadas</h2>
+
+    <p class="description">
+        Publicaciones revisadas y aprobadas por el equipo LYNX.
+    </p>
+
     <div id="confessions">
         Cargando confesiones...
     </div>
 </section>
 
+<!-- SOLICITUD DE MODERADOR -->
+<section class="panel" id="moderadores">
+    <h2>¿Quieres ser moderador?</h2>
+
+    <p class="description">
+        Envía una solicitud para formar parte del equipo
+        de moderación de LYNX NETWORK.
+        Explica por qué te interesa colaborar y cómo
+        ayudarías a mantener una comunidad respetuosa.
+    </p>
+
+    <input
+        type="text"
+        id="moderatorAlias"
+        maxlength="24"
+        minlength="2"
+        placeholder="Tu alias (no uses tu nombre real)"
+        autocomplete="off"
+    >
+
+    <textarea
+        id="moderatorMessage"
+        maxlength="500"
+        minlength="10"
+        placeholder="Escribe tu solicitud de moderador..."
+        style="margin-top:12px;"
+    ></textarea>
+
+    <p class="notice">
+        Usa únicamente un alias. No compartas tu nombre real,
+        edad exacta, escuela, teléfono, dirección ni redes
+        sociales privadas.
+        Las solicitudes serán revisadas por administración.
+    </p>
+
+    <button
+        id="moderatorButton"
+        onclick="sendModeratorRequest()"
+    >
+        ENVIAR SOLICITUD DE MODERADOR
+    </button>
+
+    <div class="status" id="moderatorStatus" role="status"></div>
+
+    <div class="moderator-counter">
+        <span>MODERADORES ACTIVOS</span>
+        <span id="moderatorCount">Cargando...</span>
+    </div>
+
+    <div class="limit-message" id="moderatorLimit"></div>
+</section>
+
 <footer>
-    LYNX NETWORK © 2026<br>
+    <strong>LYNX NETWORK</strong><br>
+    LYNX LX © 2026<br>
     Las publicaciones están sujetas a moderación.
 </footer>
 
@@ -254,7 +518,9 @@ footer {
 <script>
 const API = "https://confesiones.lynxnetwork.workers.dev";
 
-/* CARGAR CONFESIONES */
+/* =================================
+   CARGAR CONFESIONES
+================================= */
 
 async function loadConfessions() {
     const container = document.getElementById("confessions");
@@ -270,7 +536,8 @@ async function loadConfessions() {
         container.replaceChildren();
 
         if (!Array.isArray(data) || data.length === 0) {
-            container.textContent = "Todavía no hay confesiones aprobadas.";
+            container.textContent =
+                "Todavía no hay confesiones aprobadas.";
             return;
         }
 
@@ -295,7 +562,9 @@ async function loadConfessions() {
     }
 }
 
-/* ENVIAR CONFESIÓN */
+/* =================================
+   ENVIAR CONFESIÓN
+================================= */
 
 async function sendConfession() {
     const input = document.getElementById("message");
@@ -305,12 +574,13 @@ async function sendConfession() {
     const message = input.value.trim();
 
     if (message.length < 5 || message.length > 500) {
-        status.textContent = "El mensaje debe tener entre 5 y 500 caracteres.";
+        status.textContent =
+            "El mensaje debe tener entre 5 y 500 caracteres.";
         return;
     }
 
     button.disabled = true;
-    status.textContent = "Enviando...";
+    status.textContent = "Enviando confesión...";
 
     try {
         const response = await fetch(API + "/api/confessions", {
@@ -339,7 +609,130 @@ async function sendConfession() {
     }
 }
 
-/* SISTEMA DE AVISOS */
+/* =================================
+   CONTADOR DE MODERADORES
+================================= */
+
+async function loadModeratorCount() {
+    const countElement = document.getElementById("moderatorCount");
+    const button = document.getElementById("moderatorButton");
+    const limit = document.getElementById("moderatorLimit");
+
+    try {
+        const response = await fetch(
+            API + "/api/moderators/count",
+            { cache: "no-store" }
+        );
+
+        if (!response.ok) {
+            throw new Error("No se pudo consultar el contador.");
+        }
+
+        const data = await response.json();
+
+        const count = Number(data.count);
+        const max = Number(data.max);
+
+        if (
+            !Number.isFinite(count) ||
+            !Number.isFinite(max) ||
+            max < 1
+        ) {
+            throw new Error("Respuesta inválida.");
+        }
+
+        countElement.textContent = count + "/" + max;
+
+        if (count >= max) {
+            button.disabled = true;
+            button.textContent = "CUPO DE MODERADORES COMPLETO";
+            limit.textContent =
+                "El equipo de moderación ha alcanzado su límite.";
+        } else {
+            button.disabled = false;
+            button.textContent = "ENVIAR SOLICITUD DE MODERADOR";
+            limit.textContent =
+                "Hay " + (max - count) + " espacio(s) disponible(s).";
+        }
+
+    } catch (error) {
+        countElement.textContent = "No disponible";
+        limit.textContent =
+            "No se pudo consultar el contador. Intenta más tarde.";
+    }
+}
+
+/* =================================
+   ENVIAR SOLICITUD DE MODERADOR
+================================= */
+
+async function sendModeratorRequest() {
+    const aliasInput = document.getElementById("moderatorAlias");
+    const messageInput = document.getElementById("moderatorMessage");
+    const button = document.getElementById("moderatorButton");
+    const status = document.getElementById("moderatorStatus");
+
+    const alias = aliasInput.value.trim();
+    const message = messageInput.value.trim();
+
+    if (alias.length < 2 || alias.length > 24) {
+        status.textContent =
+            "Tu alias debe tener entre 2 y 24 caracteres.";
+        return;
+    }
+
+    if (message.length < 10 || message.length > 500) {
+        status.textContent =
+            "Tu solicitud debe tener entre 10 y 500 caracteres.";
+        return;
+    }
+
+    button.disabled = true;
+    status.textContent = "Enviando solicitud...";
+
+    try {
+        const response = await fetch(API + "/api/moderator-requests", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                alias: alias,
+                message: message
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                result.error || "No se pudo enviar la solicitud."
+            );
+        }
+
+        aliasInput.value = "";
+        messageInput.value = "";
+
+        status.textContent =
+            "¡Solicitud recibida! Administración la revisará.";
+
+        await loadModeratorCount();
+
+    } catch (error) {
+        status.textContent =
+            error.message || "No se pudo enviar la solicitud.";
+
+        await loadModeratorCount();
+    } finally {
+        if (!button.textContent.includes("CUPO COMPLETO")) {
+            button.disabled = false;
+        }
+    }
+}
+
+/* =================================
+   SISTEMA DE AVISOS
+================================= */
 
 const ANNOUNCEMENT_STORAGE = "lynx_last_announcement";
 
@@ -410,12 +803,16 @@ async function checkAnnouncements() {
     }
 }
 
-/* INICIAR SISTEMAS */
+/* =================================
+   INICIAR SISTEMAS
+================================= */
 
 loadConfessions();
-
+loadModeratorCount();
 checkAnnouncements();
+
 setInterval(checkAnnouncements, 10000);
+setInterval(loadModeratorCount, 30000);
 </script>
 
 </body>
