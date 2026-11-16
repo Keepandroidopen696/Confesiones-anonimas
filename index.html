@@ -11,14 +11,15 @@
 :root {
   --bg: #09090e;
   --panel: #11111a;
-  --panel2: #171722;
   --red: #ff244c;
   --purple: #9b5cff;
   --text: #f3f3fa;
   --muted: #9999aa;
   --border: rgba(255,255,255,.09);
 }
+
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -29,36 +30,52 @@ body {
   color: var(--text);
   font-family: Arial, sans-serif;
 }
+
 header {
   padding: 25px 18px;
   text-align: center;
   border-bottom: 1px solid var(--border);
   background: rgba(9,9,14,.85);
 }
+
 .brand {
   font-size: 32px;
   font-weight: 900;
   letter-spacing: 4px;
   text-shadow: 0 0 18px rgba(255,36,76,.45);
 }
+
 .brand span { color: var(--red); }
+
 .subtitle {
   color: var(--muted);
   font-size: 11px;
   letter-spacing: 3px;
   margin-top: 7px;
 }
+
 main {
   width: min(900px, 92%);
   margin: 28px auto 60px;
 }
+
 .hero {
   text-align: center;
   padding: 28px 12px;
 }
-.hero h1 { font-size: clamp(25px,5vw,38px); margin: 0 0 12px; }
+
+.hero h1 {
+  font-size: clamp(25px,5vw,38px);
+  margin: 0 0 12px;
+}
+
 .hero h1 span { color: var(--red); }
-.hero p { color: var(--muted); line-height: 1.6; }
+
+.hero p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
 .panel {
   background: linear-gradient(145deg,rgba(25,25,38,.96),rgba(13,13,21,.96));
   border: 1px solid var(--border);
@@ -67,10 +84,12 @@ main {
   margin: 18px 0;
   box-shadow: 0 12px 35px rgba(0,0,0,.2);
 }
+
 h2 {
   font-size: 19px;
   margin: 0 0 17px;
 }
+
 h2::before {
   content: "";
   display: inline-block;
@@ -81,6 +100,7 @@ h2::before {
   vertical-align: -3px;
   border-radius: 5px;
 }
+
 textarea, input {
   width: 100%;
   background: #090910;
@@ -92,8 +112,16 @@ textarea, input {
   font: inherit;
   margin-bottom: 12px;
 }
-textarea { min-height: 125px; resize: vertical; }
-textarea:focus, input:focus { border-color: var(--purple); }
+
+textarea {
+  min-height: 125px;
+  resize: vertical;
+}
+
+textarea:focus, input:focus {
+  border-color: var(--purple);
+}
+
 button {
   border: 0;
   border-radius: 9px;
@@ -104,25 +132,39 @@ button {
   cursor: pointer;
   transition: .2s;
 }
-button:hover { filter: brightness(1.15); transform: translateY(-1px); }
-button:disabled { opacity: .55; cursor: wait; transform: none; }
+
+button:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: .55;
+  cursor: wait;
+  transform: none;
+}
+
 .secondary {
   background: linear-gradient(100deg,#7439c7,#4930a0);
 }
+
 .notice {
   color: var(--muted);
   font-size: 12px;
   line-height: 1.5;
   margin-top: 12px;
 }
+
 .status {
   font-size: 13px;
   margin-top: 12px;
   min-height: 18px;
   color: #c8c8d5;
 }
+
 .status.error { color: #ff7188; }
 .status.success { color: #70e6a1; }
+
 .confession {
   background: #0b0b13;
   border: 1px solid var(--border);
@@ -133,17 +175,20 @@ button:disabled { opacity: .55; cursor: wait; transform: none; }
   line-height: 1.55;
   overflow-wrap: anywhere;
 }
+
 .confession small {
   display: block;
   color: var(--muted);
   font-size: 11px;
   margin-top: 10px;
 }
+
 .empty {
   color: var(--muted);
   text-align: center;
   padding: 22px 8px;
 }
+
 .announcement {
   border: 1px solid rgba(255,36,76,.3);
   background: rgba(255,36,76,.06);
@@ -152,11 +197,13 @@ button:disabled { opacity: .55; cursor: wait; transform: none; }
   margin: 10px 0;
   line-height: 1.5;
 }
+
 .stats {
   display: grid;
   grid-template-columns: repeat(2,1fr);
   gap: 12px;
 }
+
 .stat {
   background: #0b0b13;
   border: 1px solid var(--border);
@@ -164,13 +211,19 @@ button:disabled { opacity: .55; cursor: wait; transform: none; }
   border-radius: 10px;
   text-align: center;
 }
+
 .stat strong {
   display: block;
   color: var(--red);
   font-size: 25px;
   margin-bottom: 5px;
 }
-.stat span { color: var(--muted); font-size: 12px; }
+
+.stat span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 footer {
   border-top: 1px solid var(--border);
   text-align: center;
@@ -179,57 +232,183 @@ footer {
   font-size: 11px;
   line-height: 1.8;
 }
+
+/* NOTIFICACIÓN LYNX LX */
+
+.lynx-toast {
+  position: fixed;
+  z-index: 9999;
+  top: 12px;
+  left: 50%;
+  width: min(92%, 480px);
+  padding: 18px;
+  background: linear-gradient(145deg,#191923,#0b0b12);
+  border: 1px solid var(--red);
+  border-radius: 13px;
+  box-shadow: 0 10px 35px rgba(255,36,76,.25);
+  transform: translate(-50%,-150%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lynx-toast.show {
+  animation:
+    lynxEnter .55s ease forwards,
+    lynxExit .55s ease 5.5s forwards;
+}
+
+.lynx-toast-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.lynx-toast-top strong {
+  letter-spacing: 2px;
+  font-size: 16px;
+}
+
+.lynx-toast-top strong span { color: var(--red); }
+
+.lynx-toast-top small {
+  color: #ff7188;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.lynx-toast-message {
+  padding: 15px 0 10px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.lynx-toast-origin {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+@keyframes lynxEnter {
+  from {
+    transform: translate(-50%,-150%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%,0);
+    opacity: 1;
+  }
+}
+
+@keyframes lynxExit {
+  from {
+    transform: translate(-50%,0);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%,-150%);
+    opacity: 0;
+  }
+}
+
 @media(min-width:650px) {
   .stats { grid-template-columns: repeat(2,1fr); }
   .panel { padding: 26px; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .lynx-toast.show {
+    animation: none;
+    transform: translate(-50%,0);
+    opacity: 1;
+  }
 }
 </style>
 </head>
 
 <body>
+
+<!-- NOTIFICACIÓN DESPLEGABLE -->
+<div id="lynxToast" class="lynx-toast" aria-live="polite">
+  <div class="lynx-toast-top">
+    <strong>LYNX <span>LX</span></strong>
+    <small>ANUNCIO OFICIAL</small>
+  </div>
+  <div id="lynxToastMessage" class="lynx-toast-message"></div>
+  <div class="lynx-toast-origin">
+    Procedencia: Administración LYNX LX
+  </div>
+</div>
+
 <header>
   <div class="brand">LYNX <span>LX</span></div>
   <div class="subtitle">CONFESIONES ANÓNIMAS</div>
 </header>
 
 <main>
+
   <section class="hero">
     <h1>Tu voz, <span>sin revelar tu identidad.</span></h1>
-    <p>Un espacio para compartir pensamientos, experiencias y mensajes de forma anónima.</p>
+    <p>
+      Un espacio para compartir pensamientos, experiencias
+      y mensajes de forma anónima.
+    </p>
   </section>
 
   <section class="panel">
     <h2>Enviar confesión</h2>
+
     <form id="confessionForm">
-      <textarea id="confessionMessage" maxlength="1000"
-        placeholder="Escribe tu confesión..." required></textarea>
-      <button id="confessionButton" type="submit">Enviar confesión</button>
+      <textarea
+        id="confessionMessage"
+        maxlength="1000"
+        placeholder="Escribe tu confesión..."
+        required
+      ></textarea>
+
+      <button id="confessionButton" type="submit">
+        Enviar confesión
+      </button>
     </form>
+
     <div class="notice">
-      Las confesiones se revisan antes de publicarse. No incluyas nombres,
-      teléfonos, direcciones ni información privada de otras personas.
+      Las confesiones se revisan antes de publicarse.
+      No incluyas nombres, teléfonos, direcciones ni
+      información privada de otras personas.
     </div>
+
     <div id="confessionStatus" class="status" role="status"></div>
   </section>
 
   <section class="panel">
     <h2>Confesiones publicadas</h2>
-    <div id="confessionsList" class="empty">Cargando confesiones...</div>
-    <button class="secondary" id="reloadConfessions" type="button">Actualizar</button>
+
+    <div id="confessionsList" class="empty">
+      Cargando confesiones...
+    </div>
+
+    <button class="secondary" id="reloadConfessions" type="button">
+      Actualizar
+    </button>
   </section>
 
   <section class="panel">
     <h2>Anuncios</h2>
-    <div id="announcementsList" class="empty">Cargando anuncios...</div>
+
+    <div id="announcementsList" class="empty">
+      Cargando anuncios...
+    </div>
   </section>
 
   <section class="panel">
     <h2>Comunidad de moderación</h2>
+
     <div class="stats">
       <div class="stat">
         <strong id="moderatorCount">—</strong>
         <span>Moderadores aprobados</span>
       </div>
+
       <div class="stat">
         <strong id="communityStatus">—</strong>
         <span>Estado del servicio</span>
@@ -239,32 +418,49 @@ footer {
 
   <section class="panel">
     <h2>Solicitar ser moderador</h2>
+
     <form id="moderatorForm">
-      <input id="moderatorAlias" maxlength="30"
-        placeholder="Alias o apodo" required>
-      <textarea id="moderatorMessage" maxlength="500"
-        placeholder="¿Por qué te gustaría ayudar a moderar?" required></textarea>
+      <input
+        id="moderatorAlias"
+        maxlength="30"
+        placeholder="Alias o apodo"
+        required
+      >
+
+      <textarea
+        id="moderatorMessage"
+        maxlength="500"
+        placeholder="¿Por qué te gustaría ayudar a moderar?"
+        required
+      ></textarea>
+
       <button id="moderatorButton" class="secondary" type="submit">
         Enviar solicitud
       </button>
     </form>
+
     <div class="notice">
       Las solicitudes serán revisadas por la administración.
       No escribas datos personales.
     </div>
+
     <div id="moderatorStatus" class="status" role="status"></div>
   </section>
+
 </main>
 
 <footer>
   <strong>LYNX LX</strong><br>
   Proyecto independiente de confesiones anónimas.<br>
-  Mantén el respeto. No se permiten amenazas, acoso ni publicación de datos privados.<br>
+  Mantén el respeto. No se permiten amenazas, acoso
+  ni publicación de datos privados.<br>
   © 2026 LYNX LX. Todos los derechos reservados.
 </footer>
 
 <script>
 const API = "https://confessions-by.lynxnetwork.workers.dev";
+
+/* CONEXIÓN CON EL WORKER */
 
 async function request(path, options = {}) {
   const response = await fetch(API + path, {
@@ -278,20 +474,15 @@ async function request(path, options = {}) {
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
-    throw new Error(data.error || data.message || `Error HTTP ${response.status}`);
+    throw new Error(
+      data.error || data.message || `Error HTTP ${response.status}`
+    );
   }
+
   return data;
 }
 
-function safeText(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  })[char]);
-}
+/* UTILIDADES */
 
 function showStatus(id, message, type = "") {
   const element = document.getElementById(id);
@@ -301,11 +492,15 @@ function showStatus(id, message, type = "") {
 
 function getArray(data, keys) {
   if (Array.isArray(data)) return data;
+
   for (const key of keys) {
     if (Array.isArray(data?.[key])) return data[key];
   }
+
   return [];
 }
+
+/* CONFESIONES */
 
 async function loadConfessions() {
   const container = document.getElementById("confessionsList");
@@ -313,10 +508,17 @@ async function loadConfessions() {
 
   try {
     const data = await request("/api/confessions");
-    const items = getArray(data, ["confessions", "data", "results"]);
+
+    const items = getArray(data, [
+      "confessions",
+      "data",
+      "results"
+    ]);
 
     if (!items.length) {
-      container.textContent = "Todavía no hay confesiones publicadas.";
+      container.textContent =
+        "Todavía no hay confesiones publicadas.";
+
       container.className = "empty";
       return;
     }
@@ -329,22 +531,35 @@ async function loadConfessions() {
       card.className = "confession";
 
       const message = document.createElement("div");
-      message.textContent = item.message || item.text || "Confesión sin contenido.";
+      message.textContent =
+        item.message || item.text || "Confesión sin contenido.";
 
       const date = document.createElement("small");
-      date.textContent = item.created_at
-        ? "Publicado: " + new Date(item.created_at.replace(" ", "T") + (item.created_at.includes("Z") ? "" : "Z")).toLocaleString("es-MX")
-        : "LYNX LX";
+
+      if (item.created_at) {
+        date.textContent = "Publicado: " +
+          new Date(
+            item.created_at.replace(" ", "T") +
+            (item.created_at.includes("Z") ? "" : "Z")
+          ).toLocaleString("es-MX");
+      } else {
+        date.textContent = "LYNX LX";
+      }
 
       card.append(message, date);
       container.appendChild(card);
     });
+
   } catch (error) {
     container.className = "empty";
-    container.textContent = "No se pudieron cargar las confesiones. Intenta actualizar.";
+    container.textContent =
+      "No se pudieron cargar las confesiones. Intenta actualizar.";
+
     console.error("Confesiones:", error);
   }
 }
+
+/* ANUNCIOS */
 
 async function loadAnnouncements() {
   const container = document.getElementById("announcementsList");
@@ -352,7 +567,12 @@ async function loadAnnouncements() {
 
   try {
     const data = await request("/api/announcements");
-    const items = getArray(data, ["announcements", "data", "results"]);
+
+    const items = getArray(data, [
+      "announcements",
+      "data",
+      "results"
+    ]);
 
     if (!items.length) {
       container.textContent = "No hay anuncios por el momento.";
@@ -367,105 +587,260 @@ async function loadAnnouncements() {
       const card = document.createElement("div");
       card.className = "announcement";
       card.textContent = item.message || item.text || "";
+
       container.appendChild(card);
     });
+
   } catch (error) {
     container.className = "empty";
     container.textContent = "No se pudieron cargar los anuncios.";
+
     console.error("Anuncios:", error);
   }
 }
 
+/* CONTADOR DE MODERADORES */
+
 async function loadModeratorCount() {
   try {
     const data = await request("/api/moderators/count");
-    const count = data.count ?? data.total ?? data.moderators ?? 0;
+
+    const count =
+      data.count ??
+      data.total ??
+      data.moderators ??
+      0;
+
     document.getElementById("moderatorCount").textContent = count;
+
   } catch (error) {
     document.getElementById("moderatorCount").textContent = "—";
     console.error("Moderadores:", error);
   }
 }
 
+/* ESTADO DEL SERVICIO */
+
 async function checkService() {
   try {
     const data = await request("/api/health");
+
     document.getElementById("communityStatus").textContent =
       data.online ? "En línea" : "No disponible";
+
   } catch {
-    document.getElementById("communityStatus").textContent = "Sin conexión";
+    document.getElementById("communityStatus").textContent =
+      "Sin conexión";
   }
 }
 
-document.getElementById("confessionForm").addEventListener("submit", async event => {
-  event.preventDefault();
+/* ENVÍO DE CONFESIONES */
 
-  const message = document.getElementById("confessionMessage").value.trim();
-  const button = document.getElementById("confessionButton");
+document.getElementById("confessionForm")
+  .addEventListener("submit", async event => {
 
-  if (message.length < 3) {
-    showStatus("confessionStatus", "Escribe una confesión un poco más larga.", "error");
-    return;
-  }
+    event.preventDefault();
 
-  button.disabled = true;
-  showStatus("confessionStatus", "Enviando...");
+    const message = document
+      .getElementById("confessionMessage")
+      .value.trim();
 
-  try {
-    await request("/api/confessions", {
-      method: "POST",
-      body: JSON.stringify({ message })
-    });
+    const button = document.getElementById("confessionButton");
 
-    document.getElementById("confessionMessage").value = "";
-    showStatus("confessionStatus",
-      "¡Enviada! Tu confesión quedará pendiente de revisión.", "success");
-  } catch (error) {
-    showStatus("confessionStatus", "No se pudo enviar: " + error.message, "error");
-  } finally {
-    button.disabled = false;
-  }
-});
+    if (message.length < 3) {
+      showStatus(
+        "confessionStatus",
+        "Escribe una confesión un poco más larga.",
+        "error"
+      );
+      return;
+    }
 
-document.getElementById("moderatorForm").addEventListener("submit", async event => {
-  event.preventDefault();
+    button.disabled = true;
+    showStatus("confessionStatus", "Enviando...");
 
-  const alias = document.getElementById("moderatorAlias").value.trim();
-  const message = document.getElementById("moderatorMessage").value.trim();
-  const button = document.getElementById("moderatorButton");
+    try {
+      await request("/api/confessions", {
+        method: "POST",
+        body: JSON.stringify({ message })
+      });
 
-  if (!alias || message.length < 5) {
-    showStatus("moderatorStatus", "Completa los campos correctamente.", "error");
-    return;
-  }
+      document.getElementById("confessionMessage").value = "";
 
-  button.disabled = true;
-  showStatus("moderatorStatus", "Enviando solicitud...");
+      showStatus(
+        "confessionStatus",
+        "¡Enviada! Tu confesión quedará pendiente de revisión.",
+        "success"
+      );
 
-  try {
-    await request("/api/moderator-requests", {
-      method: "POST",
-      body: JSON.stringify({ alias, message })
-    });
+    } catch (error) {
+      showStatus(
+        "confessionStatus",
+        "No se pudo enviar: " + error.message,
+        "error"
+      );
 
-    document.getElementById("moderatorAlias").value = "";
-    document.getElementById("moderatorMessage").value = "";
-    showStatus("moderatorStatus",
-      "Solicitud enviada. La administración la revisará.", "success");
-  } catch (error) {
-    showStatus("moderatorStatus", "No se pudo enviar: " + error.message, "error");
-  } finally {
-    button.disabled = false;
-  }
-});
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+/* SOLICITUDES DE MODERACIÓN */
+
+document.getElementById("moderatorForm")
+  .addEventListener("submit", async event => {
+
+    event.preventDefault();
+
+    const alias = document
+      .getElementById("moderatorAlias")
+      .value.trim();
+
+    const message = document
+      .getElementById("moderatorMessage")
+      .value.trim();
+
+    const button = document.getElementById("moderatorButton");
+
+    if (!alias || message.length < 5) {
+      showStatus(
+        "moderatorStatus",
+        "Completa los campos correctamente.",
+        "error"
+      );
+      return;
+    }
+
+    button.disabled = true;
+    showStatus("moderatorStatus", "Enviando solicitud...");
+
+    try {
+      await request("/api/moderator-requests", {
+        method: "POST",
+        body: JSON.stringify({ alias, message })
+      });
+
+      document.getElementById("moderatorAlias").value = "";
+      document.getElementById("moderatorMessage").value = "";
+
+      showStatus(
+        "moderatorStatus",
+        "Solicitud enviada. La administración la revisará.",
+        "success"
+      );
+
+    } catch (error) {
+      showStatus(
+        "moderatorStatus",
+        "No se pudo enviar: " + error.message,
+        "error"
+      );
+
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+/* ACTUALIZAR CONFESIONES */
 
 document.getElementById("reloadConfessions")
   .addEventListener("click", loadConfessions);
+
+/* SISTEMA DE NOTIFICACIONES LYNX LX */
+
+let lynxKnownAnnouncements = new Set();
+let lynxAnnouncementsInitialized = false;
+let lynxToastTimer = null;
+
+function announcementKey(item) {
+  return String(
+    item.id ??
+    item.created_at ??
+    item.message ??
+    item.text ??
+    ""
+  );
+}
+
+function showLynxAnnouncement(item) {
+  const toast = document.getElementById("lynxToast");
+
+  const message = document.getElementById("lynxToastMessage");
+
+  message.textContent =
+    item.message || item.text || "Nuevo anuncio de LYNX LX.";
+
+  toast.classList.remove("show");
+
+  void toast.offsetWidth;
+
+  toast.classList.add("show");
+
+  clearTimeout(lynxToastTimer);
+
+  lynxToastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 6100);
+}
+
+async function checkNewAnnouncements() {
+  try {
+    const data = await request("/api/announcements");
+
+    const items = getArray(data, [
+      "announcements",
+      "data",
+      "results"
+    ]);
+
+    /* La primera consulta solo registra anuncios existentes. */
+
+    if (!lynxAnnouncementsInitialized) {
+      items.forEach(item => {
+        lynxKnownAnnouncements.add(announcementKey(item));
+      });
+
+      lynxAnnouncementsInitialized = true;
+      return;
+    }
+
+    /* Buscar anuncios que todavía no conocemos. */
+
+    const newest = items.find(item =>
+      !lynxKnownAnnouncements.has(announcementKey(item))
+    );
+
+    items.forEach(item => {
+      lynxKnownAnnouncements.add(announcementKey(item));
+    });
+
+    if (newest) {
+      showLynxAnnouncement(newest);
+      loadAnnouncements();
+    }
+
+  } catch (error) {
+    console.error("Avisos LYNX:", error);
+  }
+}
+
+/* INICIO */
 
 loadConfessions();
 loadAnnouncements();
 loadModeratorCount();
 checkService();
+
+/* Comprobar nuevos anuncios cada 15 segundos. */
+
+checkNewAnnouncements();
+setInterval(checkNewAnnouncements, 15000);
+
+/* Actualizar el estado y los datos periódicamente. */
+
+setInterval(checkService, 30000);
+setInterval(loadModeratorCount, 60000);
 </script>
+
 </body>
 </html>
