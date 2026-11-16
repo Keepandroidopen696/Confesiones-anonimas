@@ -3,795 +3,370 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0a070b">
-<title>LYNX LX | Panel Administrativo</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LYNX LX | Admin Control</title>
 <style>
-:root {
-    --red: #ff174f;
-    --red-dark: #b80035;
-    --red-glow: rgba(255, 23, 79, .2);
-    --bg: #08070b;
-    --panel: #151018;
-    --card: #0d0b11;
-    --border: #42202d;
-    --text: #f5edf1;
-    --muted: #9b8791;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    padding: 20px;
-    min-height: 100vh;
-    background:
-        radial-gradient(ellipse at top, #310817 0%, transparent 48%),
-        var(--bg);
-    color: var(--text);
-    font-family: Arial, sans-serif;
-}
-
-.container {
-    max-width: 850px;
-    margin: auto;
-}
-
-header {
-    text-align: center;
-    padding: 30px 10px;
-}
-
-.logo {
-    color: var(--red);
-    font-size: 35px;
-    font-weight: 900;
-    letter-spacing: 5px;
-    text-shadow: 0 0 18px var(--red-glow);
-    margin: 0;
-}
-
-.subtitle {
-    color: var(--muted);
-    letter-spacing: 2px;
-    font-size: 12px;
-}
-
-.version {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 6px 12px;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    color: var(--red);
-    font-size: 11px;
-    letter-spacing: 1px;
-}
-
-.panel {
-    background: linear-gradient(145deg, #1b111a, var(--panel));
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 8px 25px rgba(0,0,0,.25);
-}
-
-h2 {
-    color: var(--red);
-    letter-spacing: 1px;
-    font-size: 19px;
-    margin-top: 0;
-}
-
-.description {
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-input, textarea {
-    width: 100%;
-    padding: 13px;
-    border-radius: 8px;
-    border: 1px solid #56303d;
-    background: #0a080d;
-    color: white;
-    margin: 10px 0;
-    font-family: Arial, sans-serif;
-    outline: none;
-}
-
-input:focus, textarea:focus {
-    border-color: var(--red);
-    box-shadow: 0 0 12px var(--red-glow);
-}
-
-textarea {
-    min-height: 110px;
-    resize: vertical;
-}
-
-button {
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: .2s;
-}
-
-button:hover {
-    filter: brightness(1.2);
-    transform: translateY(-1px);
-}
-
-button:disabled {
-    opacity: .5;
-    cursor: wait;
-    transform: none;
-}
-
-.primary {
-    width: 100%;
-    background: linear-gradient(90deg, #c9003b, #ff174f);
-    box-shadow: 0 0 15px var(--red-glow);
-}
-
-.publish {
-    width: 100%;
-    background: linear-gradient(90deg, #a90036, #e3134b);
-}
-
-.approve {
-    background: #168b58;
-}
-
-.reject {
-    background: #bd3545;
-}
-
-.logout {
-    width: 100%;
-    background: #30202a;
-    border: 1px solid #57303f;
-}
-
-.confession {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--red);
-    border-radius: 10px;
-    padding: 16px;
-    margin-top: 12px;
-    overflow-wrap: anywhere;
-    white-space: pre-wrap;
-}
-
-.date {
-    color: var(--muted);
-    font-size: 12px;
-    margin-top: 10px;
-}
-
-.actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 14px;
-}
-
-.actions button {
-    flex: 1;
-}
-
-#status,
-#loginStatus,
-#announcementStatus,
-#moderatorStatus,
-#moderatorCount {
-    margin-top: 12px;
-    font-size: 14px;
-}
-
-#moderatorCount {
-    color: var(--red);
-    font-weight: bold;
-    font-size: 18px;
-    padding: 12px;
-    background: #200b14;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    text-align: center;
-}
-
-.hidden {
-    display: none;
-}
-
-.section-label {
-    color: var(--muted);
-    font-size: 11px;
-    letter-spacing: 2px;
-    margin-bottom: 12px;
-}
-
-footer {
-    text-align: center;
-    color: #75616b;
-    font-size: 12px;
-    padding: 25px 0;
-    line-height: 1.8;
-}
-
-hr {
-    border: 0;
-    border-top: 1px solid var(--border);
-    margin: 18px 0;
-}
-
-::selection {
-    background: var(--red);
-    color: white;
-}
-
-@media(max-width: 500px) {
-    body {
-        padding: 12px;
-    }
-
-    .panel {
-        padding: 16px;
-    }
-
-    .logo {
-        font-size: 29px;
-    }
-
-    .actions {
-        flex-direction: column;
-    }
-}
+:root{--bg:#08080d;--panel:#12121b;--red:#ff174b;--purple:#9b4dff;--text:#f4f4fa;--muted:#9292a5;--border:#292938;--green:#20d994}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#24102a 0%,#08080d 48%);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+header{height:66px;border-bottom:1px solid var(--border);background:#0b0b12eF;display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}
+.brand{font-size:21px;font-weight:900;letter-spacing:2px}.brand span{color:var(--red)}
+.status{font-size:11px;color:var(--green);letter-spacing:1px}
+main{max-width:1200px;margin:auto;padding:25px 18px 60px}
+h1{font-size:29px;margin:8px 0}.subtitle{color:var(--muted);font-size:13px}
+.panel{background:linear-gradient(145deg,#171721,#101018);border:1px solid var(--border);border-radius:13px;padding:19px;margin:17px 0;box-shadow:0 8px 30px #0004}
+.login{max-width:430px;margin:70px auto;text-align:center}
+input,textarea{width:100%;background:#090910;border:1px solid var(--border);border-radius:8px;color:white;padding:12px;outline:none;margin:7px 0}
+input:focus,textarea:focus{border-color:var(--purple)}
+button{border:0;border-radius:8px;padding:11px 15px;background:var(--red);color:white;font-weight:bold;transition:.2s}
+button:hover{filter:brightness(1.2);transform:translateY(-1px)}
+button.secondary{background:#28283a}
+button.purple{background:#7137c5}
+button.green{background:#087e5a}
+button.danger{background:#92213b}
+button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.metric{background:#0c0c14;border:1px solid var(--border);border-radius:10px;padding:15px}
+.metric small{color:var(--muted);font-size:11px;letter-spacing:1px}
+.metric strong{display:block;font-size:25px;margin-top:9px}
+.red{color:var(--red)}.purpleText{color:#bd91ff}.greenText{color:var(--green)}
+nav{display:flex;gap:8px;overflow:auto;padding:12px 0}
+nav button{white-space:nowrap;background:#191923;color:#aaa}
+nav button.active{background:var(--red);color:white}
+.section{display:none}.section.active{display:block}
+.item{padding:14px 0;border-bottom:1px solid var(--border)}
+.item:last-child{border:0}
+.item p{white-space:pre-wrap;overflow-wrap:anywhere;color:#ddd;line-height:1.5}
+.meta{font-size:11px;color:var(--muted);margin-top:5px}
+.tag{display:inline-block;padding:4px 8px;border-radius:5px;background:#292034;color:#d4adff;font-size:11px}
+.chartRow{display:grid;grid-template-columns:115px 1fr 35px;align-items:center;gap:10px;margin:13px 0;font-size:12px}
+.track{height:9px;background:#282835;border-radius:20px;overflow:hidden}
+.bar{height:100%;background:linear-gradient(90deg,var(--red),var(--purple));border-radius:20px}
+.notice{padding:12px;border-radius:8px;background:#211a29;color:#d8c5f5;font-size:12px;line-height:1.6}
+#message{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#242433;border:1px solid #555;color:white;padding:12px 18px;border-radius:9px;display:none;z-index:10;max-width:90%;text-align:center}
+.empty{color:var(--muted);padding:20px 0;text-align:center}
+footer{text-align:center;color:#666;font-size:11px;padding:25px}
+@media(max-width:750px){.grid{grid-template-columns:repeat(2,1fr)}header{padding:0 14px}main{padding:18px 12px}.panel{padding:14px}.chartRow{grid-template-columns:90px 1fr 25px}}
+@media(max-width:380px){.grid{grid-template-columns:1fr 1fr}.metric strong{font-size:21px}}
 </style>
 </head>
-
 <body>
-<div class="container">
-
 <header>
-    <h1 class="logo">LYNX LX</h1>
-    <p class="subtitle">ADMINISTRATIVE CONTROL CENTER</p>
-    <span class="version">NETWORK SYSTEMS 2.0</span>
+ <div class="brand">LYNX <span>LX</span></div>
+ <div class="status" id="connection">● DISCONNECTED</div>
 </header>
 
-<!-- LOGIN -->
-<section class="panel" id="loginPanel">
-    <div class="section-label">SECURITY ACCESS</div>
-    <h2>🔐 Acceso administrativo</h2>
-
-    <p class="description">
-        Identifícate mediante tu clave administrativa
-        para acceder al centro de control LYNX.
-    </p>
-
-    <input
-        type="password"
-        id="adminKey"
-        placeholder="Introduce tu Admin Key"
-        autocomplete="current-password"
-    >
-
-    <button class="primary" id="loginButton">
-        INICIAR SESIÓN
-    </button>
-
-    <div id="loginStatus" role="status"></div>
+<main>
+<section id="login" class="panel login">
+ <div class="brand">LYNX <span>LX</span></div>
+ <h1>CONTROL CENTER</h1>
+ <p class="subtitle">ADMINISTRATIVE ACCESS · SECURE LOGIN</p>
+ <input id="adminKey" type="password" placeholder="Admin access key" autocomplete="off">
+ <button style="width:100%;margin-top:12px" onclick="login()">INICIAR SESIÓN</button>
+ <p class="meta">La clave no se guarda en este dispositivo.</p>
 </section>
 
-<div id="dashboard" class="hidden">
+<section id="dashboard" hidden>
+ <h1>CONTROL CENTER</h1>
+ <p class="subtitle">LYNX NETWORK · ADMINISTRATION SYSTEM</p>
 
-    <!-- ANUNCIOS -->
-    <section class="panel">
-        <div class="section-label">PUBLIC COMMUNICATION</div>
-        <h2>📢 Publicar aviso</h2>
+ <nav>
+  <button class="active" onclick="showTab('overview',this)">Resumen</button>
+  <button onclick="showTab('confessions',this)">Confesiones</button>
+  <button onclick="showTab('moderators',this)">Moderadores</button>
+  <button onclick="showTab('announcements',this)">Anuncios</button>
+  <button onclick="showTab('analytics',this)">Analytics</button>
+ </nav>
 
-        <p class="description">
-            Envía un comunicado que aparecerá
-            en la página principal de LYNX.
-        </p>
+ <section id="overview" class="section active">
+  <div class="grid">
+   <div class="metric"><small>CONFESIONES</small><strong id="mTotal">—</strong></div>
+   <div class="metric"><small>APROBADAS</small><strong class="greenText" id="mApproved">—</strong></div>
+   <div class="metric"><small>RECHAZADAS</small><strong class="red" id="mRejected">—</strong></div>
+   <div class="metric"><small>EVENTOS 7 DÍAS</small><strong class="purpleText" id="mEvents">—</strong></div>
+  </div>
+  <div class="panel">
+   <h3>NETWORK STATUS</h3>
+   <p class="subtitle">Estado de las conexiones registradas</p>
+   <div id="networkStatus" class="notice">Cargando información...</div>
+  </div>
+  <div class="panel">
+   <h3>ÚLTIMAS CONFESIONES</h3>
+   <div id="recent">Cargando...</div>
+  </div>
+ </section>
 
-        <textarea
-            id="announcementMessage"
-            maxlength="500"
-            placeholder="Escribe el comunicado de LYNX..."
-        ></textarea>
+ <section id="confessions" class="section">
+  <div class="panel">
+   <h3>CONFESSION MANAGEMENT</h3>
+   <div class="actions">
+    <button onclick="loadConfessions()">ACTUALIZAR</button>
+   </div>
+   <div id="confessionList">Cargando...</div>
+  </div>
+ </section>
 
-        <p class="description">
-            El aviso aparecerá en la página principal
-            y se mostrará durante 6 segundos.
-        </p>
+ <section id="moderators" class="section">
+  <div class="panel">
+   <h3>MODERATOR MANAGEMENT</h3>
+   <div id="moderatorList">Cargando...</div>
+  </div>
+ </section>
 
-        <button class="publish" id="publishButton">
-            PUBLICAR AVISO
-        </button>
+ <section id="announcements" class="section">
+  <div class="panel">
+   <h3>PUBLICAR ANUNCIO</h3>
+   <textarea id="announcementText" rows="5" maxlength="1000" placeholder="Escribe el comunicado de LYNX..."></textarea>
+   <button onclick="publishAnnouncement()">PUBLICAR</button>
+  </div>
+ </section>
 
-        <div id="announcementStatus" role="status"></div>
-    </section>
+ <section id="analytics" class="section">
+  <div class="panel">
+   <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+    <h3>LYNX ANALYTICS</h3>
+    <button class="secondary" onclick="loadAnalytics()">ACTUALIZAR</button>
+   </div>
+   <p class="subtitle">Métricas obtenidas de los registros reales del sistema.</p>
+   <div class="grid">
+    <div class="metric"><small>CAÍDAS</small><strong id="aFailures">—</strong></div>
+    <div class="metric"><small>ÉXITO</small><strong id="aSuccess">—</strong></div>
+    <div class="metric"><small>SEGURIDAD</small><strong id="aSecurity">—</strong></div>
+    <div class="metric"><small>ADMINISTRACIÓN</small><strong id="aAdmin">—</strong></div>
+    <div class="metric"><small>DISPONIBILIDAD</small><strong id="aUptime">—</strong></div>
+    <div class="metric"><small>RENDIMIENTO</small><strong id="aPerformance">—</strong></div>
+    <div class="metric"><small>ACTIVIDAD</small><strong id="aActivity">—</strong></div>
+    <div class="metric"><small>MODERACIÓN</small><strong id="aModeration">—</strong></div>
+   </div>
+   <div class="panel">
+    <h3>EVENT ACTIVITY</h3>
+    <div id="eventChart"><div class="empty">Todavía no hay eventos.</div></div>
+   </div>
+   <div class="notice">
+    La disponibilidad depende de las comprobaciones externas registradas. Un resultado vacío no significa 100% de disponibilidad.
+   </div>
+  </div>
+ </section>
 
-    <!-- CONFESIONES -->
-    <section class="panel">
-        <div class="section-label">CONTENT MODERATION</div>
-        <h2>📝 Confesiones pendientes</h2>
+ <div class="actions">
+  <button class="secondary" onclick="refreshAll()">ACTUALIZAR TODO</button>
+  <button class="danger" onclick="logout()">CERRAR SESIÓN</button>
+ </div>
+</section>
+</main>
 
-        <p class="description">
-            Revisa las confesiones recibidas y decide
-            cuáles pueden publicarse.
-        </p>
-
-        <button class="primary" id="refreshButton">
-            ACTUALIZAR CONFESIONES
-        </button>
-
-        <div id="status" role="status"></div>
-        <div id="pending"></div>
-    </section>
-
-    <!-- MODERADORES -->
-    <section class="panel">
-        <div class="section-label">STAFF MANAGEMENT</div>
-        <h2>🛡️ Solicitudes de moderador</h2>
-
-        <p class="description">
-            Revisa las solicitudes de los usuarios
-            que desean formar parte del equipo de moderación.
-        </p>
-
-        <div id="moderatorCount">
-            MODERADORES: --/3
-        </div>
-
-        <hr>
-
-        <button class="primary" id="refreshModeratorsButton">
-            ACTUALIZAR SOLICITUDES
-        </button>
-
-        <div id="moderatorStatus" role="status"></div>
-        <div id="moderatorRequests"></div>
-    </section>
-
-    <!-- SESIÓN -->
-    <section class="panel">
-        <div class="section-label">SYSTEM SESSION</div>
-
-        <button class="logout" id="logoutButton">
-            CERRAR SESIÓN
-        </button>
-    </section>
-
-</div>
-
-<footer>
-    <strong style="color:#ff174f;">LYNX LX</strong><br>
-    LYNX NETWORK © 2026<br>
-    ADMINISTRATIVE CONTROL CENTER
-</footer>
-
-</div>
+<footer>LYNX LX · CONFESSIONS NETWORK · © 2026 LYNX</footer>
+<div id="message"></div>
 
 <script>
-const API = "https://confesiones.lynxnetwork.workers.dev";
+const API="https://confessions-by.lynxnetwork.workers.dev";
+let adminKey="";
 
-let adminKey = "";
+const $=id=>document.getElementById(id);
 
-const $ = id => document.getElementById(id);
+function notify(text){
+ const box=$("message");
+ box.textContent=text;
+ box.style.display="block";
+ setTimeout(()=>box.style.display="none",3500);
+}
 
-$("loginButton").addEventListener("click", login);
-$("refreshButton").addEventListener("click", loadPending);
-$("refreshModeratorsButton").addEventListener("click", loadModeratorRequests);
-$("logoutButton").addEventListener("click", logout);
-$("publishButton").addEventListener("click", publishAnnouncement);
+function safe(value){
+ return String(value??"").replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
 
-$("adminKey").addEventListener("keydown", event => {
-    if (event.key === "Enter") login();
+async function api(path,options={}){
+ const response=await fetch(API+path,{
+  ...options,
+  headers:{
+   "Content-Type":"application/json",
+   "Authorization":"Bearer "+adminKey,
+   ...(options.headers||{})
+  }
+ });
+ const data=await response.json().catch(()=>({}));
+ if(!response.ok)throw new Error(data.error||"Error HTTP "+response.status);
+ return data;
+}
+
+async function login(){
+ const key=$("adminKey").value.trim();
+ if(!key)return notify("Introduce tu clave administrativa.");
+
+ adminKey=key;
+ try{
+  await api("/api/admin/analytics");
+  $("login").hidden=true;
+  $("dashboard").hidden=false;
+  $("connection").textContent="● SYSTEM ONLINE";
+  $("connection").style.color="#20d994";
+  $("adminKey").value="";
+  await refreshAll();
+  notify("Acceso autorizado.");
+ }catch(e){
+  adminKey="";
+  notify("Acceso denegado: "+e.message);
+ }
+}
+
+function logout(){
+ adminKey="";
+ $("dashboard").hidden=true;
+ $("login").hidden=false;
+ $("connection").textContent="● DISCONNECTED";
+ $("connection").style.color="#ff174b";
+ $("adminKey").value="";
+}
+
+function showTab(id,button){
+ document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+ document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+ $(id).classList.add("active");
+ button.classList.add("active");
+ if(id==="confessions")loadConfessions();
+ if(id==="moderators")loadModerators();
+ if(id==="analytics")loadAnalytics();
+}
+
+async function loadConfessions(){
+ try{
+  const data=await api("/api/admin/confessions");
+  const list=data.confessions||[];
+  $("mTotal").textContent=list.length;
+  $("confessionList").innerHTML=list.length?list.map(c=>`
+   <div class="item">
+    <span class="tag">${safe(c.status)}</span>
+    <div class="meta">ID #${c.id} · ${safe(c.created_at)}</div>
+    <p>${safe(c.message)}</p>
+    <div class="actions">
+     <button class="green" onclick="moderateConfession(${c.id},'aprobada')">APROBAR</button>
+     <button class="danger" onclick="moderateConfession(${c.id},'rechazada')">RECHAZAR</button>
+     <button class="secondary" onclick="moderateConfession(${c.id},'pendiente')">PENDIENTE</button>
+    </div>
+   </div>`).join(""):'<div class="empty">No hay confesiones.</div>';
+  $("recent").innerHTML=list.slice(0,3).map(c=>`
+   <div class="item"><span class="tag">${safe(c.status)}</span><p>${safe(c.message)}</p></div>
+  `).join("")||'<div class="empty">Sin actividad.</div>';
+ }catch(e){notify(e.message)}
+}
+
+async function moderateConfession(id,status){
+ try{
+  await api("/api/admin/confessions/"+id,{
+   method:"PATCH",body:JSON.stringify({status})
+  });
+  notify("Confesión actualizada.");
+  await loadConfessions();
+  await loadAnalytics();
+ }catch(e){notify(e.message)}
+}
+
+async function loadModerators(){
+ try{
+  const data=await api("/api/admin/moderator-requests");
+  const list=data.requests||[];
+  $("moderatorList").innerHTML=list.length?list.map(r=>`
+   <div class="item">
+    <span class="tag">${safe(r.status)}</span>
+    <h3>${safe(r.alias)}</h3>
+    <div class="meta">Solicitud #${r.id} · ${safe(r.created_at)}</div>
+    <p>${safe(r.message)}</p>
+    <div class="actions">
+     <button class="green" onclick="moderateModerator(${r.id},'aprobada')">APROBAR</button>
+     <button class="danger" onclick="moderateModerator(${r.id},'rechazada')">RECHAZAR</button>
+     <button class="secondary" onclick="moderateModerator(${r.id},'pendiente')">PENDIENTE</button>
+    </div>
+   </div>`).join(""):'<div class="empty">No hay solicitudes.</div>';
+ }catch(e){notify(e.message)}
+}
+
+async function moderateModerator(id,status){
+ try{
+  await api("/api/admin/moderator-requests/"+id,{
+   method:"PATCH",body:JSON.stringify({status})
+  });
+  notify("Solicitud actualizada.");
+  await loadModerators();
+  await loadAnalytics();
+ }catch(e){notify(e.message)}
+}
+
+async function publishAnnouncement(){
+ const message=$("announcementText").value.trim();
+ if(!message)return notify("Escribe un anuncio primero.");
+ try{
+  await api("/api/admin/announcements",{
+   method:"POST",body:JSON.stringify({message})
+  });
+  $("announcementText").value="";
+  notify("Anuncio publicado.");
+ }catch(e){notify(e.message)}
+}
+
+async function loadAnalytics(){
+ try{
+  const data=await api("/api/admin/analytics");
+  const events=data.events||[];
+  const totals=data.totals||{};
+  const monitor=data.monitor||[];
+
+  const failures=events.reduce((n,e)=>n+Number(e.failed||0),0);
+  const success=Number(totals.successful||0);
+  const security=events.filter(e=>e.event_type==="security_denied").reduce((n,e)=>n+Number(e.total),0);
+  const adminEvents=events.filter(e=>/moderated|published/.test(e.event_type)).reduce((n,e)=>n+Number(e.total),0);
+  const moderation=events.filter(e=>e.event_type.includes("moderated")).reduce((n,e)=>n+Number(e.total),0);
+  const activity=events.reduce((n,e)=>n+Number(e.total),0);
+  const checks=monitor.reduce((n,e)=>n+Number(e.total),0);
+  const online=monitor.filter(e=>e.status==="online").reduce((n,e)=>n+Number(e.total),0);
+  const uptime=checks?((online/checks)*100).toFixed(2)+"%":"Sin datos";
+  const performance=totals.averageDuration==null?"Sin datos":Math.round(Number(totals.averageDuration))+" ms";
+
+  $("aFailures").textContent=failures;
+  $("aSuccess").textContent=success;
+  $("aSecurity").textContent=security;
+  $("aAdmin").textContent=adminEvents;
+  $("aUptime").textContent=uptime;
+  $("aPerformance").textContent=performance;
+  $("aActivity").textContent=activity;
+  $("aModeration").textContent=moderation;
+
+  const max=Math.max(1,...events.map(e=>Number(e.total)));
+  $("eventChart").innerHTML=events.length?events.map(e=>`
+   <div class="chartRow">
+    <span>${safe(e.event_type)}</span>
+    <div class="track"><div class="bar" style="width:${Number(e.total)/max*100}%"></div></div>
+    <b>${Number(e.total)}</b>
+   </div>`).join(""):'<div class="empty">Todavía no hay eventos registrados.</div>';
+
+ }catch(e){notify("Analytics: "+e.message)}
+}
+
+async function refreshAll(){
+ await Promise.allSettled([
+  loadConfessions(),
+  loadModerators(),
+  loadAnalytics()
+ ]);
+ try{
+  const data=await api("/api/analytics/public");
+  $("mTotal").textContent=data.confessions;
+  $("mApproved").textContent=data.approved;
+  $("mRejected").textContent=data.rejected;
+  $("mEvents").textContent=data.eventsLast7Days;
+  $("networkStatus").textContent=data.uptimeLast7Days===null
+   ?"Worker operativo; todavía no hay datos de monitor externo."
+   :"Disponibilidad registrada: "+data.uptimeLast7Days+"%";
+ }catch(e){notify(e.message)}
+}
+
+$("adminKey").addEventListener("keydown",e=>{
+ if(e.key==="Enter")login();
 });
-
-function adminHeaders(extra = {}) {
-    return {
-        ...extra,
-        "Authorization": "Bearer " + adminKey
-    };
-}
-
-// ACCESO ADMINISTRATIVO
-async function login() {
-    const key = $("adminKey").value.trim();
-
-    if (!key) {
-        $("loginStatus").textContent = "Introduce tu Admin Key.";
-        return;
-    }
-
-    $("loginButton").disabled = true;
-    $("loginStatus").textContent = "Verificando acceso...";
-
-    try {
-        const response = await fetch(API + "/api/admin/confessions", {
-            headers: {
-                "Authorization": "Bearer " + key
-            }
-        });
-
-        if (response.status === 401) {
-            $("loginStatus").textContent = "Admin Key incorrecta.";
-            return;
-        }
-
-        if (!response.ok) throw new Error();
-
-        adminKey = key;
-        $("adminKey").value = "";
-
-        $("loginPanel").classList.add("hidden");
-        $("dashboard").classList.remove("hidden");
-
-        await renderPending(await response.json());
-
-        await Promise.all([
-            loadModeratorRequests(),
-            loadModeratorCount()
-        ]);
-
-    } catch {
-        $("loginStatus").textContent =
-            "Error de conexión con el servidor.";
-    } finally {
-        $("loginButton").disabled = false;
-    }
-}
-
-// PUBLICAR AVISOS
-async function publishAnnouncement() {
-    const message = $("announcementMessage").value.trim();
-    const button = $("publishButton");
-    const status = $("announcementStatus");
-
-    if (!message || message.length > 500) {
-        status.textContent = "Escribe un aviso de hasta 500 caracteres.";
-        return;
-    }
-
-    if (!confirm("¿Publicar este aviso en LYNX Confesiones?")) {
-        return;
-    }
-
-    button.disabled = true;
-    status.textContent = "Publicando aviso...";
-
-    try {
-        const response = await fetch(
-            API + "/api/admin/announcements",
-            {
-                method: "POST",
-                headers: adminHeaders({
-                    "Content-Type": "application/json"
-                }),
-                body: JSON.stringify({ message })
-            }
-        );
-
-        if (response.status === 401) {
-            logout();
-            return;
-        }
-
-        if (!response.ok) throw new Error();
-
-        $("announcementMessage").value = "";
-        status.textContent =
-            "¡Aviso publicado correctamente!";
-
-    } catch {
-        status.textContent =
-            "No se pudo publicar el aviso. Intenta nuevamente.";
-    } finally {
-        button.disabled = false;
-    }
-}
-
-// CARGAR CONFESIONES
-async function loadPending() {
-    $("status").textContent = "Cargando confesiones...";
-
-    try {
-        const response = await fetch(
-            API + "/api/admin/confessions",
-            {
-                headers: adminHeaders()
-            }
-        );
-
-        if (response.status === 401) {
-            logout();
-            return;
-        }
-
-        if (!response.ok) throw new Error();
-
-        await renderPending(await response.json());
-        $("status").textContent = "";
-
-    } catch {
-        $("status").textContent =
-            "No se pudo cargar la lista.";
-    }
-}
-
-// MOSTRAR CONFESIONES
-async function renderPending(data) {
-    const container = $("pending");
-    container.replaceChildren();
-
-    const pendingItems = Array.isArray(data)
-        ? data.filter(item => item.status === "pendiente")
-        : [];
-
-    if (pendingItems.length === 0) {
-        container.textContent = "No hay confesiones pendientes.";
-        return;
-    }
-
-    pendingItems.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "confession";
-
-        const message = document.createElement("div");
-        message.textContent = item.message;
-
-        const date = document.createElement("div");
-        date.className = "date";
-        date.textContent = item.created_at || "";
-
-        const actions = document.createElement("div");
-        actions.className = "actions";
-
-        const approve = document.createElement("button");
-        approve.className = "approve";
-        approve.textContent = "Aprobar";
-        approve.onclick = () =>
-            moderate(item.id, "aprobada", card);
-
-        const reject = document.createElement("button");
-        reject.className = "reject";
-        reject.textContent = "Rechazar";
-        reject.onclick = () =>
-            moderate(item.id, "rechazada", card);
-
-        actions.append(approve, reject);
-        card.append(message, date, actions);
-        container.appendChild(card);
-    });
-}
-
-// MODERAR CONFESIONES
-async function moderate(id, decision, card) {
-    if (decision === "rechazada" &&
-        !confirm("¿Seguro que quieres rechazar esta confesión?")) {
-        return;
-    }
-
-    const buttons = card.querySelectorAll("button");
-    buttons.forEach(button => button.disabled = true);
-
-    $("status").textContent = "Guardando decisión...";
-
-    try {
-        const response = await fetch(
-            API + "/api/admin/confessions/" + id,
-            {
-                method: "PATCH",
-                headers: adminHeaders({
-                    "Content-Type": "application/json"
-                }),
-                body: JSON.stringify({ status: decision })
-            }
-        );
-
-        if (response.status === 401) {
-            logout();
-            return;
-        }
-
-        if (!response.ok) throw new Error();
-
-        $("status").textContent = "Decisión guardada.";
-        await loadPending();
-
-    } catch {
-        $("status").textContent =
-            "Error al guardar. Intenta nuevamente.";
-
-        buttons.forEach(button => button.disabled = false);
-    }
-}
-
-// CONTAR MODERADORES
-async function loadModeratorCount() {
-    try {
-        const response = await fetch(API + "/api/moderators/count");
-
-        if (!response.ok) throw new Error();
-
-        const data = await response.json();
-
-        $("moderatorCount").textContent =
-            "MODERADORES: " + data.count + "/" + data.max;
-
-    } catch {
-        $("moderatorCount").textContent =
-            "No se pudo consultar el contador.";
-    }
-}
-
-// CARGAR SOLICITUDES
-async function loadModeratorRequests() {
-    $("moderatorStatus").textContent =
-        "Cargando solicitudes...";
-
-    try {
-        const response = await fetch(
-            API + "/api/admin/moderator-requests",
-            {
-                headers: adminHeaders()
-            }
-        );
-
-        if (response.status === 401) {
-            logout();
-            return;
-        }
-
-        if (!response.ok) throw new Error();
-
-        const data = await response.json();
-        renderModeratorRequests(data);
-
-        $("moderatorStatus").textContent = "";
-
-        await loadModeratorCount();
-
-    } catch {
-        $("moderatorStatus").textContent =
-            "No se pudieron cargar las solicitudes.";
-    }
-}
-
-// MOSTRAR SOLICITUDES
-function renderModeratorRequests(data) {
-    const container = $("moderatorRequests");
-    container.replaceChildren();
-
-    const pendingItems = Array.isArray(data)
-        ? data.filter(item => item.status === "pendiente")
-        : [];
-
-    if (pendingItems.length === 0) {
-        container.textContent =
-            "No hay solicitudes de moderador pendientes.";
-        return;
-    }
-
-    pendingItems.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "confession";
-
-        const alias = document.createElement("strong");
-        alias.textContent = "Alias: " + item.alias;
-
-        const message = document.createElement("div");
-        message.style.marginTop = "12px";
-        message.textContent = item.message;
-
-        const date = document.createElement("div");
-        date.className = "date";
-        date.textContent = item.created_at || "";
-
-        const actions = document.createElement("div");
-        actions.className = "actions";
-
-        const approve = document.createElement("button");
-        approve.className = "approve";
-        approve.textContent = "Aprobar";
-        approve.onclick = () =>
-            moderateModerator(item.id, "aprobada", card);
-
-        const reject = document.createElement("button");
-        reject.className = "reject";
-        reject.textContent = "Rechazar";
-        reject.onclick = () =>
-            moderateModerator(item.id, "rechazada", card);
-
-        actions.append(approve, reject);
-        card.append(alias, message, date, actions);
-        container.appendChild(card);
-    });
-}
-
-// APROBAR O RECHAZAR MODERADORES
-async function moderateModerator(id, decision, card) {
-    const question = decision === "aprobada"
-        ? "¿Aprobar esta solicitud? El máximo es de 3 moderadores."
-        : "¿Seguro que quieres rechazar esta solicitud?";
-
-    if (!confirm(question)) return;
-
-    const buttons = card.querySelectorAll("button");
-    buttons.forEach(button => button.disabled = true);
-
-    $("moderatorStatus").textContent =
-        "Guardando decisión...";
-
-    try {
-        const response = await fetch(
-            API + "/api/admin/moderator-requests/" + id,
-            {
-                method: "PATCH",
-                headers: adminHeaders({
-                    "Content-Type": "application/json"
-                }),
-                body: JSON.stringify({ status: decision })
-            }
-        );
-
-        if (response.status === 401) {
-            logout();
-            return;
-        }
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(
-                data.error || "No se pudo guardar la decisión."
-            );
-        }
-
-        $("moderatorStatus").textContent =
-            decision === "aprobada"
-                ? "¡Solicitud aprobada!"
-                : "Solicitud rechazada.";
-
-        await loadModeratorRequests();
-
-    } catch (error) {
-        $("moderatorStatus").textContent =
-            error.message || "Error al guardar la decisión.";
-
-        buttons.forEach(button => button.disabled = false);
-    }
-}
-
-// CERRAR SESIÓN
-function logout() {
-    adminKey = "";
-
-    $("dashboard").classList.add("hidden");
-    $("loginPanel").classList.remove("hidden");
-
-    $("adminKey").value = "";
-    $("loginStatus").textContent = "";
-    $("announcementMessage").value = "";
-    $("announcementStatus").textContent = "";
-    $("pending").replaceChildren();
-    $("status").textContent = "";
-    $("moderatorRequests").replaceChildren();
-    $("moderatorStatus").textContent = "";
-    $("moderatorCount").textContent = "MODERADORES: --/3";
-}
 </script>
-
 </body>
 </html>
