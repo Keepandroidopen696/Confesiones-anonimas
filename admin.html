@@ -1,52 +1,113 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LYNX | Panel Administrativo</title>
+<meta name="theme-color" content="#0a070b">
+<title>LYNX LX | Panel Administrativo</title>
 
 <style>
-* { box-sizing: border-box; }
+:root {
+    --red: #ff174f;
+    --red-dark: #b80035;
+    --red-glow: rgba(255, 23, 79, .2);
+    --bg: #08070b;
+    --panel: #151018;
+    --card: #0d0b11;
+    --border: #42202d;
+    --text: #f5edf1;
+    --muted: #9b8791;
+}
+
+* {
+    box-sizing: border-box;
+}
 
 body {
     margin: 0;
     padding: 20px;
-    background: #080b12;
-    color: #e8edf5;
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at top, #310817 0%, transparent 48%),
+        var(--bg);
+    color: var(--text);
     font-family: Arial, sans-serif;
 }
 
 .container {
-    max-width: 800px;
+    max-width: 850px;
     margin: auto;
 }
 
 header {
     text-align: center;
-    padding: 25px 10px;
+    padding: 30px 10px;
 }
 
-header h1 { color: #55aaff; }
+.logo {
+    color: var(--red);
+    font-size: 35px;
+    font-weight: 900;
+    letter-spacing: 5px;
+    text-shadow: 0 0 18px var(--red-glow);
+    margin: 0;
+}
+
+.subtitle {
+    color: var(--muted);
+    letter-spacing: 2px;
+    font-size: 12px;
+}
+
+.version {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--red);
+    font-size: 11px;
+    letter-spacing: 1px;
+}
 
 .panel {
-    background: #111827;
-    border: 1px solid #263449;
+    background: linear-gradient(145deg, #1b111a, var(--panel));
+    border: 1px solid var(--border);
     border-radius: 14px;
     padding: 20px;
     margin-bottom: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.25);
 }
 
-h2 { color: #65b5ff; }
+h2 {
+    color: var(--red);
+    letter-spacing: 1px;
+    font-size: 19px;
+    margin-top: 0;
+}
+
+.description {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
 
 input, textarea {
     width: 100%;
     padding: 13px;
     border-radius: 8px;
-    border: 1px solid #34445e;
-    background: #080d17;
+    border: 1px solid #56303d;
+    background: #0a080d;
     color: white;
     margin: 10px 0;
     font-family: Arial, sans-serif;
+    outline: none;
+}
+
+input:focus, textarea:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 12px var(--red-glow);
 }
 
 textarea {
@@ -61,29 +122,49 @@ button {
     color: white;
     font-weight: bold;
     cursor: pointer;
+    transition: .2s;
+}
+
+button:hover {
+    filter: brightness(1.2);
+    transform: translateY(-1px);
 }
 
 button:disabled {
     opacity: .5;
     cursor: wait;
+    transform: none;
 }
 
 .primary {
     width: 100%;
-    background: #1685e8;
+    background: linear-gradient(90deg, #c9003b, #ff174f);
+    box-shadow: 0 0 15px var(--red-glow);
 }
 
 .publish {
     width: 100%;
+    background: linear-gradient(90deg, #a90036, #e3134b);
+}
+
+.approve {
     background: #168b58;
 }
 
-.approve { background: #168b58; }
-.reject { background: #bd3545; }
+.reject {
+    background: #bd3545;
+}
+
+.logout {
+    width: 100%;
+    background: #30202a;
+    border: 1px solid #57303f;
+}
 
 .confession {
-    background: #0b1220;
-    border: 1px solid #263449;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--red);
     border-radius: 10px;
     padding: 16px;
     margin-top: 12px;
@@ -92,7 +173,7 @@ button:disabled {
 }
 
 .date {
-    color: #71829a;
+    color: var(--muted);
     font-size: 12px;
     margin-top: 10px;
 }
@@ -103,27 +184,76 @@ button:disabled {
     margin-top: 14px;
 }
 
-.actions button { flex: 1; }
+.actions button {
+    flex: 1;
+}
 
-#status, #loginStatus, #announcementStatus,
-#moderatorStatus, #moderatorCount {
+#status,
+#loginStatus,
+#announcementStatus,
+#moderatorStatus,
+#moderatorCount {
     margin-top: 12px;
     font-size: 14px;
 }
 
 #moderatorCount {
-    color: #65b5ff;
+    color: var(--red);
     font-weight: bold;
-    font-size: 17px;
+    font-size: 18px;
+    padding: 12px;
+    background: #200b14;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-align: center;
 }
 
-.hidden { display: none; }
+.hidden {
+    display: none;
+}
+
+.section-label {
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
 
 footer {
     text-align: center;
-    color: #637086;
+    color: #75616b;
     font-size: 12px;
     padding: 25px 0;
+    line-height: 1.8;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--border);
+    margin: 18px 0;
+}
+
+::selection {
+    background: var(--red);
+    color: white;
+}
+
+@media(max-width: 500px) {
+    body {
+        padding: 12px;
+    }
+
+    .panel {
+        padding: 16px;
+    }
+
+    .logo {
+        font-size: 29px;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
 }
 </style>
 </head>
@@ -132,12 +262,20 @@ footer {
 <div class="container">
 
 <header>
-    <h1>LYNX NETWORK</h1>
-    <p>Panel administrativo de confesiones</p>
+    <h1 class="logo">LYNX LX</h1>
+    <p class="subtitle">ADMINISTRATIVE CONTROL CENTER</p>
+    <span class="version">NETWORK SYSTEMS 2.0</span>
 </header>
 
+<!-- LOGIN -->
 <section class="panel" id="loginPanel">
-    <h2>Acceso administrativo</h2>
+    <div class="section-label">SECURITY ACCESS</div>
+    <h2>🔐 Acceso administrativo</h2>
+
+    <p class="description">
+        Identifícate mediante tu clave administrativa
+        para acceder al centro de control LYNX.
+    </p>
 
     <input
         type="password"
@@ -147,7 +285,7 @@ footer {
     >
 
     <button class="primary" id="loginButton">
-        Iniciar sesión
+        INICIAR SESIÓN
     </button>
 
     <div id="loginStatus" role="status"></div>
@@ -155,8 +293,15 @@ footer {
 
 <div id="dashboard" class="hidden">
 
+    <!-- ANUNCIOS -->
     <section class="panel">
+        <div class="section-label">PUBLIC COMMUNICATION</div>
         <h2>📢 Publicar aviso</h2>
+
+        <p class="description">
+            Envía un comunicado que aparecerá
+            en la página principal de LYNX.
+        </p>
 
         <textarea
             id="announcementMessage"
@@ -164,7 +309,7 @@ footer {
             placeholder="Escribe el comunicado de LYNX..."
         ></textarea>
 
-        <p style="color:#8995a8;font-size:12px;">
+        <p class="description">
             El aviso aparecerá en la página principal
             y se mostrará durante 6 segundos.
         </p>
@@ -176,42 +321,63 @@ footer {
         <div id="announcementStatus" role="status"></div>
     </section>
 
+    <!-- CONFESIONES -->
     <section class="panel">
-        <h2>Confesiones pendientes</h2>
+        <div class="section-label">CONTENT MODERATION</div>
+        <h2>📝 Confesiones pendientes</h2>
+
+        <p class="description">
+            Revisa las confesiones recibidas y decide
+            cuáles pueden publicarse.
+        </p>
 
         <button class="primary" id="refreshButton">
-            Actualizar lista
+            ACTUALIZAR CONFESIONES
         </button>
 
         <div id="status" role="status"></div>
         <div id="pending"></div>
     </section>
 
+    <!-- MODERADORES -->
     <section class="panel">
-        <h2>🛡️ SOLICITUDES DE MODERADOR</h2>
+        <div class="section-label">STAFF MANAGEMENT</div>
+        <h2>🛡️ Solicitudes de moderador</h2>
 
-        <div id="moderatorCount">Moderadores: --/3</div>
+        <p class="description">
+            Revisa las solicitudes de los usuarios
+            que desean formar parte del equipo de moderación.
+        </p>
+
+        <div id="moderatorCount">
+            MODERADORES: --/3
+        </div>
+
+        <hr>
 
         <button class="primary" id="refreshModeratorsButton">
-            Actualizar solicitudes
+            ACTUALIZAR SOLICITUDES
         </button>
 
         <div id="moderatorStatus" role="status"></div>
         <div id="moderatorRequests"></div>
     </section>
 
+    <!-- SESIÓN -->
     <section class="panel">
-        <button id="logoutButton"
-            style="width:100%;background:#34445e;">
-            Cerrar sesión
+        <div class="section-label">SYSTEM SESSION</div>
+
+        <button class="logout" id="logoutButton">
+            CERRAR SESIÓN
         </button>
     </section>
 
 </div>
 
 <footer>
+    <strong style="color:#ff174f;">LYNX LX</strong><br>
     LYNX NETWORK © 2026<br>
-    Sistema de moderación
+    ADMINISTRATIVE CONTROL CENTER
 </footer>
 
 </div>
@@ -325,7 +491,8 @@ async function publishAnnouncement() {
         if (!response.ok) throw new Error();
 
         $("announcementMessage").value = "";
-        status.textContent = "¡Aviso publicado correctamente!";
+        status.textContent =
+            "¡Aviso publicado correctamente!";
 
     } catch {
         status.textContent =
@@ -446,6 +613,7 @@ async function moderate(id, decision, card) {
     } catch {
         $("status").textContent =
             "Error al guardar. Intenta nuevamente.";
+
         buttons.forEach(button => button.disabled = false);
     }
 }
@@ -460,7 +628,7 @@ async function loadModeratorCount() {
         const data = await response.json();
 
         $("moderatorCount").textContent =
-            "Moderadores: " + data.count + "/" + data.max;
+            "MODERADORES: " + data.count + "/" + data.max;
 
     } catch {
         $("moderatorCount").textContent =
@@ -555,7 +723,7 @@ function renderModeratorRequests(data) {
 // APROBAR O RECHAZAR MODERADORES
 async function moderateModerator(id, decision, card) {
     const question = decision === "aprobada"
-        ? "¿Aprobar esta solicitud? Recuerda que el máximo es de 3 moderadores."
+        ? "¿Aprobar esta solicitud? El máximo es de 3 moderadores."
         : "¿Seguro que quieres rechazar esta solicitud?";
 
     if (!confirm(question)) return;
@@ -586,7 +754,9 @@ async function moderateModerator(id, decision, card) {
         const data = await response.json();
 
         if (!response.ok) {
-            throw new Error(data.error || "No se pudo guardar la decisión.");
+            throw new Error(
+                data.error || "No se pudo guardar la decisión."
+            );
         }
 
         $("moderatorStatus").textContent =
@@ -619,7 +789,7 @@ function logout() {
     $("status").textContent = "";
     $("moderatorRequests").replaceChildren();
     $("moderatorStatus").textContent = "";
-    $("moderatorCount").textContent = "Moderadores: --/3";
+    $("moderatorCount").textContent = "MODERADORES: --/3";
 }
 </script>
 
