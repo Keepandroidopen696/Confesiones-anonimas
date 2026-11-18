@@ -1,473 +1,164 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#09090f">
 <title>LYNX LX | Administración</title>
 <style>
-:root {
-  --bg:#08080d;
-  --panel:#11111b;
-  --panel2:#171725;
-  --red:#ff3155;
-  --purple:#9b5cff;
-  --text:#f1eff8;
-  --muted:#9995aa;
-  --border:#30283f;
-  --green:#42df9b;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;background:radial-gradient(circle at top right,#21102e 0,transparent 35%),var(--bg);
-  color:var(--text);font-family:Arial,sans-serif;min-height:100vh
-}
-button,input,textarea{font:inherit}
-button{cursor:pointer}
-header{
-  padding:20px 5%;border-bottom:1px solid var(--border);
-  display:flex;justify-content:space-between;align-items:center;
-  background:#090910e8;position:sticky;top:0;z-index:5
-}
-.logo{font-size:24px;font-weight:900;letter-spacing:2px}
-.logo span{color:var(--red)}
-.small{color:var(--muted);font-size:12px}
-main{width:min(1150px,92%);margin:30px auto}
-.panel{
-  background:linear-gradient(145deg,#151522,#0e0e17);
-  border:1px solid var(--border);border-radius:15px;padding:22px;
-  box-shadow:0 10px 35px #0005;margin-bottom:18px
-}
-h1,h2,h3{margin-top:0}
-h2{font-size:19px}
-input,textarea{
-  width:100%;padding:13px;margin:8px 0 14px;
-  color:var(--text);background:#090912;border:1px solid var(--border);
-  border-radius:9px;outline:none
-}
-input:focus,textarea:focus{border-color:var(--purple)}
-textarea{min-height:100px;resize:vertical}
-button{
-  border:0;border-radius:8px;padding:11px 16px;
-  background:linear-gradient(100deg,var(--red),#a52fff);
-  color:white;font-weight:bold
-}
-button:disabled{opacity:.5;cursor:not-allowed}
-button.secondary{background:#292638;border:1px solid var(--border)}
-button.danger{background:#79233b}
-button.success{background:#176b4c}
-#loginBox{max-width:430px;margin:9vh auto}
-.hidden{display:none!important}
-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-nav button{background:#171522;border:1px solid var(--border)}
-nav button.active{background:linear-gradient(100deg,#a32648,#6427a5)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:13px}
-.metric{background:#0b0b13;border:1px solid var(--border);padding:17px;border-radius:12px}
-.metric strong{font-size:27px;display:block;margin-top:8px}
-.muted{color:var(--muted)}
-.item{
-  background:#0c0c14;border:1px solid var(--border);
-  border-radius:10px;padding:15px;margin:10px 0
-}
-.item p{white-space:pre-wrap;overflow-wrap:anywhere}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.status{font-size:12px;color:var(--muted)}
-#notice{position:fixed;bottom:20px;right:20px;max-width:90%;
-  padding:13px 18px;border-radius:10px;background:#21172d;
-  border:1px solid var(--purple);z-index:20;display:none}
-.bar{height:9px;background:#292638;border-radius:10px;overflow:hidden;margin:8px 0 15px}
-.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--purple))}
-@media(max-width:600px){
- header{padding:15px 4%}
- main{margin:20px auto}
- .panel{padding:16px}
- nav button{flex:1}
-}
+:root{--bg:#08080e;--panel:#11111b;--panel2:#171725;--line:#29283d;--text:#f2f1fa;--muted:#9998ad;--red:#ff3158;--purple:#9b5cff;--cyan:#45d9ff;--green:#43e6a1;--yellow:#ffd166}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 10% 0%,#28102a 0,transparent 35%),radial-gradient(ellipse at 90% 10%,#151d3b 0,transparent 32%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer;border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:white;background:#222235;transition:.2s}button:hover{border-color:var(--purple);transform:translateY(-1px)}button.primary{background:linear-gradient(100deg,#e92750,#8e42e9);border:0}button.good{background:#123d32;border-color:#1d755d}button.bad{background:#421d2a;border-color:#823047}button.ghost{background:transparent}
+input,textarea,select{width:100%;background:#090912;border:1px solid var(--line);color:var(--text);padding:12px;border-radius:10px;outline:none}input:focus,textarea:focus,select:focus{border-color:var(--purple);box-shadow:0 0 0 3px #9b5cff22}textarea{min-height:105px;resize:vertical}
+.wrap{max-width:1450px;margin:auto;padding:22px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}.brand{font-size:27px;font-weight:950;letter-spacing:2px}.brand span{color:var(--red);text-shadow:0 0 18px #ff315866}.sub{color:var(--muted);font-size:12px;letter-spacing:2px}.status{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:13px}.dot{width:9px;height:9px;border-radius:50%;background:var(--yellow);box-shadow:0 0 12px currentColor}.dot.on{background:var(--green)}.dot.off{background:var(--red)}
+.login{max-width:430px;margin:8vh auto;background:#11111bd9;border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:0 20px 80px #0009}.login h1{margin:0 0 5px}.login p{color:var(--muted)}.field{margin:15px 0}.field label{display:block;color:var(--muted);font-size:13px;margin-bottom:7px}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.nav button.active{background:linear-gradient(100deg,#9b2450,#582a91);border-color:#b85cff}
+.tab{display:none}.tab.active{display:block}.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:16px}.card{background:linear-gradient(145deg,#151522f2,#0d0d16f2);border:1px solid var(--line);border-radius:16px;padding:17px;box-shadow:0 12px 35px #0003;min-width:0}.stat-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}.stat-value{font-size:29px;font-weight:850;margin-top:5px}.stat-note{font-size:12px;color:var(--muted)}.section-title{font-size:19px;font-weight:800;margin:4px 0 14px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.chart{height:260px;position:relative}.chart canvas{width:100%;height:100%;display:block}.chart.small{height:210px}.muted{color:var(--muted)}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.item{padding:14px 0;border-bottom:1px solid #29283d}.item:last-child{border-bottom:0}.item p{white-space:pre-wrap;overflow-wrap:anywhere;margin:6px 0 12px}.actions{display:flex;gap:7px;flex-wrap:wrap}.pill{display:inline-block;padding:3px 9px;border-radius:99px;font-size:11px;background:#29283d;color:#ccc}.pill.ok{background:#123d32;color:#8fffd1}.pill.no{background:#421d2a;color:#ff9db0}.pill.wait{background:#443717;color:#ffe09a}.empty{padding:30px;text-align:center;color:var(--muted)}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:560px}th,td{text-align:left;padding:11px;border-bottom:1px solid var(--line);font-size:13px}th{color:var(--muted);font-weight:600}.barline{height:8px;background:#29283d;border-radius:20px;overflow:hidden;margin-top:8px}.barline i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--purple));border-radius:20px}.notice{padding:12px 14px;border:1px solid #604d23;background:#302712;color:#ffe3a0;border-radius:12px;margin:12px 0;font-size:13px}.toast{position:fixed;right:18px;bottom:18px;z-index:5;background:#171725;border:1px solid var(--purple);padding:13px 17px;border-radius:12px;box-shadow:0 10px 35px #0009;max-width: min(90vw,420px);display:none}.hide{display:none!important}
+@media(max-width:900px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.wrap{padding:13px}.two,.three{grid-template-columns:1fr}.stat-value{font-size:24px}.brand{font-size:23px}.nav button{flex:1 1 42%}}
 </style>
 </head>
 <body>
-
-<header>
-  <div class="logo">LYNX <span>LX</span></div>
-  <div class="small">PANEL DE ADMINISTRACIÓN</div>
+<div class="wrap">
+<header class="top">
+  <div><div class="brand">LYNX <span>LX</span></div><div class="sub">CENTRO DE CONTROL · ADMINISTRACIÓN</div></div>
+  <div class="status"><i class="dot" id="apiDot"></i><span id="apiStatus">Conectando...</span><button class="ghost" id="logoutBtn" style="display:none">Cerrar sesión</button></div>
 </header>
 
-<main>
-  <section id="loginBox" class="panel">
-    <h1>Acceso administrativo</h1>
-    <p class="muted">LYNX CONFESIONES · Zona restringida</p>
-    <label for="adminKey">Clave administrativa</label>
-    <input id="adminKey" type="password" placeholder="Introduce tu clave">
-    <button id="loginButton" style="width:100%" onclick="login()">INICIAR SESIÓN</button>
-    <p id="loginStatus" class="status"></p>
+<section class="login" id="loginPanel">
+  <h1>Acceso administrativo</h1><p>Identifícate para gestionar el sistema LYNX LX.</p>
+  <div class="field"><label for="adminKey">Clave de administrador</label><input id="adminKey" type="password" placeholder="Introduce tu clave" autocomplete="current-password"></div>
+  <button class="primary" id="loginBtn" style="width:100%">Entrar al panel</button>
+  <div class="muted" id="loginMsg" style="margin-top:12px;font-size:13px"></div>
+</section>
+
+<main id="dashboard" class="hide">
+  <nav class="nav">
+    <button class="active" data-tab="overview">Resumen</button><button data-tab="confessions">Confesiones</button><button data-tab="announcements">Anuncios</button><button data-tab="moderators">Moderadores</button><button data-tab="analytics">Analíticas</button>
+  </nav>
+
+  <section class="tab active" id="tab-overview">
+    <div class="grid stats">
+      <div class="card"><div class="stat-label">Confesiones totales</div><div class="stat-value" id="sTotal">—</div><div class="stat-note">Registros en el sistema</div></div>
+      <div class="card"><div class="stat-label">Aprobadas</div><div class="stat-value" id="sApproved">—</div><div class="stat-note">Visibles públicamente</div></div>
+      <div class="card"><div class="stat-label">Pendientes</div><div class="stat-value" id="sPending">—</div><div class="stat-note">Esperando revisión</div></div>
+      <div class="card"><div class="stat-label">Moderadores</div><div class="stat-value" id="sMods">—</div><div class="stat-note">Solicitudes aprobadas</div></div>
+    </div>
+    <div class="grid two">
+      <div class="card"><div class="section-title">Estado de confesiones</div><div class="chart"><canvas id="overviewDonut"></canvas></div></div>
+      <div class="card"><div class="section-title">Servicio API</div><div class="row"><b id="serviceState">Comprobando...</b><span class="pill" id="servicePill">---</span></div><p class="muted" id="serviceInfo">Conectando con Cloudflare Worker.</p><button id="refreshAll" class="primary">Actualizar datos</button></div>
+    </div>
   </section>
 
-  <section id="dashboard" class="hidden">
-    <div class="panel">
-      <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
-        <div>
-          <h1>Centro de control</h1>
-          <div class="status">Sistema LYNX LX · <span id="connection">Comprobando conexión...</span></div>
-        </div>
-        <button class="secondary" onclick="logout()">CERRAR SESIÓN</button>
-      </div>
+  <section class="tab" id="tab-confessions">
+    <div class="row"><div><div class="section-title">Moderación de confesiones</div><div class="muted">Aprueba o rechaza los mensajes recibidos.</div></div><button id="reloadConfessions">Actualizar</button></div>
+    <div class="card" style="margin-top:14px"><div class="row"><b>Mensajes recibidos</b><select id="confFilter" style="max-width:190px"><option value="all">Todos</option><option value="pendiente">Pendientes</option><option value="aprobada">Aprobadas</option><option value="rechazada">Rechazadas</option></select></div><div id="confessionList"><div class="empty">Cargando...</div></div></div>
+  </section>
+
+  <section class="tab" id="tab-announcements">
+    <div class="section-title">Centro de anuncios</div>
+    <div class="grid two">
+      <div class="card"><h3>Publicar anuncio</h3><div class="field"><label>Mensaje</label><textarea id="announcementText" maxlength="1000" placeholder="Escribe el anuncio que aparecerá en la página pública..."></textarea></div><button class="primary" id="publishAnnouncement">Publicar anuncio</button><div class="muted" id="announcementMsg" style="margin-top:10px"></div></div>
+      <div class="card"><h3>Anuncios publicados</h3><div id="announcementList" class="muted">Cargando...</div></div>
     </div>
+  </section>
 
-    <nav>
-      <button class="active" data-tab="overview" onclick="showTab('overview',this)">Inicio</button>
-      <button data-tab="confessions" onclick="showTab('confessions',this)">Confesiones</button>
-      <button data-tab="moderators" onclick="showTab('moderators',this)">Moderadores</button>
-      <button data-tab="announcements" onclick="showTab('announcements',this)">Anuncios</button>
-      <button data-tab="analytics" onclick="showTab('analytics',this)">Analíticas</button>
-    </nav>
+  <section class="tab" id="tab-moderators">
+    <div class="row"><div><div class="section-title">Solicitudes de moderador</div><div class="muted">Máximo de tres moderadores aprobados, según la configuración del servicio.</div></div><button id="reloadMods">Actualizar</button></div>
+    <div class="card" style="margin-top:14px"><div id="moderatorList" class="muted">Cargando...</div></div>
+  </section>
 
-    <section id="tab-overview" class="tab">
-      <div class="grid">
-        <div class="metric">Confesiones<strong id="mTotal">—</strong></div>
-        <div class="metric">Aprobadas<strong id="mApproved">—</strong></div>
-        <div class="metric">Pendientes<strong id="mPending">—</strong></div>
-        <div class="metric">Rechazadas<strong id="mRejected">—</strong></div>
-      </div>
-      <div class="panel" style="margin-top:18px">
-        <h2>Estado del servicio</h2>
-        <p id="healthText" class="muted">Comprobando...</p>
-        <button class="secondary" onclick="refreshAll()">ACTUALIZAR PANEL</button>
-      </div>
-    </section>
-
-    <section id="tab-confessions" class="tab hidden">
-      <div class="panel">
-        <h2>Moderación de confesiones</h2>
-        <div id="confessionsList">Cargando...</div>
-      </div>
-    </section>
-
-    <section id="tab-moderators" class="tab hidden">
-      <div class="panel">
-        <h2>Solicitudes de moderador</h2>
-        <div id="moderatorsList">Cargando...</div>
-      </div>
-    </section>
-
-    <section id="tab-announcements" class="tab hidden">
-      <div class="panel">
-        <h2>Publicar anuncio</h2>
-        <textarea id="announcementText" maxlength="1000" placeholder="Escribe el anuncio para la página pública..."></textarea>
-        <button onclick="publishAnnouncement()">PUBLICAR ANUNCIO</button>
-        <div id="announcementStatus" class="status"></div>
-      </div>
-    </section>
-
-    <section id="tab-analytics" class="tab hidden">
-      <div class="panel">
-        <h2>Analíticas del sistema</h2>
-        <div class="grid">
-          <div class="metric">Eventos últimos 7 días<strong id="aEvents">—</strong></div>
-          <div class="metric">Comprobaciones<strong id="aChecks">—</strong></div>
-          <div class="metric">Disponibilidad<strong id="aUptime">—</strong></div>
-          <div class="metric">Confesiones<strong id="aConfessions">—</strong></div>
-        </div>
-        <p class="muted" id="analyticsNote">Datos proporcionados por el Worker.</p>
-        <button class="secondary" onclick="loadAnalytics()">ACTUALIZAR ANALÍTICAS</button>
-      </div>
-    </section>
+  <section class="tab" id="tab-analytics">
+    <div class="row"><div><div class="section-title">Analíticas del sistema</div><div class="muted">Métricas reales disponibles desde API y navegador.</div></div><button id="reloadAnalytics">Actualizar analíticas</button></div>
+    <div class="notice">CPU, GPU y memoria del dispositivo se muestran solo cuando el navegador expone esos datos. No son métricas de carga real del servidor.</div>
+    <div class="grid stats">
+      <div class="card"><div class="stat-label">Eventos · 7 días</div><div class="stat-value" id="aEvents">—</div></div>
+      <div class="card"><div class="stat-label">Comprobaciones</div><div class="stat-value" id="aChecks">—</div></div>
+      <div class="card"><div class="stat-label">Uptime registrado</div><div class="stat-value" id="aUptime">—</div></div>
+      <div class="card"><div class="stat-label">Registros</div><div class="stat-value" id="aRecords">—</div></div>
+    </div>
+    <div class="grid three">
+      <div class="card"><div class="section-title">CPU · hilos disponibles</div><div class="stat-value" id="cpuThreads">—</div><div class="stat-note">Capacidad reportada por el navegador</div></div>
+      <div class="card"><div class="section-title">GPU · WebGL</div><div class="stat-value" id="gpuState">—</div><div class="stat-note">Compatibilidad gráfica detectada</div></div>
+      <div class="card"><div class="section-title">RAM del dispositivo</div><div class="stat-value" id="ramState">—</div><div class="stat-note">Estimación expuesta por navegador</div></div>
+    </div>
+    <div class="grid two" style="margin-top:14px">
+      <div class="card"><div class="section-title">Distribución circular</div><div class="chart"><canvas id="chartDonut"></canvas></div></div>
+      <div class="card"><div class="section-title">Gráfica de pastel</div><div class="chart"><canvas id="chartPie"></canvas></div></div>
+      <div class="card"><div class="section-title">Barras verticales</div><div class="chart"><canvas id="chartBars"></canvas></div></div>
+      <div class="card"><div class="section-title">Barras horizontales</div><div class="chart"><canvas id="chartHorizontal"></canvas></div></div>
+      <div class="card"><div class="section-title">Radar de actividad</div><div class="chart"><canvas id="chartRadar"></canvas></div></div>
+      <div class="card"><div class="section-title">Indicador de actividad</div><div class="chart"><canvas id="chartGauge"></canvas></div></div>
+      <div class="card"><div class="section-title">Historial de eventos</div><div class="chart"><canvas id="chartLine"></canvas></div></div>
+      <div class="card"><div class="section-title">Área de actividad</div><div class="chart"><canvas id="chartArea"></canvas></div></div>
+    </div>
+    <div class="card" style="margin-top:14px"><div class="section-title">Resumen numérico</div><div class="table-wrap"><table><thead><tr><th>Métrica</th><th>Valor</th><th>Origen</th></tr></thead><tbody id="analyticsTable"></tbody></table></div></div>
   </section>
 </main>
-
-<div id="notice"></div>
+</div>
+<div class="toast" id="toast"></div>
 
 <script>
-const API = "https://confessions-by.lynxnetwork.workers.dev";
-
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+let API = "https://confessions-by.lynxnetwork.workers.dev";
 let adminKey = "";
-let allConfessions = [];
-
-function notice(message){
-  const el = document.getElementById("notice");
-  el.textContent = message;
-  el.style.display = "block";
-  clearTimeout(window.noticeTimer);
-  window.noticeTimer = setTimeout(()=>el.style.display="none",3500);
-}
-
-function getArray(data, keys){
-  if(Array.isArray(data)) return data;
-  for(const key of keys){
-    if(Array.isArray(data?.[key])) return data[key];
-  }
-  return [];
-}
-
-async function api(path, options={}){
-  const headers = {
-    "Content-Type":"application/json",
-    ...(options.headers || {})
-  };
-  if(adminKey) headers.Authorization = "Bearer " + adminKey;
-
-  const response = await fetch(API + path,{
-    ...options,
-    headers,
-    signal: options.signal
-  });
-
-  const raw = await response.text();
-  let data = {};
-  try{ data = raw ? JSON.parse(raw) : {}; }
-  catch{ data = {message:raw}; }
-
-  if(!response.ok){
-    throw new Error(data.error || data.message || `Error HTTP ${response.status}`);
-  }
+let confessions = [], announcements = [], moderators = [], analytics = null;
+const COLORS = ["#ff3158","#9b5cff","#45d9ff","#43e6a1","#ffd166"];
+const safe = v => String(v ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const number = v => Number.isFinite(Number(v)) ? Number(v) : 0;
+function toast(msg){const el=$("toast");el.textContent=msg;el.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>el.style.display="none",3500)}
+function setApi(ok,msg){$("apiDot").className="dot "+(ok?"on":"off");$("apiStatus").textContent=msg}
+function headers(){return {"Content-Type":"application/json","Authorization":"Bearer "+adminKey}}
+async function request(path, options={}){
+  const response=await fetch(API.replace(/\/+$/,"")+path,{...options,headers:{...headers(),...(options.headers||{})}});
+  const raw=await response.text();let data={};try{data=raw?JSON.parse(raw):{}}catch{data={message:raw}}
+  if(!response.ok)throw new Error(data.error||data.message||("HTTP "+response.status));
   return data;
 }
-
+function arr(data,...keys){if(Array.isArray(data))return data;for(const k of keys)if(Array.isArray(data?.[k]))return data[k];return []}
+function statusPill(status){let s=String(status||"pendiente").toLowerCase();let cls=s==="aprobada"?"ok":s==="rechazada"?"no":"wait";return `<span class="pill ${cls}">${safe(s)}</span>`}
+function showTab(name){document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));$("tab-"+name).classList.add("active");document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));if(name==="analytics")loadAnalytics()}
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
 async function login(){
-  const input = document.getElementById("adminKey");
-  const button = document.getElementById("loginButton");
-  const status = document.getElementById("loginStatus");
-  const key = input.value.trim();
-
-  if(!key){
-    status.textContent = "Introduce tu clave administrativa.";
-    return;
-  }
-
-  button.disabled = true;
-  button.textContent = "VERIFICANDO...";
-  status.textContent = "Conectando con el servidor...";
-
-  const controller = new AbortController();
-  const timeout = setTimeout(()=>controller.abort(),12000);
-
-  adminKey = key;
-
-  try{
-    await api("/api/admin/analytics",{signal:controller.signal});
-    document.getElementById("loginBox").classList.add("hidden");
-    document.getElementById("dashboard").classList.remove("hidden");
-    status.textContent = "";
-    notice("Acceso autorizado.");
-    await refreshAll();
-  }catch(error){
-    adminKey = "";
-    status.textContent = error.name === "AbortError"
-      ? "El servidor tardó demasiado en responder."
-      : "No se pudo iniciar sesión: " + error.message;
-  }finally{
-    clearTimeout(timeout);
-    button.disabled = false;
-    button.textContent = "INICIAR SESIÓN";
-  }
+ API="https://confessions-by.lynxnetwork.workers.dev";adminKey=$("adminKey").value;
+ if(!adminKey){$("loginMsg").textContent="Introduce tu clave de administrador.";return}
+ $("loginBtn").disabled=true;$("loginMsg").textContent="Verificando acceso...";
+ try{await request("/api/admin/analytics");$("loginPanel").classList.add("hide");$("dashboard").classList.remove("hide");$("logoutBtn").style.display="inline-block";setApi(true,"API conectada");await refreshAll();toast("Acceso concedido")}
+ catch(e){$("loginMsg").textContent="No se pudo iniciar sesión: "+e.message;adminKey="";setApi(false,"Error de acceso")}
+ finally{$("loginBtn").disabled=false}
 }
-
-function logout(){
-  adminKey = "";
-  document.getElementById("dashboard").classList.add("hidden");
-  document.getElementById("loginBox").classList.remove("hidden");
-  document.getElementById("adminKey").value = "";
-  document.getElementById("loginStatus").textContent = "";
-}
-
-function showTab(name,button){
-  document.querySelectorAll(".tab").forEach(el=>el.classList.add("hidden"));
-  document.getElementById("tab-"+name).classList.remove("hidden");
-  document.querySelectorAll("nav button").forEach(el=>el.classList.remove("active"));
-  if(button) button.classList.add("active");
-
-  if(name==="confessions") loadConfessions();
-  if(name==="moderators") loadModerators();
-  if(name==="analytics") loadAnalytics();
-}
-
-async function refreshAll(){
-  try{
-    const health = await api("/api/health");
-    document.getElementById("connection").textContent =
-      health.online ? "EN LÍNEA" : "SIN CONEXIÓN";
-    document.getElementById("healthText").textContent =
-      health.online ? "El Worker está respondiendo correctamente." : "Servicio no disponible.";
-  }catch(error){
-    document.getElementById("connection").textContent = "ERROR";
-    document.getElementById("healthText").textContent = error.message;
-  }
-
-  await loadConfessions();
-  await loadAnalytics();
-}
-
+$("loginBtn").addEventListener("click",login);$("adminKey").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
+$("logoutBtn").addEventListener("click",()=>{adminKey="";confessions=[];announcements=[];moderators=[];$("dashboard").classList.add("hide");$("loginPanel").classList.remove("hide");$("logoutBtn").style.display="none";$("adminKey").value="";setApi(false,"Sesión cerrada")});
 async function loadConfessions(){
-  const container = document.getElementById("confessionsList");
-  container.textContent = "Cargando confesiones...";
-
-  try{
-    const data = await api("/api/admin/confessions");
-    allConfessions = getArray(data,["confessions","data","results"]);
-
-    const approved = allConfessions.filter(x=>x.status==="aprobada").length;
-    const rejected = allConfessions.filter(x=>x.status==="rechazada").length;
-    const pending = allConfessions.filter(x=>x.status==="pendiente").length;
-
-    document.getElementById("mTotal").textContent = allConfessions.length;
-    document.getElementById("mApproved").textContent = approved;
-    document.getElementById("mRejected").textContent = rejected;
-    document.getElementById("mPending").textContent = pending;
-
-    const visible = allConfessions.filter(x=>x.status!=="rechazada");
-
-    if(!visible.length){
-      container.textContent = "No hay confesiones pendientes o aprobadas.";
-      return;
-    }
-
-    container.innerHTML = "";
-    visible.forEach(item=>{
-      const card = document.createElement("div");
-      card.className = "item";
-
-      const message = document.createElement("p");
-      message.textContent = item.message || "(Sin contenido)";
-      const status = document.createElement("div");
-      status.className = "status";
-      status.textContent = "ID: "+item.id+" · Estado: "+item.status;
-
-      const actions = document.createElement("div");
-      actions.className = "actions";
-
-      if(item.status!=="aprobada"){
-        actions.appendChild(makeButton("APROBAR","success",()=>moderateConfession(item.id,"aprobada")));
-      }
-      actions.appendChild(makeButton("RECHAZAR","danger",()=>moderateConfession(item.id,"rechazada")));
-      actions.appendChild(makeButton("PENDIENTE","secondary",()=>moderateConfession(item.id,"pendiente")));
-
-      card.append(message,status,actions);
-      container.appendChild(card);
-    });
-  }catch(error){
-    container.textContent = "Error al cargar confesiones: "+error.message;
-  }
+ const data=await request("/api/admin/confessions");confessions=arr(data,"confessions","data","results","messages");renderConfessions();updateStats();
 }
-
-function makeButton(label,kind,callback){
-  const button = document.createElement("button");
-  button.textContent = label;
-  button.className = kind;
-  button.onclick = callback;
-  return button;
+function renderConfessions(){
+ const filter=$("confFilter").value;const list=confessions.filter(x=>filter==="all"||String(x.status||"pendiente").toLowerCase()===filter);
+ $("confessionList").innerHTML=list.length?list.map(x=>`<article class="item"><div class="row"><b>Confesión #${safe(x.id)}</b>${statusPill(x.status)}</div><p>${safe(x.message||x.text||"(Sin texto)")}</p><div class="actions"><button class="good" data-conf="${safe(x.id)}" data-status="aprobada">Aprobar</button><button class="bad" data-conf="${safe(x.id)}" data-status="rechazada">Rechazar</button><button data-conf="${safe(x.id)}" data-status="pendiente">Pendiente</button></div></article>`).join(""):'<div class="empty">No hay confesiones en esta categoría.</div>';
+ $("confessionList").querySelectorAll("button[data-conf]").forEach(b=>b.addEventListener("click",()=>changeConfession(b.dataset.conf,b.dataset.status)));
 }
-
-async function moderateConfession(id,status){
-  try{
-    await api("/api/admin/confessions/"+encodeURIComponent(id),{
-      method:"PATCH",
-      body:JSON.stringify({status})
-    });
-    notice("Confesión actualizada.");
-    await loadConfessions();
-  }catch(error){
-    notice("Error: "+error.message);
-  }
+async function changeConfession(id,status){try{await request("/api/admin/confessions/"+encodeURIComponent(id),{method:"PATCH",body:JSON.stringify({status})});toast("Estado actualizado");await loadConfessions()}catch(e){toast("Error: "+e.message)}}
+$("confFilter").addEventListener("change",renderConfessions);$("reloadConfessions").addEventListener("click",()=>loadConfessions().catch(e=>toast(e.message)));
+async function loadAnnouncements(){
+ const data=await request("/api/announcements");announcements=arr(data,"announcements","data","results");renderAnnouncements();
 }
-
+function renderAnnouncements(){$("announcementList").innerHTML=announcements.length?announcements.map(a=>`<div class="item"><p>${safe(a.message||a.text||"")}</p><div class="muted" style="font-size:12px">${safe(a.created_at||"")}</div></div>`).join(""):'<div class="empty">No hay anuncios publicados.</div>'}
+$("publishAnnouncement").addEventListener("click",async()=>{const message=$("announcementText").value.trim();if(!message){$("announcementMsg").textContent="Escribe un mensaje primero.";return}const btn=$("publishAnnouncement");btn.disabled=true;try{await request("/api/admin/announcements",{method:"POST",body:JSON.stringify({message})});$("announcementText").value="";$("announcementMsg").textContent="Anuncio publicado correctamente.";toast("Anuncio publicado");await loadAnnouncements()}catch(e){$("announcementMsg").textContent="No se pudo publicar: "+e.message}finally{btn.disabled=false}});
 async function loadModerators(){
-  const container = document.getElementById("moderatorsList");
-  container.textContent = "Cargando solicitudes...";
-
-  try{
-    const data = await api("/api/admin/moderator-requests");
-    const items = getArray(data,["requests","moderators","data","results"]);
-    const visible = items.filter(x=>x.status!=="rechazada");
-
-    if(!visible.length){
-      container.textContent = "No hay solicitudes pendientes o aprobadas.";
-      return;
-    }
-
-    container.innerHTML = "";
-    visible.forEach(item=>{
-      const card = document.createElement("div");
-      card.className = "item";
-
-      const title = document.createElement("strong");
-      title.textContent = item.alias || "Sin alias";
-      const message = document.createElement("p");
-      message.textContent = item.message || "";
-      const status = document.createElement("div");
-      status.className = "status";
-      status.textContent = "ID: "+item.id+" · Estado: "+item.status;
-
-      const actions = document.createElement("div");
-      actions.className = "actions";
-      actions.appendChild(makeButton("APROBAR","success",()=>moderateModerator(item.id,"aprobada")));
-      actions.appendChild(makeButton("RECHAZAR","danger",()=>moderateModerator(item.id,"rechazada")));
-      actions.appendChild(makeButton("PENDIENTE","secondary",()=>moderateModerator(item.id,"pendiente")));
-
-      card.append(title,message,status,actions);
-      container.appendChild(card);
-    });
-  }catch(error){
-    container.textContent = "Error al cargar solicitudes: "+error.message;
-  }
+ const data=await request("/api/admin/moderator-requests");moderators=arr(data,"requests","moderators","data","results");renderModerators();updateStats();
 }
-
-async function moderateModerator(id,status){
-  try{
-    await api("/api/admin/moderator-requests/"+encodeURIComponent(id),{
-      method:"PATCH",
-      body:JSON.stringify({status})
-    });
-    notice("Solicitud actualizada.");
-    await loadModerators();
-  }catch(error){
-    notice("Error: "+error.message);
-  }
-}
-
-async function publishAnnouncement(){
-  const input = document.getElementById("announcementText");
-  const status = document.getElementById("announcementStatus");
-  const message = input.value.trim();
-
-  if(!message){
-    status.textContent = "Escribe un anuncio antes de publicar.";
-    return;
-  }
-
-  try{
-    await api("/api/admin/announcements",{
-      method:"POST",
-      body:JSON.stringify({message})
-    });
-    input.value = "";
-    status.textContent = "Anuncio publicado correctamente.";
-    notice("Anuncio publicado.");
-  }catch(error){
-    status.textContent = "No se pudo publicar: "+error.message;
-  }
-}
-
+function renderModerators(){$("moderatorList").innerHTML=moderators.length?moderators.map(m=>`<article class="item"><div class="row"><b>${safe(m.alias||"Sin alias")}</b>${statusPill(m.status)}</div><p>${safe(m.message||"")}</p><div class="actions"><button class="good" data-mod="${safe(m.id)}" data-status="aprobada">Aprobar</button><button class="bad" data-mod="${safe(m.id)}" data-status="rechazada">Rechazar</button><button data-mod="${safe(m.id)}" data-status="pendiente">Pendiente</button></div></article>`).join(""):'<div class="empty">No hay solicitudes de moderador.</div>';
+ $("moderatorList").querySelectorAll("button[data-mod]").forEach(b=>b.addEventListener("click",()=>changeModerator(b.dataset.mod,b.dataset.status)))}
+async function changeModerator(id,status){try{await request("/api/admin/moderator-requests/"+encodeURIComponent(id),{method:"PATCH",body:JSON.stringify({status})});toast("Solicitud actualizada");await loadModerators()}catch(e){toast("Error: "+e.message)}}
+$("reloadMods").addEventListener("click",()=>loadModerators().catch(e=>toast(e.message)));
 async function loadAnalytics(){
-  try{
-    const data = await api("/api/admin/analytics");
-
-    document.getElementById("aEvents").textContent =
-      data.eventsLast7Days ?? "—";
-    document.getElementById("aChecks").textContent =
-      data.monitorChecks ?? "—";
-    document.getElementById("aUptime").textContent =
-      data.uptimeLast7Days == null ? "Sin datos" : data.uptimeLast7Days+"%";
-    document.getElementById("aConfessions").textContent =
-      data.confessions ?? "—";
-
-  }catch(error){
-    document.getElementById("analyticsNote").textContent =
-      "No se pudieron cargar las analíticas: "+error.message;
-  }
+ try{analytics=await request("/api/admin/analytics");renderAnalytics()}catch(e){$("analyticsTable").innerHTML=`<tr><td colspan="3">No se pudieron cargar analíticas: ${safe(e.message)}</td></tr>`}
 }
-
-document.getElementById("adminKey").addEventListener("keydown",event=>{
-  if(event.key==="Enter") login();
-});
-</script>
-</body>
-</html>
+function getCounts(){const total=confessions.length,approved=confessions.filter(x=>x.status==="aprobada").length,rejected=confessions.filter(x=>x.status==="rechazada").length,pending=total-approved-rejected;return {total,approved,rejected,pending}}
+function updateStats(){const c=getCounts();$("sTotal").textContent=c.total;$("sApproved").textContent=c.approved;$("sPending").textContent=c.pending;$("sMods").textContent=moderators.filter(x=>x.status==="aprobada").length;drawDonut($("overviewDonut"),[c.approved,c.pending,c.rejected])}
+function metric(obj,keys,fallback=0){for(const k of keys)if(obj&&obj[k]!==undefined&&obj[k]!==null)return obj[k];return fallback}
+function renderAnalytics(){
+ const a=analytics||{},pub=a.public||a.summary||a;
+ const c=getCounts();co
