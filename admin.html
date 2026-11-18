@@ -6,21 +6,48 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>LYNX LX | Admin Control</title>
 <style>
-:root{--bg:#08080d;--panel:#12121b;--red:#ff174b;--purple:#9b4dff;--text:#f4f4fa;--muted:#9292a5;--border:#292938;--green:#20d994}
+:root{
+ --bg:#08080d;--panel:#12121b;--red:#ff174b;
+ --purple:#9b4dff;--text:#f4f4fa;--muted:#9292a5;
+ --border:#292938;--green:#20d994;
+ --cyan:#16c6c6;--yellow:#f4cf4f;--orange:#ff9138;
+ --blue:#258bd0;
+}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#24102a 0%,#08080d 48%);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
+body{
+ margin:0;background:radial-gradient(ellipse at top,#24102a 0%,#08080d 48%);
+ color:var(--text);font-family:Arial,sans-serif;min-height:100vh
+}
 button,input,textarea{font:inherit}
 button{cursor:pointer}
-header{height:66px;border-bottom:1px solid var(--border);background:#0b0b12eF;display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}
-.brand{font-size:21px;font-weight:900;letter-spacing:2px}.brand span{color:var(--red)}
+header{
+ height:66px;border-bottom:1px solid var(--border);
+ background:#0b0b12ef;display:flex;align-items:center;
+ justify-content:space-between;padding:0 22px;
+ position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)
+}
+.brand{font-size:21px;font-weight:900;letter-spacing:2px}
+.brand span{color:var(--red)}
 .status{font-size:11px;color:var(--green);letter-spacing:1px}
-main{max-width:1200px;margin:auto;padding:25px 18px 60px}
-h1{font-size:29px;margin:8px 0}.subtitle{color:var(--muted);font-size:13px}
-.panel{background:linear-gradient(145deg,#171721,#101018);border:1px solid var(--border);border-radius:13px;padding:19px;margin:17px 0;box-shadow:0 8px 30px #0004}
+main{max-width:1250px;margin:auto;padding:25px 18px 60px}
+h1{font-size:29px;margin:8px 0}
+h3{font-size:15px;letter-spacing:1px}
+.subtitle{color:var(--muted);font-size:13px}
+.panel{
+ background:linear-gradient(145deg,#171721,#101018);
+ border:1px solid var(--border);border-radius:13px;
+ padding:19px;margin:17px 0;box-shadow:0 8px 30px #0004
+}
 .login{max-width:430px;margin:70px auto;text-align:center}
-input,textarea{width:100%;background:#090910;border:1px solid var(--border);border-radius:8px;color:white;padding:12px;outline:none;margin:7px 0}
+input,textarea{
+ width:100%;background:#090910;border:1px solid var(--border);
+ border-radius:8px;color:white;padding:12px;outline:none;margin:7px 0
+}
 input:focus,textarea:focus{border-color:var(--purple)}
-button{border:0;border-radius:8px;padding:11px 15px;background:var(--red);color:white;font-weight:bold;transition:.2s}
+button{
+ border:0;border-radius:8px;padding:11px 15px;
+ background:var(--red);color:white;font-weight:bold;transition:.2s
+}
 button:hover{filter:brightness(1.2);transform:translateY(-1px)}
 button.secondary{background:#28283a}
 button.purple{background:#7137c5}
@@ -29,28 +56,162 @@ button.danger{background:#92213b}
 button:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.metric{background:#0c0c14;border:1px solid var(--border);border-radius:10px;padding:15px}
+.metric{
+ background:#0c0c14;border:1px solid var(--border);
+ border-radius:10px;padding:15px
+}
 .metric small{color:var(--muted);font-size:11px;letter-spacing:1px}
 .metric strong{display:block;font-size:25px;margin-top:9px}
-.red{color:var(--red)}.purpleText{color:#bd91ff}.greenText{color:var(--green)}
+.red{color:var(--red)}
+.purpleText{color:#bd91ff}
+.greenText{color:var(--green)}
 nav{display:flex;gap:8px;overflow:auto;padding:12px 0}
 nav button{white-space:nowrap;background:#191923;color:#aaa}
 nav button.active{background:var(--red);color:white}
-.section{display:none}.section.active{display:block}
+.section{display:none}
+.section.active{display:block}
 .item{padding:14px 0;border-bottom:1px solid var(--border)}
 .item:last-child{border:0}
-.item p{white-space:pre-wrap;overflow-wrap:anywhere;color:#ddd;line-height:1.5}
+.item p{
+ white-space:pre-wrap;overflow-wrap:anywhere;color:#ddd;line-height:1.5
+}
 .meta{font-size:11px;color:var(--muted);margin-top:5px}
-.tag{display:inline-block;padding:4px 8px;border-radius:5px;background:#292034;color:#d4adff;font-size:11px}
-.chartRow{display:grid;grid-template-columns:115px 1fr 35px;align-items:center;gap:10px;margin:13px 0;font-size:12px}
-.track{height:9px;background:#282835;border-radius:20px;overflow:hidden}
-.bar{height:100%;background:linear-gradient(90deg,var(--red),var(--purple));border-radius:20px}
-.notice{padding:12px;border-radius:8px;background:#211a29;color:#d8c5f5;font-size:12px;line-height:1.6}
-#message{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#242433;border:1px solid #555;color:white;padding:12px 18px;border-radius:9px;display:none;z-index:10;max-width:90%;text-align:center}
+.tag{
+ display:inline-block;padding:4px 8px;border-radius:5px;
+ background:#292034;color:#d4adff;font-size:11px
+}
+.notice{
+ padding:12px;border-radius:8px;background:#211a29;
+ color:#d8c5f5;font-size:12px;line-height:1.6
+}
+#message{
+ position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+ background:#242433;border:1px solid #555;color:white;
+ padding:12px 18px;border-radius:9px;display:none;
+ z-index:10;max-width:90%;text-align:center
+}
 .empty{color:var(--muted);padding:20px 0;text-align:center}
 footer{text-align:center;color:#666;font-size:11px;padding:25px}
-@media(max-width:750px){.grid{grid-template-columns:repeat(2,1fr)}header{padding:0 14px}main{padding:18px 12px}.panel{padding:14px}.chartRow{grid-template-columns:90px 1fr 25px}}
-@media(max-width:380px){.grid{grid-template-columns:1fr 1fr}.metric strong{font-size:21px}}
+
+/* ANALYTICS */
+.analytics-heading{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:12px;flex-wrap:wrap
+}
+.analytics-grid{
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:12px;margin:18px 0
+}
+.analytics-card{
+ position:relative;overflow:hidden;
+ background:linear-gradient(145deg,#151520,#0b0b13);
+ border:1px solid var(--border);border-radius:12px;padding:17px
+}
+.analytics-card:after{
+ content:"";position:absolute;width:80px;height:80px;
+ right:-35px;top:-35px;border-radius:50%;
+ background:var(--glow);filter:blur(35px);opacity:.35
+}
+.analytics-card small{
+ color:var(--muted);font-size:10px;letter-spacing:1.2px
+}
+.analytics-card strong{
+ display:block;font-size:26px;margin-top:10px;position:relative;z-index:1
+}
+.analytics-card .mini-label{
+ font-size:10px;color:var(--muted);margin-top:7px
+}
+.analytics-layout{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:14px
+}
+.chart-panel{
+ background:#0c0c14;border:1px solid var(--border);
+ border-radius:12px;padding:18px;min-width:0
+}
+.chart-panel h3{margin:0 0 6px}
+.chart-subtitle{font-size:11px;color:var(--muted);margin-bottom:18px}
+.chart-bars{display:flex;align-items:flex-end;gap:12px;height:190px;padding:12px 5px 0}
+.chart-column{
+ flex:1;min-width:0;height:100%;display:flex;
+ flex-direction:column;justify-content:flex-end;align-items:center;gap:8px
+}
+.chart-column .value{font-size:11px;color:#ddd}
+.chart-column .column{
+ width:min(42px,80%);min-height:3px;border-radius:7px 7px 2px 2px;
+ background:var(--column-color);
+ box-shadow:0 0 14px color-mix(in srgb,var(--column-color),transparent 65%);
+ transition:height .4s
+}
+.chart-column .axis-label{
+ font-size:9px;color:var(--muted);text-align:center;
+ overflow-wrap:anywhere;max-width:75px
+}
+.donut-area{
+ display:flex;align-items:center;justify-content:center;
+ gap:24px;flex-wrap:wrap;padding:12px 0
+}
+.donut{
+ width:155px;height:155px;border-radius:50%;
+ position:relative;flex-shrink:0;
+ display:grid;place-items:center
+}
+.donut:after{
+ content:"";position:absolute;inset:23px;
+ background:#0c0c14;border-radius:50%;border:1px solid #292938
+}
+.donut-center{position:absolute;z-index:1;text-align:center}
+.donut-center strong{display:block;font-size:22px}
+.donut-center span{font-size:9px;color:var(--muted)}
+.legend{display:grid;gap:12px;min-width:120px}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:11px;color:#ccc}
+.legend-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0}
+.horizontal-list{display:grid;gap:15px}
+.horizontal-row{
+ display:grid;grid-template-columns:minmax(80px,125px) 1fr 35px;
+ gap:10px;align-items:center;font-size:11px
+}
+.horizontal-track{height:10px;background:#282835;border-radius:20px;overflow:hidden}
+.horizontal-fill{height:100%;border-radius:20px}
+.horizontal-value{text-align:right;color:#ddd}
+.radial-list{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.radial-item{text-align:center}
+.radial{
+ width:90px;height:90px;border-radius:50%;margin:0 auto 10px;
+ display:grid;place-items:center;position:relative
+}
+.radial:before{
+ content:"";position:absolute;inset:8px;background:#0c0c14;border-radius:50%
+}
+.radial strong{position:relative;z-index:1;font-size:16px}
+.radial-item span{font-size:10px;color:var(--muted)}
+.chart-note{
+ color:var(--muted);font-size:10px;line-height:1.5;margin-top:14px
+}
+.analytics-full{grid-column:1/-1}
+.analytics-refresh{display:flex;align-items:center;gap:8px}
+.analytics-status{
+ display:inline-flex;align-items:center;gap:7px;
+ color:var(--green);font-size:10px;letter-spacing:1px
+}
+@media(max-width:850px){
+ .analytics-grid{grid-template-columns:repeat(2,1fr)}
+ .grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:650px){
+ .analytics-layout{grid-template-columns:1fr}
+ .analytics-full{grid-column:auto}
+ .radial-list{grid-template-columns:repeat(3,1fr)}
+ header{padding:0 14px}
+ main{padding:18px 12px}
+ .panel{padding:14px}
+}
+@media(max-width:380px){
+ .grid,.analytics-grid{grid-template-columns:1fr 1fr}
+ .metric strong,.analytics-card strong{font-size:21px}
+ .radial{width:75px;height:75px}
+ .horizontal-row{grid-template-columns:80px 1fr 25px}
+}
 </style>
 </head>
 <body>
@@ -126,27 +287,94 @@ footer{text-align:center;color:#666;font-size:11px;padding:25px}
 
  <section id="analytics" class="section">
   <div class="panel">
-   <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
-    <h3>LYNX ANALYTICS</h3>
-    <button class="secondary" onclick="loadAnalytics()">ACTUALIZAR</button>
+   <div class="analytics-heading">
+    <div>
+     <h3>LYNX ANALYTICS</h3>
+     <p class="subtitle">SYSTEM INTELLIGENCE · PANEL DE ESTADÍSTICAS</p>
+    </div>
+    <div class="analytics-refresh">
+     <span class="analytics-status">● LIVE DATA</span>
+     <button class="secondary" onclick="loadAnalytics()">ACTUALIZAR</button>
+    </div>
    </div>
-   <p class="subtitle">Métricas obtenidas de los registros reales del sistema.</p>
-   <div class="grid">
-    <div class="metric"><small>CAÍDAS</small><strong id="aFailures">—</strong></div>
-    <div class="metric"><small>ÉXITO</small><strong id="aSuccess">—</strong></div>
-    <div class="metric"><small>SEGURIDAD</small><strong id="aSecurity">—</strong></div>
-    <div class="metric"><small>ADMINISTRACIÓN</small><strong id="aAdmin">—</strong></div>
-    <div class="metric"><small>DISPONIBILIDAD</small><strong id="aUptime">—</strong></div>
-    <div class="metric"><small>RENDIMIENTO</small><strong id="aPerformance">—</strong></div>
-    <div class="metric"><small>ACTIVIDAD</small><strong id="aActivity">—</strong></div>
-    <div class="metric"><small>MODERACIÓN</small><strong id="aModeration">—</strong></div>
+
+   <div class="analytics-grid">
+    <div class="analytics-card" style="--glow:var(--red)">
+     <small>CAÍDAS / ERRORES</small>
+     <strong class="red" id="aFailures">—</strong>
+     <div class="mini-label">Errores registrados</div>
+    </div>
+    <div class="analytics-card" style="--glow:var(--green)">
+     <small>ÉXITO</small>
+     <strong class="greenText" id="aSuccess">—</strong>
+     <div class="mini-label">Operaciones exitosas</div>
+    </div>
+    <div class="analytics-card" style="--glow:var(--yellow)">
+     <small>SEGURIDAD</small>
+     <strong id="aSecurity">—</strong>
+     <div class="mini-label">Eventos de seguridad</div>
+    </div>
+    <div class="analytics-card" style="--glow:var(--purple)">
+     <small>ADMINISTRACIÓN</small>
+     <strong class="purpleText" id="aAdmin">—</strong>
+     <div class="mini-label">Acciones administrativas</div>
+    </div>
+    <div class="analytics-card" style="--glow:var(--cyan)">
+     <small>DISPONIBILIDAD</small>
+     <strong id="aUptime">—</strong>
+     <div class="mini-label">Comprobaciones registradas</div>
+    </div>
+    <div class="analytics-card" style="--glow:var(--blue)">
+     <small>RENDIMIENTO</small>
+     <strong id="aPerformance">—</strong>
+     <div class="mini-label">Duración media registrada</div>
+    </div>
+    <div class="analytics-card" style="--glow:var(--orange)">
+     <small>ACTIVIDAD</small>
+     <strong id="aActivity">—</strong>
+     <div class="mini-label">Eventos contabilizados</div>
+    </div>
+    <div class="analytics-card" style="--glow:var(--red)">
+     <small>MODERACIÓN</small>
+     <strong id="aModeration">—</strong>
+     <div class="mini-label">Acciones de moderación</div>
+    </div>
    </div>
-   <div class="panel">
-    <h3>EVENT ACTIVITY</h3>
-    <div id="eventChart"><div class="empty">Todavía no hay eventos.</div></div>
+
+   <div class="analytics-layout">
+    <div class="chart-panel">
+     <h3>ACTIVIDAD POR EVENTO</h3>
+     <div class="chart-subtitle">Comparación de eventos registrados</div>
+     <div id="eventChart"></div>
+    </div>
+
+    <div class="chart-panel">
+     <h3>DISTRIBUCIÓN DE EVENTOS</h3>
+     <div class="chart-subtitle">Participación de cada tipo de evento</div>
+     <div id="eventDonut"></div>
+    </div>
+
+    <div class="chart-panel">
+     <h3>ESTADO DEL SISTEMA</h3>
+     <div class="chart-subtitle">Comprobaciones de monitor registradas</div>
+     <div id="monitorChart"></div>
+    </div>
+
+    <div class="chart-panel">
+     <h3>INDICADORES PRINCIPALES</h3>
+     <div class="chart-subtitle">Proporciones calculadas a partir de los registros disponibles</div>
+     <div id="radialChart"></div>
+    </div>
+
+    <div class="chart-panel analytics-full">
+     <h3>CLASIFICACIÓN DE ACTIVIDAD</h3>
+     <div class="chart-subtitle">Volumen registrado por categoría de evento</div>
+     <div id="categoryChart"></div>
+    </div>
    </div>
-   <div class="notice">
-    La disponibilidad depende de las comprobaciones externas registradas. Un resultado vacío no significa 100% de disponibilidad.
+
+   <div class="notice" style="margin-top:15px">
+    Los gráficos representan los datos disponibles en el Worker. La disponibilidad depende de las comprobaciones externas registradas. Los datos ausentes se muestran como tales y no se interpretan como cero ni como 100%.
    </div>
   </div>
  </section>
@@ -171,7 +399,8 @@ function notify(text){
  const box=$("message");
  box.textContent=text;
  box.style.display="block";
- setTimeout(()=>box.style.display="none",3500);
+ clearTimeout(window.noticeTimer);
+ window.noticeTimer=setTimeout(()=>box.style.display="none",3500);
 }
 
 function safe(value){
@@ -197,7 +426,6 @@ async function api(path,options={}){
 async function login(){
  const key=$("adminKey").value.trim();
  if(!key)return notify("Introduce tu clave administrativa.");
-
  adminKey=key;
  try{
   await api("/api/admin/analytics");
@@ -308,65 +536,38 @@ async function publishAnnouncement(){
  }catch(e){notify(e.message)}
 }
 
-async function loadAnalytics(){
- try{
-  const data=await api("/api/admin/analytics");
-  const events=data.events||[];
-  const totals=data.totals||{};
-  const monitor=data.monitor||[];
-
-  const failures=events.reduce((n,e)=>n+Number(e.failed||0),0);
-  const success=Number(totals.successful||0);
-  const security=events.filter(e=>e.event_type==="security_denied").reduce((n,e)=>n+Number(e.total),0);
-  const adminEvents=events.filter(e=>/moderated|published/.test(e.event_type)).reduce((n,e)=>n+Number(e.total),0);
-  const moderation=events.filter(e=>e.event_type.includes("moderated")).reduce((n,e)=>n+Number(e.total),0);
-  const activity=events.reduce((n,e)=>n+Number(e.total),0);
-  const checks=monitor.reduce((n,e)=>n+Number(e.total),0);
-  const online=monitor.filter(e=>e.status==="online").reduce((n,e)=>n+Number(e.total),0);
-  const uptime=checks?((online/checks)*100).toFixed(2)+"%":"Sin datos";
-  const performance=totals.averageDuration==null?"Sin datos":Math.round(Number(totals.averageDuration))+" ms";
-
-  $("aFailures").textContent=failures;
-  $("aSuccess").textContent=success;
-  $("aSecurity").textContent=security;
-  $("aAdmin").textContent=adminEvents;
-  $("aUptime").textContent=uptime;
-  $("aPerformance").textContent=performance;
-  $("aActivity").textContent=activity;
-  $("aModeration").textContent=moderation;
-
-  const max=Math.max(1,...events.map(e=>Number(e.total)));
-  $("eventChart").innerHTML=events.length?events.map(e=>`
-   <div class="chartRow">
-    <span>${safe(e.event_type)}</span>
-    <div class="track"><div class="bar" style="width:${Number(e.total)/max*100}%"></div></div>
-    <b>${Number(e.total)}</b>
-   </div>`).join(""):'<div class="empty">Todavía no hay eventos registrados.</div>';
-
- }catch(e){notify("Analytics: "+e.message)}
+function renderBars(events){
+ if(!events.length)return '<div class="empty">Todavía no hay eventos registrados.</div>';
+ const colors=["#ff174b","#16c6c6","#f4cf4f","#ff9138","#258bd0","#9b4dff"];
+ const max=Math.max(1,...events.map(e=>Number(e.total)||0));
+ return `<div class="chart-bars">${events.map((e,i)=>{
+  const value=Math.max(0,Number(e.total)||0);
+  const height=value/max*100;
+  return `<div class="chart-column">
+   <span class="value">${value}</span>
+   <div class="column" style="height:${height}%;--column-color:${colors[i%colors.length]}"></div>
+   <span class="axis-label">${safe(e.event_type)}</span>
+  </div>`;
+ }).join("")}</div>`;
 }
 
-async function refreshAll(){
- await Promise.allSettled([
-  loadConfessions(),
-  loadModerators(),
-  loadAnalytics()
- ]);
- try{
-  const data=await api("/api/analytics/public");
-  $("mTotal").textContent=data.confessions;
-  $("mApproved").textContent=data.approved;
-  $("mRejected").textContent=data.rejected;
-  $("mEvents").textContent=data.eventsLast7Days;
-  $("networkStatus").textContent=data.uptimeLast7Days===null
-   ?"Worker operativo; todavía no hay datos de monitor externo."
-   :"Disponibilidad registrada: "+data.uptimeLast7Days+"%";
- }catch(e){notify(e.message)}
+function renderHorizontal(events){
+ if(!events.length)return '<div class="empty">Sin categorías disponibles.</div>';
+ const colors=["#16c6c6","#f4cf4f","#ff9138","#ff174b","#258bd0","#9b4dff"];
+ const max=Math.max(1,...events.map(e=>Number(e.total)||0));
+ return `<div class="horizontal-list">${events.map((e,i)=>{
+  const value=Math.max(0,Number(e.total)||0);
+  return `<div class="horizontal-row">
+   <span>${safe(e.event_type)}</span>
+   <div class="horizontal-track">
+    <div class="horizontal-fill" style="width:${value/max*100}%;background:${colors[i%colors.length]}"></div>
+   </div>
+   <b class="horizontal-value">${value}</b>
+  </div>`;
+ }).join("")}</div>`;
 }
 
-$("adminKey").addEventListener("keydown",e=>{
- if(e.key==="Enter")login();
-});
-</script>
-</body>
-</html>
+function renderDonut(items){
+ const valid=items.filter(x=>Number(x.value)>0);
+ const total=valid.reduce((n,x)=>n+Number(x.value),0);
+ if(!total)return '
